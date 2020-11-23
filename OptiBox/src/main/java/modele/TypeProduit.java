@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -43,6 +44,10 @@ public class TypeProduit implements Serializable {
             nullable=false)
      private int NBproduit;
 
+    //test afin de pouvoir utiliser le fichier readerInstance
+    @ManyToOne
+    private ContenuInstance C1_instance;
+    
     /**
      * Constructeur par défaut du type de produit
      * On définit la longuer, hauteur et quantité à 0

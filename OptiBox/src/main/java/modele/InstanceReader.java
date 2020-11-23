@@ -16,7 +16,9 @@ import io.exception.OpenFileException;
 import io.exception.ReaderException;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 /**
  * Classe qui permet de lire une instance pour le projet de POO3 2020/2021.
@@ -84,6 +86,7 @@ public class InstanceReader {
         
         readStringInLine(scanner, HEADER_BOX);
         // Dans la boucle qui suit, nous allons lire les donnees relatives a chaque box.
+        Set<TypeBox> list_box = new HashSet<>();
         while(true) {
             InfosBox elem = readBoxInLine(scanner, HEADER_PRODUIT);
             if(elem == null) {
@@ -96,12 +99,21 @@ public class InstanceReader {
             // elem.getLongueur()
             // elem.getHauteur()
             // elem.getPrix()
-            
             ////////////////////////////////////////////
             // TODO : Vous pouvez ajoutez chacun des box a votre instance
             ////////////////////////////////////////////
+            int Hbox = elem.getHauteur();
+            int Lbox = elem.getLongueur();
+            double prixBox = elem.getPrix();
+            String idB = elem.getIdentifiant();
+            TypeBox b1 = new TypeBox(idB,Lbox, Hbox, prixBox);
+            list_box.add(b1);
+        }
+        for(TypeBox b1 : list_box){
+            System.out.println(b1.getId()+" "+b1.getLbox()+" "+b1.getHbox()+" "+b1.getPrixbox());
         }
         
+        Set<TypeProduit> list_prod = new HashSet<>();
         // Dans la boucle qui suit, nous allons lire les donnees relatives a chaque produit.
         while(true) {
             InfosProduit elem = readProduitInLine(scanner);
@@ -115,10 +127,18 @@ public class InstanceReader {
             // elem.getLongueur()
             // elem.getHauteur()
             // elem.getQuantite()
-            
             ////////////////////////////////////////////
             // TODO : Vous pouvez ajoutez chacun des produits a votre instance
             ////////////////////////////////////////////
+            int Hprod = elem.getHauteur();
+            int Lprod = elem.getLongueur();
+            String idP = elem.getIdentifiant();
+            int quantite = elem.getQuantite();
+            TypeProduit p1 = new TypeProduit(idP,Lprod, Hprod, quantite);
+            list_prod.add(p1);
+        }
+        for(TypeProduit p : list_prod){
+            System.out.println(p.getId()+" "+p.getLproduit()+" "+p.getHproduit()+" "+p.getNBproduit());
         }
     }
 

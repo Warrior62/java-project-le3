@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -42,8 +43,12 @@ public class TypeBox implements Serializable {
     
     @Column(name="PRIX_BOX",
             nullable=false)
-     private float Prixbox;
+     private double Prixbox;
 
+    //test afin de pouvoir utiliser le fichier readerInstance
+    @ManyToOne
+    private ContenuInstance C_instance;
+    
     
     /**
      * Constructeur par défaut du type de box
@@ -61,7 +66,7 @@ public class TypeBox implements Serializable {
      * @param Hbox : hauteur de la box
      * @param Prixbox : prix de la box
      */
-    public TypeBox(String idB,int Lbox, int Hbox, float Prixbox) {
+    public TypeBox(String idB,int Lbox, int Hbox, double Prixbox) {
         this();
         if(idB != null) this.idB = idB;
         if(Lbox != 0) this.Lbox = Lbox;
@@ -85,10 +90,10 @@ public class TypeBox implements Serializable {
     public void setHbox(int Hbox) {
         this.Hbox = Hbox;
     }
-    public float getPrixbox() {
+    public double getPrixbox() {
         return Prixbox;
     }
-    public void setPrixbox(float Prixbox) {
+    public void setPrixbox(double Prixbox) {
         this.Prixbox = Prixbox;
     }
     public String getId() {
