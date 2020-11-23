@@ -46,7 +46,7 @@ public class TypeProduit implements Serializable {
 
     //test afin de pouvoir utiliser le fichier readerInstance
     @ManyToOne
-    private ContenuInstance C1_instance;
+    private Instance instance_prod;
     
     /**
      * Constructeur par défaut du type de produit
@@ -56,6 +56,7 @@ public class TypeProduit implements Serializable {
         this.Lproduit = 0;
         this.Hproduit = 0;
         this.NBproduit = 0;
+        this.instance_prod = new Instance();
     }
     
     /**
@@ -73,9 +74,16 @@ public class TypeProduit implements Serializable {
     }
  
     
-  /********************************************
-  ************ GETTER ET SETTER **************
-  *******************************************/   
+
+    /********************************************
+     ************ GETTER ET SETTER **************
+     *******************************************/
+    public Instance get_instance() {
+        return instance_prod;
+    }
+    public void set_instance(Instance instance_prod) {
+        this.instance_prod = instance_prod;
+    }
     public String getId() {
         return idP;
     }
@@ -94,12 +102,10 @@ public class TypeProduit implements Serializable {
     public void setHproduit(int Hproduit) {
         this.Hproduit = Hproduit;
     }
-
     public int getNBproduit() {
         return NBproduit;
     }
     public void setNBproduit(int NBproduit) {
         this.NBproduit = NBproduit;
-    }
-    
+    }  
 }

@@ -16,6 +16,7 @@ import io.exception.OpenFileException;
 import io.exception.ReaderException;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
@@ -71,7 +72,7 @@ public class InstanceReader {
      * @throws ReaderException lorsque les donnees dans le fichier d'instance 
      * sont manquantes ou au mauvais format.
      */
-    public void readInstance() throws ReaderException {
+    public Instance readInstance() throws ReaderException {
         Scanner scanner = null;
         try {
             scanner = new Scanner(instanceFile);
@@ -83,10 +84,9 @@ public class InstanceReader {
         ////////////////////////////////////////////
         // TODO : Vous pouvez creer une instance.
         ////////////////////////////////////////////
-        
+        Instance ins = new Instance(nom);
         readStringInLine(scanner, HEADER_BOX);
         // Dans la boucle qui suit, nous allons lire les donnees relatives a chaque box.
-        Set<TypeBox> list_box = new HashSet<>();
         while(true) {
             InfosBox elem = readBoxInLine(scanner, HEADER_PRODUIT);
             if(elem == null) {
@@ -102,18 +102,12 @@ public class InstanceReader {
             ////////////////////////////////////////////
             // TODO : Vous pouvez ajoutez chacun des box a votre instance
             ////////////////////////////////////////////
-            int Hbox = elem.getHauteur();
-            int Lbox = elem.getLongueur();
-            double prixBox = elem.getPrix();
-            String idB = elem.getIdentifiant();
-            TypeBox b1 = new TypeBox(idB,Lbox, Hbox, prixBox);
-            list_box.add(b1);
+            TypeBox b1 = new TypeBox(elem.getIdentifiant(),elem.getLongueur(), elem.getHauteur(), elem.getPrix());
+            b1.set_instance(ins);
+            ins.getListe_box().add(b1);
         }
-        for(TypeBox b1 : list_box){
-            System.out.println(b1.getId()+" "+b1.getLbox()+" "+b1.getHbox()+" "+b1.getPrixbox());
-        }
+
         
-        Set<TypeProduit> list_prod = new HashSet<>();
         // Dans la boucle qui suit, nous allons lire les donnees relatives a chaque produit.
         while(true) {
             InfosProduit elem = readProduitInLine(scanner);
@@ -130,16 +124,11 @@ public class InstanceReader {
             ////////////////////////////////////////////
             // TODO : Vous pouvez ajoutez chacun des produits a votre instance
             ////////////////////////////////////////////
-            int Hprod = elem.getHauteur();
-            int Lprod = elem.getLongueur();
-            String idP = elem.getIdentifiant();
-            int quantite = elem.getQuantite();
-            TypeProduit p1 = new TypeProduit(idP,Lprod, Hprod, quantite);
-            list_prod.add(p1);
-        }
-        for(TypeProduit p : list_prod){
-            System.out.println(p.getId()+" "+p.getLproduit()+" "+p.getHproduit()+" "+p.getNBproduit());
-        }
+            TypeProduit p1 = new TypeProduit(elem.getIdentifiant(),elem.getLongueur(), elem.getHauteur(), elem.getQuantite());
+            p1.set_instance(ins);
+            ins.getListe_produit().add(p1);
+        }   
+        return ins;
     }
 
     /**
@@ -389,16 +378,48 @@ public class InstanceReader {
         }        
     }
 
+    /*
+    ** Constructeur par défaut avec rien dedans afin de pouvoir 
+    ** utiliser la fonction lire_instances() dans le test AjoutBDD.java
+    */
+    public InstanceReader() {
+    }
+    
     /**
-     * Un petit test pour verifier que tout fonctionne correctement.
+     * Méthode qui permet de récupérer toutes les instances du dossier "instances"
+     * afin de pouvoir les ajouter dans la bdd
+     * @return Liste de toutes les instances du dossier
+     * SOURCE : https://www.tutorialspoint.com/how-to-read-data-from-all-files-in-a-directory-using-java
      */
-    public static void main(String[] args) {
+    public Set<Instance> lire_instances(){
+        Set<Instance> setInstances = new HashSet<>();
         try {
-            InstanceReader reader = new InstanceReader("instances\\instance_test.csv");
-            reader.readInstance();
-            System.out.println("Instance lue avec success !");
+            //on ouvre le répertoire afin d'y récupérer les noms des fichiers
+            File repertoire = new File("instances\\");
+            //lecture des fichiers de ce répertoire
+            File filesList[] = repertoire.listFiles();
+            for(File file : filesList){
+                InstanceReader reader = new InstanceReader("instances\\"+file.getName());
+                Instance ci = reader.readInstance();
+                setInstances.add(ci);
+            }
+            System.out.println("Instances lue avec success !");
         } catch (ReaderException ex) {
             System.out.println(ex.getMessage());
         }
+        return setInstances;
     }
+
+    /**
+     * Un petit test pour verifier que tout fonctionne correctement.
+     */
+    /*public static void main(String[] args) {
+        InstanceReader reader = new InstanceReader();
+        Set<Instance> set = new HashSet<>();
+        set = reader.lire_instances();
+        for(Instance c : set){
+            System.out.println(c.getNom_instance());
+        }
+
+    }*/
 }

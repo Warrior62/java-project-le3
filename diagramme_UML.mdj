@@ -309,7 +309,7 @@
 											"top": 287,
 											"width": 119,
 											"height": 13,
-											"text": "Produit"
+											"text": "TypeProduit"
 										},
 										{
 											"_type": "LabelView",
@@ -3462,7 +3462,7 @@
 					"_parent": {
 						"$ref": "AAAAAAFF+qBWK6M3Z8Y="
 					},
-					"name": "Produit",
+					"name": "TypeProduit",
 					"ownedElements": [
 						{
 							"_type": "UMLAssociation",

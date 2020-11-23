@@ -47,7 +47,7 @@ public class TypeBox implements Serializable {
 
     //test afin de pouvoir utiliser le fichier readerInstance
     @ManyToOne
-    private ContenuInstance C_instance;
+    private Instance instance_box;
     
     
     /**
@@ -58,6 +58,7 @@ public class TypeBox implements Serializable {
         this.Lbox = 0;
         this.Hbox = 0;
         this.Prixbox = 0;
+        this.instance_box = new Instance();
     }
     
     /**
@@ -75,9 +76,16 @@ public class TypeBox implements Serializable {
     }
 
     
- /********************************************
-  ************ GETTER ET SETTER **************
-  *******************************************/
+
+    /********************************************
+     ************ GETTER ET SETTER **************
+     *******************************************/
+    public Instance get_instance() {
+        return instance_box;
+    }
+    public void set_instance(Instance C_instance) {
+        this.instance_box = C_instance;
+    }
     public int getLbox() {
         return Lbox;
     }
