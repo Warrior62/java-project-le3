@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import modele.Instance;
 import modele.TypeBox;
 import modele.TypeProduit;
 
@@ -34,10 +35,25 @@ public class Test1 {
                 TypeBox b2 = new TypeBox("B002",60,50,16);
                 TypeBox b3 = new TypeBox("B003",100,60,20);
 
-                em.persist(b1);
-                em.persist(b2);
-                em.persist(b3);
+                Instance ins = new Instance("I1000");
+                ins.getListe_box().add(b3);
+                ins.getListe_box().add(b2);
+                ins.getListe_box().add(b1);
 
+                b3.set_instance(ins);
+                b2.set_instance(ins);
+                b1.set_instance(ins);
+
+                ins.getListe_produit().add(p3);
+                ins.getListe_produit().add(p2);
+                ins.getListe_produit().add(p1);
+
+                p3.set_instance(ins);
+                p2.set_instance(ins);
+                p1.set_instance(ins);
+
+                
+                em.persist(ins);
 
                 et.commit();
             } catch (Exception ex) {
