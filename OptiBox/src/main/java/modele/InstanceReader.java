@@ -403,7 +403,7 @@ public class InstanceReader {
                 Instance ci = reader.readInstance();
                 setInstances.add(ci);
             }
-            System.out.println("Instances lue avec success !");
+            System.out.println("Instances lues avec success !");
         } catch (ReaderException ex) {
             System.out.println(ex.getMessage());
         }
