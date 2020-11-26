@@ -42,17 +42,31 @@ public class Instance implements Serializable {
     @OneToMany(mappedBy="instance_prod",cascade = CascadeType.PERSIST)
     private Collection<TypeProduit> liste_produit;
    
+    
+    /*
+    * Contructeur par défaut de l'instance
+    */
     public Instance() {
         this.nom_instance = "NOM INSTANCE";
         this.liste_box = new HashSet<>();
         this.liste_produit = new HashSet<>();
     }
     
+    /**
+     * Constructeur par données de l'instance
+     * @param nom_instance : nom de l'instance
+     */
     public Instance(String nom_instance) {
         this();
         this.nom_instance = nom_instance;
     }
     
+    /**
+     * Constructeur par données de l'instance
+     * @param nom_instance : nom de l'instance
+     * @param liste_box : liste de TypeBox
+     * @param liste_produit : liste de TypeProduit
+     */
     public Instance(String nom_instance, Collection<TypeBox> liste_box, Collection<TypeProduit> liste_produit) {
         this();
         this.nom_instance = nom_instance;
@@ -61,7 +75,9 @@ public class Instance implements Serializable {
     }
 
     
-    
+    /********************************************
+     ************ GETTER ET SETTER **************
+     *******************************************/
     public String getNom_instance() {
         return nom_instance;
     }
