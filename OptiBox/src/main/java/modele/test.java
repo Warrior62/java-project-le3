@@ -12,6 +12,10 @@ package modele;
 public class test {
     public static void main(String[] args) {
         System.out.println("aaaaaaaaaa");
+<<<<<<< HEAD
         System.out.println("c'est mathis");
+=======
+        System.out.println("bbbbbbbbbb");
+>>>>>>> master
     }
 }
