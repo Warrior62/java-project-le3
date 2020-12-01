@@ -5,6 +5,7 @@
  */
 package tests;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -53,6 +54,41 @@ public class ReqBDD {
             }
         } 
         return new Instance();
+    }
+    
+    private static List<Instance> findAllInstances()
+    {
+        final EntityManagerFactory emf = Persistence.createEntityManagerFactory("OptiBoxPU");
+        final EntityManager em = emf.createEntityManager();
+        try
+        {
+            final EntityTransaction et = em.getTransaction(); 
+            try
+            {
+                et.begin();
+                final String strQuery = "SELECT inst FROM Instance inst";
+                Query queryTest = em.createQuery(strQuery);
+                List<Instance> listeInstances = queryTest.getResultList();
+
+                et.commit();
+                return listeInstances;
+            } 
+            catch (Exception ex) 
+            {
+                et.rollback();
+                System.out.println(ex);
+            }
+        }
+        finally 
+        {
+            if(em != null && em.isOpen()){
+                em.close();
+            }
+            if(emf != null && emf.isOpen()){
+                emf.close();
+            }
+        } 
+        return new ArrayList<Instance>();
     }
     
     public static void main(String[] args) {
