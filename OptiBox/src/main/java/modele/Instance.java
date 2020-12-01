@@ -87,9 +87,9 @@ public class Instance implements Serializable {
         this.liste_produit = liste_produit;
     }  
 
-    /*@Override
+    @Override
     public String toString() {
-        return ""+ nom_instance ;
-    }*/
+        return nom_instance ;
+    }
     
 }
