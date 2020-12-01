@@ -78,6 +78,11 @@ public class Accueil extends javax.swing.JFrame {
         jLabel1.setText("OptiBox");
 
         jShowInstanceButton.setText("Affiche les Instances");
+        jShowInstanceButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jShowInstanceButtonMouseClicked(evt);
+            }
+        });
 
         jListInstance.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "No Instances" };
@@ -119,6 +124,26 @@ public class Accueil extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jShowInstanceButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jShowInstanceButtonMouseClicked
+        // TODO add your handling code here:
+        
+        if (jListInstance.getSelectedIndex()==-1){ 
+            
+            System.out.println("RIEN DE CLIQUE");
+        }
+        else {
+           // System.out.println(jListClients.getModel().getElementAt(jListClients.getSelectedIndex()));
+           
+            System.out.println("C BON " + jListInstance.getSelectedIndex());
+            Object obj = this.jListInstance.getModel().getElementAt(jListInstance.getSelectedIndex());
+            Instance instance = (Instance) obj;
+            
+            
+            InstanceView view = new InstanceView(instance);
+        
+        }
+    }//GEN-LAST:event_jShowInstanceButtonMouseClicked
 
     /**
      * @param args the command line arguments
