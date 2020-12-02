@@ -7,9 +7,14 @@ package vue;
 
 
 import java.awt.Color;
+import static java.awt.image.ImageObserver.HEIGHT;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import modele.Instance;
 import tests.ReqBDD;
 
@@ -18,44 +23,31 @@ import tests.ReqBDD;
  * @author jules
  */
 public class Accueil extends javax.swing.JFrame {
-
-
     private ReqBDD requeteBDD;
     /**
      * Creates new form Accueil
      */
-    public Accueil() {
+    public Accueil() throws ClassNotFoundException, SQLException{
         initComponents();
-        this.initialisationFenetre();
-        this.requeteBDD= ReqBDD.getInstance(); 
-        this.initListe("");
+        initialisationFenetre();
+        initConnexion();
     }
 
-    public void initListe(String name){
-         DefaultListModel defm = new DefaultListModel();
-        List<Instance> listToIterateOn = new ArrayList<>();
-        
-        if (name == "") listToIterateOn = this.requeteBDD.findAllInstances();
-    //    else  = this.requeteBDD.findInstanceByName(name);
-        
-        //System.out.println(listToIterateOn.toString());
-        for (Object cli : listToIterateOn) {
-            defm.addElement(cli);
-        }
-        
-       
-        this.jListInstance.setModel(defm);
-        
-    }
-    
-    
-        private void initialisationFenetre() {
-        this.setVisible(true);
-        this.setSize(1000,500);
+    private void initialisationFenetre() {
+        this.setTitle("Accueil");
+        this.setSize(500,500);
         this.setLocationRelativeTo(null);
-        this.setBackground(Color.BLUE);
-        this.getContentPane();
-        
+        this.setVisible(true);
+    }
+       
+    private void initConnexion() throws ClassNotFoundException, SQLException{
+        try
+        {
+           this.requeteBDD= ReqBDD.getInstance(); 
+        } catch(Exception ex){
+            JOptionPane.showMessageDialog(this,"Connexion à la bdd impossible, vérifiez que vous êtes connecté", "Erreur", HEIGHT);
+            this.dispose();
+        }
     }
     
     /**
@@ -68,83 +60,52 @@ public class Accueil extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jShowInstanceButton = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jListInstance = new javax.swing.JList<>();
+        BtnGestionClients = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("OptiBox");
 
-        jShowInstanceButton.setText("Affiche les Instances");
-        jShowInstanceButton.addMouseListener(new java.awt.event.MouseAdapter() {
+        BtnGestionClients.setText("Gestion des Instances");
+        BtnGestionClients.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jShowInstanceButtonMouseClicked(evt);
+                BtnGestionClientsMouseClicked(evt);
             }
         });
-
-        jListInstance.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "No Instances" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jListInstance);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(204, 204, 204))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(158, 158, 158)
-                        .addComponent(jLabel1)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 362, Short.MAX_VALUE)
-                .addComponent(jShowInstanceButton)
-                .addGap(43, 43, 43))
+                .addGap(180, 180, 180)
+                .addComponent(BtnGestionClients, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(177, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
+                .addGap(20, 20, 20)
                 .addComponent(jLabel1)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(62, 62, 62)
-                        .addComponent(jShowInstanceButton))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(69, Short.MAX_VALUE))
+                .addGap(157, 157, 157)
+                .addComponent(BtnGestionClients, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(253, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jShowInstanceButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jShowInstanceButtonMouseClicked
+    private void BtnGestionClientsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnGestionClientsMouseClicked
         // TODO add your handling code here:
-        
-        if (jListInstance.getSelectedIndex()==-1){ 
-            
-            System.out.println("RIEN DE CLIQUE");
-        }
-        else {
-           // System.out.println(jListClients.getModel().getElementAt(jListClients.getSelectedIndex()));
-           
-            System.out.println("C BON " + jListInstance.getSelectedIndex());
-            Object obj = this.jListInstance.getModel().getElementAt(jListInstance.getSelectedIndex());
-            Instance instance = (Instance) obj;
-            
-            
-            InstanceView view = new InstanceView(instance);
-        
-        }
-    }//GEN-LAST:event_jShowInstanceButtonMouseClicked
+        new GestionInstances();
+    }//GEN-LAST:event_BtnGestionClientsMouseClicked
 
+    
     /**
      * @param args the command line arguments
      */
@@ -175,15 +136,19 @@ public class Accueil extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Accueil().setVisible(true);
+                try {
+                    new Accueil().setVisible(true);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Accueil.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Accueil.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnGestionClients;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JList<String> jListInstance;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton jShowInstanceButton;
     // End of variables declaration//GEN-END:variables
 }

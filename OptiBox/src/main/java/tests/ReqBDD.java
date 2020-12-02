@@ -38,9 +38,7 @@ public class ReqBDD {
         }
         return req;
     }
-    
-    public Instance findInstanceByName(String nomInstance)
-    
+        
     /**
      * @def public static Instance findInstanceByName(String nomInstance)
      * @brief sélectionne l'Instance dans la Table Instance
