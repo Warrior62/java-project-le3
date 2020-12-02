@@ -5,19 +5,59 @@
  */
 package vue;
 
+
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.DefaultListModel;
+import modele.Instance;
+import tests.ReqBDD;
+
 /**
  *
  * @author jules
  */
 public class Accueil extends javax.swing.JFrame {
 
+
+    private ReqBDD requeteBDD;
     /**
      * Creates new form Accueil
      */
     public Accueil() {
         initComponents();
+        this.initialisationFenetre();
+        this.requeteBDD= ReqBDD.getInstance(); 
+        this.initListe("");
     }
 
+    public void initListe(String name){
+         DefaultListModel defm = new DefaultListModel();
+        List<Instance> listToIterateOn = new ArrayList<>();
+        
+        if (name == "") listToIterateOn = this.requeteBDD.findAllInstances();
+    //    else  = this.requeteBDD.findInstanceByName(name);
+        
+        //System.out.println(listToIterateOn.toString());
+        for (Object cli : listToIterateOn) {
+            defm.addElement(cli);
+        }
+        
+       
+        this.jListInstance.setModel(defm);
+        
+    }
+    
+    
+        private void initialisationFenetre() {
+        this.setVisible(true);
+        this.setSize(1000,500);
+        this.setLocationRelativeTo(null);
+        this.setBackground(Color.BLUE);
+        this.getContentPane();
+        
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -38,6 +78,11 @@ public class Accueil extends javax.swing.JFrame {
         jLabel1.setText("OptiBox");
 
         jShowInstanceButton.setText("Affiche les Instances");
+        jShowInstanceButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jShowInstanceButtonMouseClicked(evt);
+            }
+        });
 
         jListInstance.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "No Instances" };
@@ -51,15 +96,16 @@ public class Accueil extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 115, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(158, 158, 158)
+                        .addComponent(jLabel1)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 362, Short.MAX_VALUE)
                 .addComponent(jShowInstanceButton)
                 .addGap(43, 43, 43))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(158, 158, 158)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -72,12 +118,32 @@ public class Accueil extends javax.swing.JFrame {
                         .addComponent(jShowInstanceButton))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(28, 28, 28)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(37, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jShowInstanceButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jShowInstanceButtonMouseClicked
+        // TODO add your handling code here:
+        
+        if (jListInstance.getSelectedIndex()==-1){ 
+            
+            System.out.println("RIEN DE CLIQUE");
+        }
+        else {
+           // System.out.println(jListClients.getModel().getElementAt(jListClients.getSelectedIndex()));
+           
+            System.out.println("C BON " + jListInstance.getSelectedIndex());
+            Object obj = this.jListInstance.getModel().getElementAt(jListInstance.getSelectedIndex());
+            Instance instance = (Instance) obj;
+            
+            
+            InstanceView view = new InstanceView(instance);
+        
+        }
+    }//GEN-LAST:event_jShowInstanceButtonMouseClicked
 
     /**
      * @param args the command line arguments
