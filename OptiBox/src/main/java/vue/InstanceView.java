@@ -43,7 +43,7 @@ public class InstanceView extends javax.swing.JFrame {
     private void afficheContenu(Instance i)
     {
       Rectangle rect = new Rectangle(10,20,30, 40, Color.blue);
-      rect.seDessiner(this);
+      //rect.seDessiner(this);
         
     }
     /**
