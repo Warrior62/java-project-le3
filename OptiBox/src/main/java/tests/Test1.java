@@ -36,21 +36,21 @@ public class Test1 {
                 TypeBox b3 = new TypeBox("B003",100,60,20);
 
                 Instance ins = new Instance("I1000");
-                ins.getListe_box().add(b3);
-                ins.getListe_box().add(b2);
-                ins.getListe_box().add(b1);
+                ins.getSetBox().add(b3);
+                ins.getSetBox().add(b2);
+                ins.getSetBox().add(b1);
 
-                b3.set_instance(ins);
-                b2.set_instance(ins);
-                b1.set_instance(ins);
+                b3.setInstance(ins);
+                b2.setInstance(ins);
+                b1.setInstance(ins);
 
-                ins.getListe_produit().add(p3);
-                ins.getListe_produit().add(p2);
-                ins.getListe_produit().add(p1);
+                ins.getSetProduits().add(p3);
+                ins.getSetProduits().add(p2);
+                ins.getSetProduits().add(p1);
 
-                p3.set_instance(ins);
-                p2.set_instance(ins);
-                p1.set_instance(ins);
+                p3.setInstance(ins);
+                p2.setInstance(ins);
+                p1.setInstance(ins);
 
                 
                 em.persist(ins);

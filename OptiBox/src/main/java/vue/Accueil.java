@@ -101,8 +101,12 @@ public class Accueil extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BtnGestionClientsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnGestionClientsMouseClicked
-        // TODO add your handling code here:
-        new GestionInstances();
+        try {
+            // TODO add your handling code here:
+            new GestionInstances();
+        } catch (Exception ex) {
+            Logger.getLogger(Accueil.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_BtnGestionClientsMouseClicked
 
     

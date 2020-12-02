@@ -34,61 +34,61 @@ public class Instance implements Serializable {
 
     @Column(name="NOM_INSTANCE",
             nullable=false)
-    private String nom_instance;
+    private String nomInstance;
     
-    @OneToMany(mappedBy="instance_box",cascade = CascadeType.PERSIST)
-    private Collection<TypeBox> liste_box;
+    @OneToMany(mappedBy="instanceBox",cascade = CascadeType.PERSIST)
+    private Collection<TypeBox> setBox;
 
-    @OneToMany(mappedBy="instance_prod",cascade = CascadeType.PERSIST)
-    private Collection<TypeProduit> liste_produit;
+    @OneToMany(mappedBy="instanceProd",cascade = CascadeType.PERSIST)
+    private Collection<TypeProduit> setProduits;
    
     
     /*
     * Contructeur par défaut de l'instance
     */
     public Instance() {
-        this.nom_instance = "NOM INSTANCE";
-        this.liste_box = new HashSet<>();
-        this.liste_produit = new HashSet<>();
+        this.nomInstance = "NOM INSTANCE";
+        this.setBox = new HashSet<>();
+        this.setProduits = new HashSet<>();
     }
     
     /**
      * Constructeur par données de l'instance
-     * @param nom_instance : nom de l'instance
+     * @param nomInstance : nom de l'instance
      */
-    public Instance(String nom_instance) {
+    public Instance(String nomInstance) {
         this();
-        this.nom_instance = nom_instance;
+        this.nomInstance = nomInstance;
     }
     
     /**
      * Constructeur par données de l'instance
-     * @param nom_instance : nom de l'instance
-     * @param liste_box : liste de TypeBox
-     * @param liste_produit : liste de TypeProduit
+     * @param nomInstance : nom de l'instance
+     * @param setBox : liste de TypeBox
+     * @param setProduits : liste de TypeProduit
      */
-    public Instance(String nom_instance, Collection<TypeBox> liste_box, Collection<TypeProduit> liste_produit) {
+    public Instance(String nomInstance, Collection<TypeBox> setBox, Collection<TypeProduit> setProduits) {
         this();
-        this.nom_instance = nom_instance;
-        this.liste_box = liste_box;
-        this.liste_produit = liste_produit;
+        this.nomInstance = nomInstance;
+        this.setBox = setBox;
+        this.setProduits = setProduits;
     }
 
     
     /********************************************
      ************ GETTER ET SETTER **************
      *******************************************/
-    public String getNom_instance() {
-        return nom_instance;
+    public String getNomInstance() {
+        return nomInstance;
     }
-    public void setNom_instance(String nom_instance) {
-        this.nom_instance = nom_instance;
+    public void setNomInstance(String nomInstance) {
+        this.nomInstance = nomInstance;
     }
-    public Collection<TypeBox> getListe_box() {
-        return liste_box;
+    public Collection<TypeBox> getSetBox() {
+        return setBox;
     }
-    public void setListe_box(Collection<TypeBox> liste_box) {
-        this.liste_box = liste_box;
+    public void setSetBox(Collection<TypeBox> setBox) {
+        this.setBox = setBox;
     }
     public Long getId() {
         return id;
@@ -96,16 +96,16 @@ public class Instance implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    public Collection<TypeProduit> getListe_produit() {
-        return liste_produit;
+    public Collection<TypeProduit> getSetProduits() {
+        return setProduits;
     }
-    public void setListe_produit(Collection<TypeProduit> liste_produit) {
-        this.liste_produit = liste_produit;
+    public void setSetProduits(Collection<TypeProduit> setProduits) {
+        this.setProduits = setProduits;
     }  
 
     @Override
     public String toString() {
-        return nom_instance ;
+        return nomInstance ;
     }
     
 }

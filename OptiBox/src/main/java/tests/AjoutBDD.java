@@ -32,7 +32,7 @@ public class AjoutBDD {
                 Set<Instance> list_ins = reader.lire_instances();
                 System.out.println("Liste des instances présentes dans le dossier :");
                 for(Instance c : list_ins){
-                    System.out.println(c.getNom_instance());
+                    System.out.println(c.getNomInstance());
                     em.persist(c);
                 }
                 System.out.println("Ajout des instances dans la bdd réussi !!");
