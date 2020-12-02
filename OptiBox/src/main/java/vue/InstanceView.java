@@ -7,6 +7,7 @@ package vue;
 
 import java.awt.Color;
 import modele.Instance;
+import modele.Rectangle;
 
 /**
  *
@@ -31,13 +32,20 @@ public class InstanceView extends javax.swing.JFrame {
     }
     
 
-    InstanceView(Instance instance) {
+    public InstanceView(Instance instance) {
      //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
      this();
      this.jLabel1.setText("INSTANCE "+instance.getNom_instance());
-     
+     this.afficheContenu(instance);
     }
 
+    
+    private void afficheContenu(Instance i)
+    {
+      Rectangle rect = new Rectangle(10,20,30, 40, Color.blue);
+      rect.seDessiner(this);
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
