@@ -5,7 +5,10 @@
  */
 package vue;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Graphics;
+import javax.swing.JPanel;
 import modele.Instance;
 import modele.Rectangle;
 
@@ -15,6 +18,7 @@ import modele.Rectangle;
  */
 public class InstanceView extends javax.swing.JFrame {
 
+   private JPanel ZoneGraphique;
     /**
      * Creates new form InstanceView
      */
@@ -36,16 +40,42 @@ public class InstanceView extends javax.swing.JFrame {
      //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
      this();
      this.jLabel1.setText("INSTANCE "+instance.getNom_instance());
-     this.afficheContenu(instance);
+     this.ZoneGraphique= new ZoneGraphique();
+     this.afficheContenu(this.ZoneGraphique,instance);
     }
 
     
-    private void afficheContenu(Instance i)
+ /*   private void afficheContenu(Instance i)
     {
+        Graphics g= this.ZoneGraphique.getGraphics();
       Rectangle rect = new Rectangle(10,20,30, 40, Color.blue);
-      //rect.seDessiner(this);
+      rect.seDessiner(g);
         
+    }*/
+
+    public void afficheContenu(JPanel ZoneGraphique, Instance i) {
+        this.ZoneGraphique = ZoneGraphique;
+         BorderLayout BL= new BorderLayout();
+            this.setLayout(BL);
+           
+            this.add(this.ZoneGraphique,BL.CENTER);
+        
+       
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
