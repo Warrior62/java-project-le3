@@ -395,11 +395,11 @@ public class InstanceReader {
         Set<Instance> setInstances = new HashSet<>();
         try {
             //on ouvre le répertoire afin d'y récupérer les noms des fichiers
-            File repertoire = new File("instances\\");
+            File repertoire = new File("instances/");
             //lecture des fichiers de ce répertoire
             File filesList[] = repertoire.listFiles();
             for(File file : filesList){
-                InstanceReader reader = new InstanceReader("instances\\"+file.getName());
+                InstanceReader reader = new InstanceReader("instances/"+file.getName());
                 Instance ci = reader.readInstance();
                 setInstances.add(ci);
             }
