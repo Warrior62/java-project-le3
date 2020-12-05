@@ -21,10 +21,14 @@ import modele.Rectangle;
  * @author tryla
  */
 public class ZoneGraphique extends JPanel{
+    
+    private Rectangle rect;
 
     public ZoneGraphique(Rectangle r) {
+        this.rect = r;
+        this.setBackground(Color.GREEN);
         Graphics g = this.getGraphics();
-        r.seDessiner(g);
+        r.paintComponents(g);
     }
     
 }
