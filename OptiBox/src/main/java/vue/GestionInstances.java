@@ -9,7 +9,9 @@ import java.awt.Color;
 import static java.awt.image.ImageObserver.HEIGHT;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -22,22 +24,22 @@ import tests.ReqBDD;
  * @author agpou
  */
 public class GestionInstances extends javax.swing.JFrame {
-    private ReqBDD requeteBDD_2;
+    private ReqBDD requeteBDD;
 
     /**
      * Creates new form GestionInstances
      */
-    public GestionInstances() {
+    public GestionInstances() throws Exception {
         initComponents();
         initialisationFenetre();
         initConnexion();
-        initListe("");
+        initListe();
     }
     
     private void initConnexion(){
         try
         {
-           this.requeteBDD_2= ReqBDD.getInstance(); 
+           this.requeteBDD= ReqBDD.getInstance(); 
         } catch(Exception ex){
             JOptionPane.showMessageDialog(this,"Connexion à la bdd impossible, vérifiez que vous êtes connecté", "Erreur", HEIGHT);
             this.dispose();
@@ -53,16 +55,23 @@ public class GestionInstances extends javax.swing.JFrame {
     }
     
     
-    private void initListe(String name){
-        DefaultListModel defm = new DefaultListModel();
-        List<Instance> listToIterateOn = new ArrayList<>();
-        if (name == "") listToIterateOn = this.requeteBDD_2.findAllInstances();
-        //    else  = this.requeteBDD.findInstanceByName(name);
-        //System.out.println(listToIterateOn.toString());
-        for (Object cli : listToIterateOn) {
-            defm.addElement(cli);
+    private void initListe() throws Exception{
+        try{
+            System.out.println("aaaaaaaaaaaaaaaaaa");
+            DefaultListModel defm = new DefaultListModel();
+            Set<Instance> listToIterateOn = null;
+                listToIterateOn = this.requeteBDD.findAllInstances();
+
+            for (Instance cli : listToIterateOn) {
+                defm.addElement(cli);
+            }
+            this.jListInstance.setModel(defm);
+        }catch(SQLException ex){
+            JOptionPane.showMessageDialog(this,"Connexion à la bdd impossible, vérifiez que vous êtes connecté", "Erreur", HEIGHT);
+            this.dispose();
+            Logger.getLogger(GestionInstances.class.getName()).log(Level.SEVERE, null, ex);
+
         }
-        this.jListInstance.setModel(defm);
     }
 
     /**
@@ -178,7 +187,11 @@ public class GestionInstances extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GestionInstances().setVisible(true);
+                try {
+                    new GestionInstances().setVisible(true);
+                } catch (Exception ex) {
+                    Logger.getLogger(GestionInstances.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

@@ -5,9 +5,17 @@
  */
 package tests;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -27,16 +35,30 @@ import modele.TypeProduit;
  */
 public class ReqBDD {
     private static ReqBDD req;
-
-    public ReqBDD() {
+    private Connection conn;
+    
+    public ReqBDD() throws Exception {
+        connect();
     }
     
-    
-     public static ReqBDD getInstance() {
+    public static ReqBDD getInstance() throws Exception {
         if (req == null) {
                 req = new ReqBDD();   
         }
         return req;
+    }
+    
+    private void connect() throws ClassNotFoundException, SQLException, Exception {
+        try{
+        String DriverClass = "org.apache.derby.jdbc.ClientDriver";
+        String urlDatabase = "jdbc:derby://localhost:1527/optibox";
+        String user = "root";
+        String pwd = "root";
+        Class.forName(DriverClass);
+        this.conn = DriverManager.getConnection(urlDatabase, user, pwd);
+        } catch(Exception ex){
+            throw new Exception("Connexion à la bdd impossible",ex);
+        }
     }
         
     /**
@@ -49,42 +71,29 @@ public class ReqBDD {
      * @param nomInstance
      * @return 
      */
-    public static Instance findInstanceByName(String nomInstance)
-    {
-        final EntityManagerFactory emf = Persistence.createEntityManagerFactory("OptiBoxPU");
-        final EntityManager em = emf.createEntityManager();
-        try
-        {
-            final EntityTransaction et = em.getTransaction(); 
-            try
-            {
-                et.begin();
-                final String strQuery = "SELECT inst FROM Instance inst"
-                        + " WHERE inst.nom_instance = :nomInstance ";
-                Query queryTest = em.createQuery(strQuery);
-                queryTest.setParameter("nomInstance", nomInstance);
-                List<Instance> listeInstances = queryTest.getResultList();
+    public Instance findInstanceByName(String nomInstance) throws SQLException {
+        Instance ins = new Instance();
+        try{
+            String requete = "SELECT * FROM Instance inst"
+                    + " WHERE UPPER(inst.nom_instance) LIKE ? ";
+            PreparedStatement pstmt = conn.prepareStatement(requete);
+            pstmt.setString(1,nomInstance.toUpperCase());
 
-                et.commit();
-                return listeInstances.get(0);
-            } 
-            catch (Exception ex) 
-            {
-                et.rollback();
-                System.out.println(ex);
+            ResultSet res = pstmt.executeQuery();
+            while (res.next()) {
+                String nm = res.getString("nom");
+                ins.setNomInstance(nm);
             }
+            res.close();
+            pstmt.close();
+
+        } catch (SQLException ex) {
+            System.out.println("La requete a échoué");
         }
-        finally 
-        {
-            if(em != null && em.isOpen()){
-                em.close();
-            }
-            if(emf != null && emf.isOpen()){
-                emf.close();
-            }
-        } 
-        return new Instance();
-    }
+        
+        return ins;
+}
+
     
     /**
      * @def public static List<Instance> findAllInstances()
@@ -94,42 +103,37 @@ public class ReqBDD {
      *       renvoie une ArrayList vide
      * @return une List contenant toutes les Instances dans la Table Instance
      */
-    public static List<Instance> findAllInstances()
-    {
-        final EntityManagerFactory emf = Persistence.createEntityManagerFactory("OptiBoxPU");
-        final EntityManager em = emf.createEntityManager();
-        try
-        {
-            final EntityTransaction et = em.getTransaction(); 
-            try
-            {
-                et.begin();
-                final String strQuery = "SELECT inst FROM Instance inst";
-                Query queryTest = em.createQuery(strQuery);
-                List<Instance> listeInstances = queryTest.getResultList();
+    public Set<Instance> findAllInstances() throws SQLException, Exception {
+        Set<Instance> monSet = new HashSet();
+        try{
+            String requete = "SELECT * FROM instance";
+            Statement stmt = conn.createStatement();
+            ResultSet res = stmt.executeQuery(requete);
+            
+            Set<TypeBox> mesBox = new HashSet();
+            Set<TypeProduit> mesProd = new HashSet();
+            
+            while(res.next()){
+                long id = res.getInt("ID");
+                String nm = res.getString("NOM_INSTANCE");
+                mesBox = findBoxByInstanceId(id);
+                mesProd = findProductsByInstanceId(id);
+                
+                Instance ins = new Instance(nm);
+                ins.setId(id);
+                ins.setSetBox(mesBox);
+                ins.setSetProduits(mesProd);
+                System.out.println(ins.getId() +" "+ ins.getNomInstance());
 
-                et.commit();
-                return listeInstances;
-            } 
-            catch (Exception ex) 
-            {
-                et.rollback();
-                System.out.println(ex);
             }
+            res.close();
+            stmt.close();
+        }catch(SQLException ex){
+           System.out.println("La requete a échoué");
         }
-        finally 
-        {
-            if(em != null && em.isOpen()){
-                em.close();
-            }
-            if(emf != null && emf.isOpen()){
-                emf.close();
-            }
-        } 
-        return new ArrayList<Instance>();
+        return monSet;
     }
-    
-    /**
+     /**
      * @def public static List<TypeBox> findBoxesByInstanceId(int idInstance)
      * @brief sélectionne tous les objets TypeBox dont l'id de l'Instance qui
      *        leur est à chacun associée, est égal à idInstance
@@ -286,14 +290,146 @@ public class ReqBDD {
         return new ArrayList<String>();
     }
     
-    public static void main(String[] args) {
+    
+    /**
+     * @def public static List<TypeBox> findBoxesByInstanceId(int idInstance)
+     * @brief sélectionne tous les objets TypeBox dont l'id de l'Instance qui
+     *        leur est à chacun associée, est égal à idInstance
+     * @param idI
+     * @note s'il y a un pb dans la compilation de cette méthode, cette dernière
+     *       renvoie une ArrayList de TypeBox vide
+     * @return une List de TypeBox dont l'id est idInstance
+     */
+    public Set<TypeBox> findBoxByInstanceId(long idI) throws SQLException {
+        String requete = "SELECT * FROM TYPEBOX WHERE INSTANCE_BOX_ID = ?";
+        PreparedStatement pstmt = conn.prepareStatement(requete);
+        pstmt.setLong(1,idI);
+
+        ResultSet res = pstmt.executeQuery();
+        Set<TypeBox> mesBox = new HashSet();
+        while(res.next()){
+            int h = res.getInt("HAUTEUR_BOX");
+            int l = res.getInt("LONGUEUR_BOX");
+            double prix= res.getInt("PRIX_BOX");
+            String idB = res.getString("ID_B");
+            
+            TypeBox box = new TypeBox(idB,l,h,prix);
+            mesBox.add(box);
+            //System.out.println(box.getInstance().getNomInstance());
+        }
+        res.close();
+        pstmt.close();
+        return mesBox;
+    }
+    
+    /**
+     * @def public static List<TypeProduit> findProductsByInstanceId(int idInstance)
+     * @brief sélectionne tous les objets TypeProduit dont l'id de l'Instance qui
+     *        leur est à chacun associée, est égal à idInstance
+     * @param idI
+     * @note s'il y a un pb dans la compilation de cette méthode, cette dernière
+     *       renvoie une ArrayList de TypeProduit vide
+     * @return une List de TypeProduit dont l'id est idInstance
+     */
+    public Set<TypeProduit> findProductsByInstanceId(long idI) throws SQLException {
+        String requete = "SELECT * FROM TYPEPRODUIT WHERE INSTANCE_PROD_ID = ?";
+        PreparedStatement pstmt = conn.prepareStatement(requete);
+        pstmt.setLong(1,idI);
+
+        ResultSet res = pstmt.executeQuery();
+        Set<TypeProduit> mesProd = new HashSet();
+        while(res.next()){
+            int h = res.getInt("HAUTEUR_PRODUIT");
+            int l = res.getInt("LONGUEUR_PRODUIT");
+            int nb= res.getInt("NB_PRODUITS");
+            String idP= res.getString("ID_P");
+            
+            TypeProduit prod = new TypeProduit(idP,l,h,nb);
+            mesProd.add(prod);
+            //System.out.println(box.getInstance().getNomInstance());
+        }
+        res.close();
+        pstmt.close();
+        return mesProd;
+    }
+
+    
+    /**
+     * @def public static ArrayList<String> findSmallestProduct(int idInstance)
+     * @brief sélectionne le(s) produit(s) ayant la surface la plus petite 
+     *          parmi tous les produits de l'instance idInstance
+     * @note renvoie une liste vide si pb à la compilation
+     * @param idInstance
+     * @return la liste de l'id du ou des produit(s) dont la surface est la plus petite
+     */
+ /*   public static ArrayList<String> findSmallestProduct(int idInstance)
+    {
+        final EntityManagerFactory emf = Persistence.createEntityManagerFactory("OptiBoxPU");
+        final EntityManager em = emf.createEntityManager();
+        try
+        {
+            final EntityTransaction et = em.getTransaction(); 
+            try
+            {
+                et.begin();
+                final String strQuery = "SELECT tp FROM TypeProduit tp"
+                        + " WHERE tp.instance_prod.id = :idInstance";
+                Query queryTest = em.createQuery(strQuery);
+                queryTest.setParameter("idInstance", idInstance);
+                List<TypeProduit> smallestProduct = queryTest.getResultList();
+                
+                Map<String, Integer> multiplications = new HashMap<String, Integer>();
+                for(TypeProduit tp: smallestProduct)
+                    multiplications.put(tp.getId(), tp.getHproduit()*tp.getLproduit());
+                int min = Collections.min(multiplications.values());
+                List<String> listeIdMin = new ArrayList<String>();
+                Set mapSet = multiplications.entrySet();
+                Iterator mapIterator = mapSet.iterator();
+                String idMin = "erreur";
+                while(mapIterator.hasNext()){
+                    Map.Entry mapEntry = (Map.Entry) mapIterator.next();
+                    String keyValue = (String) mapEntry.getKey();
+                    Integer value = (Integer) mapEntry.getValue();
+                    if(value == min) listeIdMin.add(keyValue);
+                }
+                
+                et.commit();
+                
+                
+//                final String strQueryFinal = "select tp.idP from TypeProduit tp where (:produitRes)="
+//                        + "(select :minProduit from TypeProduit where tp.instance_prod.id = :idInstance)";
+
+                return (ArrayList<String>) listeIdMin;
+            } 
+            catch (Exception ex) 
+            {
+                et.rollback();
+                System.out.println(ex);
+            }
+        }
+        finally 
+        {
+            if(em != null && em.isOpen()){
+                em.close();
+            }
+            if(emf != null && emf.isOpen()){
+                emf.close();
+            }
+        } 
+        return new ArrayList<String>();
+    }*/
+    
+    public static void main(String[] args) throws SQLException, Exception {
 //        findInstanceByName("C001");
+     //     ReqBDD r = new ReqBDD();
+       //   Set<Instance> mySet = new HashSet();
+         // mySet = r.findAllInstances();
 //        for(Instance i : findAllInstances())
 //            System.out.println(i.getNom_instance());
 //        for(TypeBox tb : findBoxesByInstanceId(7))
 //            System.out.println(tb.getPrixbox());
 //        for(TypeProduit tp : findProductsByInstanceId(7))
 //            System.out.println(tp.getLproduit());
-        System.out.println(findSmallestProduct(7).toString());
+        //System.out.println(findSmallestProduct(7).toString());
     }
 }

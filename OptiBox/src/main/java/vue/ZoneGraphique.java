@@ -5,6 +5,7 @@
  */
 package vue;
 
+<<<<<<< HEAD
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -29,6 +30,22 @@ public class ZoneGraphique extends JPanel{
         this.setBackground(Color.GREEN);
         Graphics g = this.getGraphics();
         r.paintComponents(g);
+=======
+import java.awt.Graphics;
+import javax.swing.JPanel;
+
+/**
+ *
+ * @author jules
+ */
+public class ZoneGraphique extends JPanel {
+    
+    
+    private void dessin(){
+        
+    Graphics g = this.getGraphics();
+    
+>>>>>>> origin/agathe
     }
     
 }
