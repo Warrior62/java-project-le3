@@ -59,7 +59,7 @@ public class GestionInstances extends javax.swing.JFrame {
         try{
             DefaultListModel defm = new DefaultListModel();
             this.jListInstance.setModel(defm);
-            Set<Instance> listToIterateOn = this.requeteBDD.findAllInstances();
+            ArrayList<Instance> listToIterateOn = (ArrayList<Instance>) this.requeteBDD.findAllInstances();
 
             for (Instance cli : listToIterateOn) {
                 defm.addElement(cli);
@@ -87,6 +87,9 @@ public class GestionInstances extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jListInstance.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jListInstance.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        jListInstance.setForeground(new java.awt.Color(51, 0, 51));
         jListInstance.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "No Instances" };
             public int getSize() { return strings.length; }
@@ -111,9 +114,9 @@ public class GestionInstances extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 252, Short.MAX_VALUE)
+                .addGap(252, 252, 252)
                 .addComponent(jShowInstanceButton)
-                .addGap(45, 45, 45))
+                .addContainerGap(45, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
@@ -127,11 +130,11 @@ public class GestionInstances extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jLabel1)
                         .addGap(19, 19, 19)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(84, 84, 84)
                         .addComponent(jShowInstanceButton)))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addGap(37, 37, 37))
         );
 
         pack();
