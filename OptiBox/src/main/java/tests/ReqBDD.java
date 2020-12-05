@@ -37,7 +37,7 @@ public class ReqBDD {
     private static ReqBDD req;
     private Connection conn;
     
-    public ReqBDD() throws Exception {
+    private ReqBDD() throws Exception {
         connect();
     }
     
@@ -48,17 +48,13 @@ public class ReqBDD {
         return req;
     }
     
-    private void connect() throws ClassNotFoundException, SQLException, Exception {
-        try{
+    private void connect() throws Exception {
         String DriverClass = "org.apache.derby.jdbc.ClientDriver";
         String urlDatabase = "jdbc:derby://localhost:1527/optibox";
         String user = "root";
         String pwd = "root";
         Class.forName(DriverClass);
         this.conn = DriverManager.getConnection(urlDatabase, user, pwd);
-        } catch(Exception ex){
-            throw new Exception("Connexion à la bdd impossible",ex);
-        }
     }
         
     /**
@@ -103,9 +99,8 @@ public class ReqBDD {
      *       renvoie une ArrayList vide
      * @return une List contenant toutes les Instances dans la Table Instance
      */
-    public Set<Instance> findAllInstances() throws SQLException, Exception {
+    public Set<Instance> findAllInstances() throws Exception {
         Set<Instance> monSet = new HashSet();
-        try{
             String requete = "SELECT * FROM instance";
             Statement stmt = conn.createStatement();
             ResultSet res = stmt.executeQuery(requete);
@@ -128,9 +123,6 @@ public class ReqBDD {
             }
             res.close();
             stmt.close();
-        }catch(SQLException ex){
-           System.out.println("La requete a échoué");
-        }
         return monSet;
     }
      /**

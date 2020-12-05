@@ -57,20 +57,17 @@ public class GestionInstances extends javax.swing.JFrame {
     
     private void initListe() throws Exception{
         try{
-            System.out.println("aaaaaaaaaaaaaaaaaa");
             DefaultListModel defm = new DefaultListModel();
-            Set<Instance> listToIterateOn = null;
-                listToIterateOn = this.requeteBDD.findAllInstances();
+            this.jListInstance.setModel(defm);
+            Set<Instance> listToIterateOn = this.requeteBDD.findAllInstances();
 
             for (Instance cli : listToIterateOn) {
                 defm.addElement(cli);
             }
-            this.jListInstance.setModel(defm);
         }catch(SQLException ex){
-            JOptionPane.showMessageDialog(this,"Connexion à la bdd impossible, vérifiez que vous êtes connecté", "Erreur", HEIGHT);
+            JOptionPane.showMessageDialog(this,"Erreur de chargement des instances", "Erreur", HEIGHT);
             this.dispose();
             Logger.getLogger(GestionInstances.class.getName()).log(Level.SEVERE, null, ex);
-
         }
     }
 
@@ -188,7 +185,7 @@ public class GestionInstances extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new GestionInstances().setVisible(true);
+                    new GestionInstances();
                 } catch (Exception ex) {
                     Logger.getLogger(GestionInstances.class.getName()).log(Level.SEVERE, null, ex);
                 }

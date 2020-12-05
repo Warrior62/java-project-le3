@@ -39,14 +39,9 @@ public class InstanceView extends javax.swing.JFrame {
     public InstanceView(Instance instance) {
      //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
      this();
-<<<<<<< Updated upstream
-     this.jLabel1.setText("INSTANCE "+instance.getNom_instance());
      this.ZoneGraphique= new ZoneGraphique();
      this.afficheContenu(this.ZoneGraphique,instance);
-=======
      this.jLabel1.setText("INSTANCE "+instance.getNomInstance());
-     
->>>>>>> Stashed changes
     }
 
     
