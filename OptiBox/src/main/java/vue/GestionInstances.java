@@ -55,7 +55,7 @@ public class GestionInstances extends javax.swing.JFrame {
     }
     
     
-    private void initListe() throws Exception{
+    private void initListe(){
         try{
             DefaultListModel defm = new DefaultListModel();
             this.jListInstance.setModel(defm);
@@ -64,7 +64,7 @@ public class GestionInstances extends javax.swing.JFrame {
             for (Instance cli : listToIterateOn) {
                 defm.addElement(cli);
             }
-        }catch(SQLException ex){
+        }catch(Exception ex){
             JOptionPane.showMessageDialog(this,"Erreur de chargement des instances", "Erreur", HEIGHT);
             this.dispose();
             Logger.getLogger(GestionInstances.class.getName()).log(Level.SEVERE, null, ex);

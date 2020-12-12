@@ -111,8 +111,8 @@ public class ReqBDD {
             while(res.next()){
                 long id = res.getLong("ID");
                 String nomInstance = res.getString("NOM_INSTANCE");
-                //mesBox = findBoxByInstanceId(id);
-                //mesProd = findProdByInstanceId(id);
+                mesBox = findBoxByInstanceId(id);
+                mesProd = findProdByInstanceId(id);
 
                 Instance ins = new Instance(nomInstance);
                 ins.setId(id);
@@ -137,7 +137,7 @@ public class ReqBDD {
      * @return une List de TypeBox dont l'id est idInstance
      */
     public Set<TypeBox> findBoxByInstanceId(long idI) throws SQLException {
-        String requete = "SELECT * FROM TYPEBOX WHERE INSTANCE_BOX_ID = ?";
+        String requete = "SELECT * FROM TYPEBOX WHERE INSTANCEBOX_ID = ? ORDER BY ID_B";
         PreparedStatement pstmt = conn.prepareStatement(requete);
         pstmt.setLong(1,idI);
 
@@ -168,7 +168,7 @@ public class ReqBDD {
      * @return une List de TypeProduit dont l'id est idInstance
      */
     public Set<TypeProduit> findProdByInstanceId(long idI) throws SQLException {
-        String requete = "SELECT * FROM TYPEPRODUIT WHERE INSTANCE_PROD_ID = ?";
+        String requete = "SELECT * FROM TYPEPRODUIT WHERE INSTANCEPROD_ID = ? ORDER BY ID_P";
         PreparedStatement pstmt = conn.prepareStatement(requete);
         pstmt.setLong(1,idI);
 

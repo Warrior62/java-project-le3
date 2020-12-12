@@ -5,12 +5,12 @@
  */
 package vue;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Graphics;
-import javax.swing.JPanel;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.util.Random;
 import modele.Instance;
-import modele.Rectangle;
+import modele.TypeProduit;
 
 /**
  *
@@ -18,7 +18,6 @@ import modele.Rectangle;
  */
 public class InstanceView extends javax.swing.JFrame {
 
-   private JPanel ZoneGraphique;
     /**
      * Creates new form InstanceView
      */
@@ -28,52 +27,40 @@ public class InstanceView extends javax.swing.JFrame {
     }
      private void initialisationFenetre() {
         this.setVisible(true);
-        this.setSize(1000,500);
-        this.setLocationRelativeTo(null);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int width = (int) screenSize.getWidth();
+        int height = (int) screenSize.getHeight();
+        this.setLocation(0,0);
+        this.setSize( width, height-35);
         this.setBackground(Color.BLUE);
         this.getContentPane();
         
     }
-    
+    /**
+     * Fonction prise de stack overflow pour avoir une couleur aléatoire
+     * https://stackoverflow.com/questions/4246351/creating-random-colour-in-java
+     * @return Color
+     */
+    public Color RandomColor(){
+       Random rand = new Random();
+       float r = rand.nextFloat();
+       float g = rand.nextFloat();
+       float b = rand.nextFloat();
+       
+       return new Color(r, g, b);
+    }
 
     public InstanceView(Instance instance) {
-     //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-     this();
-     this.ZoneGraphique= new ZoneGraphique();
-     this.afficheContenu(this.ZoneGraphique,instance);
-     this.jLabel1.setText("INSTANCE "+instance.getNomInstance());
-    }
+        this();
+        this.setTitle("Instance : "+instance.getNomInstance());
 
-    
- /*   private void afficheContenu(Instance i)
-    {
-        Graphics g= this.ZoneGraphique.getGraphics();
-      Rectangle rect = new Rectangle(10,20,30, 40, Color.blue);
-      rect.seDessiner(g);
-        
-    }*/
-
-    public void afficheContenu(JPanel ZoneGraphique, Instance i) {
-        this.ZoneGraphique = ZoneGraphique;
-         BorderLayout BL= new BorderLayout();
-            this.setLayout(BL);
-           
-            this.add(this.ZoneGraphique,BL.CENTER);
-        
-       
+        for(TypeProduit p : instance.getSetProduits()){
+            p.setCouleur(RandomColor());
+        }
+        this.zoneGraph.setListB(instance.getSetBox());
+        this.zoneGraph.setListP(instance.getSetProduits());
+        this.zoneGraph.repaint();
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
     /**
@@ -85,28 +72,19 @@ public class InstanceView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        zoneGraph = new vue.PanelView();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("jLabel1");
-        jLabel1.setToolTipText("");
-
-        jPanel1.setBackground(new java.awt.Color(250, 250, 250));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        javax.swing.GroupLayout zoneGraphLayout = new javax.swing.GroupLayout(zoneGraph);
+        zoneGraph.setLayout(zoneGraphLayout);
+        zoneGraphLayout.setHorizontalGroup(
+            zoneGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 436, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 279, Short.MAX_VALUE)
+        zoneGraphLayout.setVerticalGroup(
+            zoneGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 162, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -114,22 +92,16 @@ public class InstanceView extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(173, 173, 173)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(190, Short.MAX_VALUE))
+                .addGap(32, 32, 32)
+                .addComponent(zoneGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(51, 51, 51))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addGap(48, 48, 48)
+                .addComponent(zoneGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(92, 92, 92))
         );
 
         pack();
@@ -171,7 +143,6 @@ public class InstanceView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
+    private vue.PanelView zoneGraph;
     // End of variables declaration//GEN-END:variables
 }
