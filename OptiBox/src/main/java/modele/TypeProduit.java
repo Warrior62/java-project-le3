@@ -5,6 +5,7 @@
  */
 package modele;
 
+import java.awt.Color;
 import java.io.Serializable;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -48,6 +49,7 @@ public class TypeProduit implements Serializable {
     @ManyToOne
     private Instance instanceProd;
     
+     private Color couleur;
     /**
      * Constructeur par défaut du type de produit
      * On définit la longuer, hauteur et quantité à 0
@@ -57,6 +59,7 @@ public class TypeProduit implements Serializable {
         this.Hproduit = 0;
         this.NBproduit = 0;
         this.instanceProd = new Instance();
+        this.couleur = Color.BLACK;
     }
     
     /**
@@ -108,4 +111,10 @@ public class TypeProduit implements Serializable {
     public void setNBproduit(int NBproduit) {
         this.NBproduit = NBproduit;
     }  
+    public Color getCouleur() {
+        return couleur;
+    }
+    public void setCouleur(Color couleur) {
+        this.couleur = couleur;
+    }
 }
