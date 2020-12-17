@@ -5,9 +5,17 @@
  */
 package tests;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -27,16 +35,26 @@ import modele.TypeProduit;
  */
 public class ReqBDD {
     private static ReqBDD req;
-
-    public ReqBDD() {
+    private Connection conn;
+    
+    private ReqBDD() throws Exception {
+        connect();
     }
     
-    
-     public static ReqBDD getInstance() {
+    public static ReqBDD getInstance() throws Exception {
         if (req == null) {
                 req = new ReqBDD();   
         }
         return req;
+    }
+    
+    private void connect() throws Exception {
+        String DriverClass = "org.apache.derby.jdbc.ClientDriver";
+        String urlDatabase = "jdbc:derby://localhost:1527/optibox";
+        String user = "root";
+        String pwd = "root";
+        Class.forName(DriverClass);
+        this.conn = DriverManager.getConnection(urlDatabase, user, pwd);
     }
         
     /**
@@ -49,42 +67,29 @@ public class ReqBDD {
      * @param nomInstance
      * @return 
      */
-    public static Instance findInstanceByName(String nomInstance)
-    {
-        final EntityManagerFactory emf = Persistence.createEntityManagerFactory("OptiBoxPU");
-        final EntityManager em = emf.createEntityManager();
-        try
-        {
-            final EntityTransaction et = em.getTransaction(); 
-            try
-            {
-                et.begin();
-                final String strQuery = "SELECT inst FROM Instance inst"
-                        + " WHERE inst.nom_instance = :nomInstance ";
-                Query queryTest = em.createQuery(strQuery);
-                queryTest.setParameter("nomInstance", nomInstance);
-                List<Instance> listeInstances = queryTest.getResultList();
+    public Instance findInstanceByName(String nomInstance) throws SQLException {
+        Instance ins = new Instance();
+        try{
+            String requete = "SELECT * FROM Instance inst"
+                    + " WHERE UPPER(inst.nom_instance) LIKE ? ";
+            PreparedStatement pstmt = conn.prepareStatement(requete);
+            pstmt.setString(1,nomInstance.toUpperCase());
 
-                et.commit();
-                return listeInstances.get(0);
-            } 
-            catch (Exception ex) 
-            {
-                et.rollback();
-                System.out.println(ex);
+            ResultSet res = pstmt.executeQuery();
+            while (res.next()) {
+                String nm = res.getString("nom");
+                ins.setNomInstance(nm);
             }
+            res.close();
+            pstmt.close();
+
+        } catch (SQLException ex) {
+            System.out.println("La requete a échoué");
         }
-        finally 
-        {
-            if(em != null && em.isOpen()){
-                em.close();
-            }
-            if(emf != null && emf.isOpen()){
-                emf.close();
-            }
-        } 
-        return new Instance();
-    }
+        
+        return ins;
+}
+
     
     /**
      * @def public static List<Instance> findAllInstances()
@@ -94,130 +99,94 @@ public class ReqBDD {
      *       renvoie une ArrayList vide
      * @return une List contenant toutes les Instances dans la Table Instance
      */
-    public static List<Instance> findAllInstances()
-    {
-        final EntityManagerFactory emf = Persistence.createEntityManagerFactory("OptiBoxPU");
-        final EntityManager em = emf.createEntityManager();
-        try
-        {
-            final EntityTransaction et = em.getTransaction(); 
-            try
-            {
-                et.begin();
-                final String strQuery = "SELECT inst FROM Instance inst";
-                Query queryTest = em.createQuery(strQuery);
-                List<Instance> listeInstances = queryTest.getResultList();
+    public List<Instance> findAllInstances() throws Exception {
+        ArrayList<Instance> maList = new ArrayList<>();
+            String requete = "SELECT * FROM instance ins ORDER BY ins.NOM_INSTANCE";
+            Statement stmt = conn.createStatement();
+            ResultSet res = stmt.executeQuery(requete);
+            
+            Set<TypeBox> mesBox = new HashSet();
+            Set<TypeProduit> mesProd = new HashSet();
+            
+            while(res.next()){
+                long id = res.getLong("ID");
+                String nomInstance = res.getString("NOM_INSTANCE");
+                mesBox = findBoxByInstanceId(id);
+                mesProd = findProdByInstanceId(id);
 
-                et.commit();
-                return listeInstances;
-            } 
-            catch (Exception ex) 
-            {
-                et.rollback();
-                System.out.println(ex);
+                Instance ins = new Instance(nomInstance);
+                ins.setId(id);
+                ins.setSetBox(mesBox);
+                ins.setSetProduits(mesProd);
+                System.out.println(ins.getId() +" "+ ins.getNomInstance());
+                maList.add(ins);
             }
-        }
-        finally 
-        {
-            if(em != null && em.isOpen()){
-                em.close();
-            }
-            if(emf != null && emf.isOpen()){
-                emf.close();
-            }
-        } 
-        return new ArrayList<Instance>();
+            res.close();
+            stmt.close();
+        return maList;
     }
-     /**
+   
+    
+/**
      * @def public static List<TypeBox> findBoxesByInstanceId(int idInstance)
      * @brief sélectionne tous les objets TypeBox dont l'id de l'Instance qui
      *        leur est à chacun associée, est égal à idInstance
-     * @param idInstance
+     * @param idI
      * @note s'il y a un pb dans la compilation de cette méthode, cette dernière
      *       renvoie une ArrayList de TypeBox vide
      * @return une List de TypeBox dont l'id est idInstance
      */
-    public static List<TypeBox> findBoxesByInstanceId(int idInstance)
-    {
-        final EntityManagerFactory emf = Persistence.createEntityManagerFactory("OptiBoxPU");
-        final EntityManager em = emf.createEntityManager();
-        try
-        {
-            final EntityTransaction et = em.getTransaction(); 
-            try
-            {
-                et.begin();
-                final String strQuery = "SELECT tb FROM TypeBox tb"
-                        + " WHERE tb.instance_box.id = :idInstance";
-                Query queryTest = em.createQuery(strQuery);
-                queryTest.setParameter("idInstance", idInstance);
-                List<TypeBox> listeTypeBox = queryTest.getResultList();
+    public Set<TypeBox> findBoxByInstanceId(long idI) throws SQLException {
+        String requete = "SELECT * FROM TYPEBOX WHERE INSTANCEBOX_ID = ? ORDER BY ID_B";
+        PreparedStatement pstmt = conn.prepareStatement(requete);
+        pstmt.setLong(1,idI);
 
-                et.commit();
-                return listeTypeBox;
-            } 
-            catch (Exception ex) 
-            {
-                et.rollback();
-                System.out.println(ex);
-            }
+        ResultSet res = pstmt.executeQuery();
+        Set<TypeBox> mesBox = new HashSet();
+        while(res.next()){
+            int h = res.getInt("HAUTEUR_BOX");
+            int l = res.getInt("LONGUEUR_BOX");
+            double prix= res.getInt("PRIX_BOX");
+            String idB = res.getString("ID_B");
+            
+            TypeBox box = new TypeBox(idB,l,h,prix);
+            mesBox.add(box);
+            //System.out.println(box.getInstance().getNomInstance());
         }
-        finally 
-        {
-            if(em != null && em.isOpen()){
-                em.close();
-            }
-            if(emf != null && emf.isOpen()){
-                emf.close();
-            }
-        } 
-        return new ArrayList<TypeBox>();
+        res.close();
+        pstmt.close();
+        return mesBox;
     }
     
     /**
      * @def public static List<TypeProduit> findProductsByInstanceId(int idInstance)
      * @brief sélectionne tous les objets TypeProduit dont l'id de l'Instance qui
      *        leur est à chacun associée, est égal à idInstance
-     * @param idInstance
+     * @param idI
      * @note s'il y a un pb dans la compilation de cette méthode, cette dernière
      *       renvoie une ArrayList de TypeProduit vide
      * @return une List de TypeProduit dont l'id est idInstance
      */
-    public static List<TypeProduit> findProductsByInstanceId(int idInstance)
-    {
-        final EntityManagerFactory emf = Persistence.createEntityManagerFactory("OptiBoxPU");
-        final EntityManager em = emf.createEntityManager();
-        try
-        {
-            final EntityTransaction et = em.getTransaction(); 
-            try
-            {
-                et.begin();
-                final String strQuery = "SELECT tp FROM TypeProduit tp"
-                        + " WHERE tp.instance_prod.id = :idInstance";
-                Query queryTest = em.createQuery(strQuery);
-                queryTest.setParameter("idInstance", idInstance);
-                List<TypeProduit> listeTypeProduit = queryTest.getResultList();
+    public Set<TypeProduit> findProdByInstanceId(long idI) throws SQLException {
+        String requete = "SELECT * FROM TYPEPRODUIT WHERE INSTANCEPROD_ID = ? ORDER BY ID_P";
+        PreparedStatement pstmt = conn.prepareStatement(requete);
+        pstmt.setLong(1,idI);
 
-                et.commit();
-                return listeTypeProduit;
-            } 
-            catch (Exception ex) 
-            {
-                et.rollback();
-                System.out.println(ex);
-            }
+        ResultSet res = pstmt.executeQuery();
+        Set<TypeProduit> mesProd = new HashSet();
+        while(res.next()){
+            int h = res.getInt("HAUTEUR_PRODUIT");
+            int l = res.getInt("LONGUEUR_PRODUIT");
+            int nb= res.getInt("NB_PRODUITS");
+            String idP= res.getString("ID_P");
+            
+            TypeProduit prod = new TypeProduit(idP,l,h,nb);
+            mesProd.add(prod);
+            //System.out.println(box.getInstance().getNomInstance());
         }
-        finally 
-        {
-            if(em != null && em.isOpen()){
-                em.close();
-            }
-            if(emf != null && emf.isOpen()){
-                emf.close();
-            }
-        } 
-        return new ArrayList<TypeProduit>();
+        res.close();
+        pstmt.close();
+        return mesProd;
     }
     
     /**
@@ -228,7 +197,7 @@ public class ReqBDD {
      * @param idInstance
      * @return la liste de l'id du ou des produit(s) dont la surface est la plus petite
      */
-    public static ArrayList<String> findSmallestProduct(int idInstance)
+ /*   public static ArrayList<String> findSmallestProduct(int idInstance)
     {
         final EntityManagerFactory emf = Persistence.createEntityManagerFactory("OptiBoxPU");
         final EntityManager em = emf.createEntityManager();
@@ -283,20 +252,19 @@ public class ReqBDD {
             }
         } 
         return new ArrayList<String>();
-    }
+    }*/
     
-    
-
- 
-      
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException, Exception {
 //        findInstanceByName("C001");
+     //     ReqBDD r = new ReqBDD();
+       //   Set<Instance> mySet = new HashSet();
+         // mySet = r.findAllInstances();
 //        for(Instance i : findAllInstances())
 //            System.out.println(i.getNom_instance());
 //        for(TypeBox tb : findBoxesByInstanceId(7))
 //            System.out.println(tb.getPrixbox());
 //        for(TypeProduit tp : findProductsByInstanceId(7))
 //            System.out.println(tp.getLproduit());
-        System.out.println(findSmallestProduct(7).toString());
+        //System.out.println(findSmallestProduct(7).toString());
     }
 }

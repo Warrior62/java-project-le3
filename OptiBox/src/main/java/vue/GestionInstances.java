@@ -9,7 +9,9 @@ import java.awt.Color;
 import static java.awt.image.ImageObserver.HEIGHT;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -22,22 +24,22 @@ import tests.ReqBDD;
  * @author agpou
  */
 public class GestionInstances extends javax.swing.JFrame {
-    private ReqBDD requeteBDD_2;
+    private ReqBDD requeteBDD;
 
     /**
      * Creates new form GestionInstances
      */
-    public GestionInstances() {
+    public GestionInstances() throws Exception {
         initComponents();
         initialisationFenetre();
         initConnexion();
-        initListe("");
+        initListe();
     }
     
     private void initConnexion(){
         try
         {
-           this.requeteBDD_2= ReqBDD.getInstance(); 
+           this.requeteBDD= ReqBDD.getInstance(); 
         } catch(Exception ex){
             JOptionPane.showMessageDialog(this,"Connexion à la bdd impossible, vérifiez que vous êtes connecté", "Erreur", HEIGHT);
             this.dispose();
@@ -53,16 +55,20 @@ public class GestionInstances extends javax.swing.JFrame {
     }
     
     
-    private void initListe(String name){
-        DefaultListModel defm = new DefaultListModel();
-        List<Instance> listToIterateOn = new ArrayList<>();
-        if (name == "") listToIterateOn = this.requeteBDD_2.findAllInstances();
-        //    else  = this.requeteBDD.findInstanceByName(name);
-        //System.out.println(listToIterateOn.toString());
-        for (Object cli : listToIterateOn) {
-            defm.addElement(cli);
+    private void initListe(){
+        try{
+            DefaultListModel defm = new DefaultListModel();
+            this.jListInstance.setModel(defm);
+            ArrayList<Instance> listToIterateOn = (ArrayList<Instance>) this.requeteBDD.findAllInstances();
+
+            for (Instance cli : listToIterateOn) {
+                defm.addElement(cli);
+            }
+        }catch(Exception ex){
+            JOptionPane.showMessageDialog(this,"Erreur de chargement des instances", "Erreur", HEIGHT);
+            this.dispose();
+            Logger.getLogger(GestionInstances.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.jListInstance.setModel(defm);
     }
 
     /**
@@ -81,6 +87,9 @@ public class GestionInstances extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jListInstance.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jListInstance.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        jListInstance.setForeground(new java.awt.Color(51, 0, 51));
         jListInstance.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "No Instances" };
             public int getSize() { return strings.length; }
@@ -105,9 +114,9 @@ public class GestionInstances extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 252, Short.MAX_VALUE)
+                .addGap(252, 252, 252)
                 .addComponent(jShowInstanceButton)
-                .addGap(45, 45, 45))
+                .addContainerGap(45, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
@@ -121,11 +130,11 @@ public class GestionInstances extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jLabel1)
                         .addGap(19, 19, 19)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(84, 84, 84)
                         .addComponent(jShowInstanceButton)))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addGap(37, 37, 37))
         );
 
         pack();
@@ -178,7 +187,11 @@ public class GestionInstances extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GestionInstances().setVisible(true);
+                try {
+                    new GestionInstances();
+                } catch (Exception ex) {
+                    Logger.getLogger(GestionInstances.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

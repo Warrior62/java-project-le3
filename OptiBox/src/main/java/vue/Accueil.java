@@ -43,7 +43,7 @@ public class Accueil extends javax.swing.JFrame {
     private void initConnexion() throws ClassNotFoundException, SQLException{
         try
         {
-           this.requeteBDD= ReqBDD.getInstance(); 
+           this.requeteBDD = ReqBDD.getInstance(); 
         } catch(Exception ex){
             JOptionPane.showMessageDialog(this,"Connexion à la bdd impossible, vérifiez que vous êtes connecté", "Erreur", HEIGHT);
             this.dispose();
@@ -106,8 +106,12 @@ public class Accueil extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BtnGestionClientsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BtnGestionClientsMouseClicked
-        // TODO add your handling code here:
-        new GestionInstances();
+        try {
+            // TODO add your handling code here:
+            new GestionInstances();
+        } catch (Exception ex) {
+            Logger.getLogger(Accueil.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_BtnGestionClientsMouseClicked
 
     private void BtnGestionClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGestionClientsActionPerformed
@@ -146,7 +150,7 @@ public class Accueil extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new Accueil().setVisible(true);
+                    new Accueil();
                 } catch (ClassNotFoundException ex) {
                     Logger.getLogger(Accueil.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (SQLException ex) {

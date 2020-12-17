@@ -5,6 +5,7 @@
  */
 package modele;
 
+import java.awt.Color;
 import java.io.Serializable;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
@@ -47,8 +48,9 @@ public class TypeBox implements Serializable {
 
     //test afin de pouvoir utiliser le fichier readerInstance
     @ManyToOne
-    private Instance instance_box;
+    private Instance instanceBox;
     
+    private Color couleur;
     
     /**
      * Constructeur par défaut du type de box
@@ -58,7 +60,8 @@ public class TypeBox implements Serializable {
         this.Lbox = 0;
         this.Hbox = 0;
         this.Prixbox = 0;
-        this.instance_box = new Instance();
+        this.instanceBox = new Instance();
+        this.couleur = Color.BLUE;
     }
     
     /**
@@ -80,11 +83,11 @@ public class TypeBox implements Serializable {
     /********************************************
      ************ GETTER ET SETTER **************
      *******************************************/
-    public Instance get_instance() {
-        return instance_box;
+    public Instance getInstance() {
+        return instanceBox;
     }
-    public void set_instance(Instance C_instance) {
-        this.instance_box = C_instance;
+    public void setInstance(Instance C_instance) {
+        this.instanceBox = C_instance;
     }
     public int getLbox() {
         return Lbox;
@@ -109,5 +112,11 @@ public class TypeBox implements Serializable {
     }
     public void setId(String id) {
         this.idB = id;
+    }
+    public Color getCouleur() {
+        return couleur;
+    }
+    public void setCouleur(Color couleur) {
+        this.couleur = couleur;
     }
 }

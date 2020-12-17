@@ -103,8 +103,8 @@ public class InstanceReader {
             // TODO : Vous pouvez ajoutez chacun des box a votre instance
             ////////////////////////////////////////////
             TypeBox b1 = new TypeBox(elem.getIdentifiant(),elem.getLongueur(), elem.getHauteur(), elem.getPrix());
-            b1.set_instance(ins);
-            ins.getListe_box().add(b1);
+            b1.setInstance(ins);
+            ins.getSetBox().add(b1);
         }
 
         
@@ -125,8 +125,8 @@ public class InstanceReader {
             // TODO : Vous pouvez ajoutez chacun des produits a votre instance
             ////////////////////////////////////////////
             TypeProduit p1 = new TypeProduit(elem.getIdentifiant(),elem.getLongueur(), elem.getHauteur(), elem.getQuantite());
-            p1.set_instance(ins);
-            ins.getListe_produit().add(p1);
+            p1.setInstance(ins);
+            ins.getSetProduits().add(p1);
         }   
         return ins;
     }
@@ -418,7 +418,7 @@ public class InstanceReader {
         Set<Instance> set = new HashSet<>();
         set = reader.lire_instances();
         for(Instance c : set){
-            System.out.println(c.getNom_instance());
+            System.out.println(c.getNomInstance());
         }
 
     }*/
