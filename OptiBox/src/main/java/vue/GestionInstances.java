@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import modele.Instance;
-import tests.ReqBDD;
+import modele.ReqBDD;
 
 /**
  *
@@ -28,6 +28,7 @@ public class GestionInstances extends javax.swing.JFrame {
 
     /**
      * Creates new form GestionInstances
+     * @throws java.lang.Exception
      */
     public GestionInstances() throws Exception {
         initComponents();

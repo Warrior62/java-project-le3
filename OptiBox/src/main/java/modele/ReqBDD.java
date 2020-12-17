@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tests;
+package modele;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -168,7 +168,7 @@ public class ReqBDD {
      * @return une List de TypeProduit dont l'id est idInstance
      */
     public Set<TypeProduit> findProdByInstanceId(long idI) throws SQLException {
-        String requete = "SELECT * FROM TYPEPRODUIT WHERE INSTANCEPROD_ID = ? ORDER BY ID_P";
+        String requete = "SELECT * FROM TYPEPRODUIT WHERE INSTANCEPROD_ID = ? ORDER BY LONGUEUR_PRODUIT DESC";
         PreparedStatement pstmt = conn.prepareStatement(requete);
         pstmt.setLong(1,idI);
 
@@ -254,17 +254,5 @@ public class ReqBDD {
         return new ArrayList<String>();
     }*/
     
-    public static void main(String[] args) throws SQLException, Exception {
-//        findInstanceByName("C001");
-     //     ReqBDD r = new ReqBDD();
-       //   Set<Instance> mySet = new HashSet();
-         // mySet = r.findAllInstances();
-//        for(Instance i : findAllInstances())
-//            System.out.println(i.getNom_instance());
-//        for(TypeBox tb : findBoxesByInstanceId(7))
-//            System.out.println(tb.getPrixbox());
-//        for(TypeProduit tp : findProductsByInstanceId(7))
-//            System.out.println(tp.getLproduit());
-        //System.out.println(findSmallestProduct(7).toString());
-    }
+
 }

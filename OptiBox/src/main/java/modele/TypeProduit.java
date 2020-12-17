@@ -49,6 +49,9 @@ public class TypeProduit implements Serializable {
     @ManyToOne
     private Instance instanceProd;
     
+    @ManyToOne
+    private PileProduit pileProd;
+    
      private Color couleur;
     /**
      * Constructeur par défaut du type de produit
