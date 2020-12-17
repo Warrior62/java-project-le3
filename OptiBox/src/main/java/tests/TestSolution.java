@@ -49,7 +49,7 @@ public class TestSolution {
         this.produitTest= re.findProdByInstanceId(idInstance);
         this.boxTest= re.findBoxByInstanceId(idInstance);
         
-        
+        //On récupère la box la plus grande
         for (TypeBox b : boxTest)
         {
             if(b.getLbox()*b.getHbox()>boxMaxInstance.getHbox()*boxMaxInstance.getLbox())
@@ -58,6 +58,7 @@ public class TestSolution {
             }
         }
         
+        // On va tout mettre dans cette box
       
     }
     
