@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import modele.Instance;
-import tests.ReqBDD;
+import modele.ReqBDD;
 
 /**
  *
@@ -26,8 +26,10 @@ public class Accueil extends javax.swing.JFrame {
     private ReqBDD requeteBDD;
     /**
      * Creates new form Accueil
+     * @throws java.lang.ClassNotFoundException
+     * @throws java.sql.SQLException
      */
-    public Accueil() throws ClassNotFoundException, SQLException{
+    public Accueil() throws Exception{
         initComponents();
         initialisationFenetre();
         initConnexion();
@@ -40,7 +42,7 @@ public class Accueil extends javax.swing.JFrame {
         this.setVisible(true);
     }
        
-    private void initConnexion() throws ClassNotFoundException, SQLException{
+    private void initConnexion() throws Exception{
         try
         {
            this.requeteBDD = ReqBDD.getInstance(); 
@@ -73,28 +75,34 @@ public class Accueil extends javax.swing.JFrame {
                 BtnGestionClientsMouseClicked(evt);
             }
         });
+        BtnGestionClients.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnGestionClientsActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(204, 204, 204))
             .addGroup(layout.createSequentialGroup()
-                .addGap(180, 180, 180)
-                .addComponent(BtnGestionClients, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(177, Short.MAX_VALUE))
+                .addContainerGap(161, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(204, 204, 204))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(BtnGestionClients, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(159, 159, 159))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel1)
-                .addGap(157, 157, 157)
-                .addComponent(BtnGestionClients, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(253, Short.MAX_VALUE))
+                .addGap(145, 145, 145)
+                .addComponent(BtnGestionClients, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(236, Short.MAX_VALUE))
         );
 
         pack();
@@ -108,6 +116,10 @@ public class Accueil extends javax.swing.JFrame {
             Logger.getLogger(Accueil.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_BtnGestionClientsMouseClicked
+
+    private void BtnGestionClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGestionClientsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnGestionClientsActionPerformed
 
     
     /**
@@ -142,9 +154,7 @@ public class Accueil extends javax.swing.JFrame {
             public void run() {
                 try {
                     new Accueil();
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(Accueil.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
+                } catch (Exception ex) {
                     Logger.getLogger(Accueil.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
