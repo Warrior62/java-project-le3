@@ -73,6 +73,11 @@ public class Accueil extends javax.swing.JFrame {
                 BtnGestionClientsMouseClicked(evt);
             }
         });
+        BtnGestionClients.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BtnGestionClientsActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -104,6 +109,10 @@ public class Accueil extends javax.swing.JFrame {
         // TODO add your handling code here:
         new GestionInstances();
     }//GEN-LAST:event_BtnGestionClientsMouseClicked
+
+    private void BtnGestionClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnGestionClientsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnGestionClientsActionPerformed
 
     
     /**
