@@ -7,8 +7,10 @@ package modele;
 
 import java.io.Serializable;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Deque;
+import java.util.List;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
@@ -23,30 +25,31 @@ import javax.persistence.OneToMany;
 @Entity
 @Access(AccessType.FIELD)
 public class PileProduit implements Serializable {
+        private static final long serialVersionUID = 1L;
 
     @Id
     private Long id;
 
     @OneToMany(mappedBy="pileProd",cascade = CascadeType.PERSIST)
-    private Deque<TypeProduit> pileProduits;
+    private List<TypeProduit> pileProduits;
 
     public PileProduit() {
-        this.pileProduits = new ArrayDeque<>();
+        this.pileProduits = new ArrayList<>();
     }
 
-    public PileProduit(Deque<TypeProduit> pileProduits) {
+    public PileProduit(List<TypeProduit> pileProduits) {
         this.pileProduits = pileProduits;
     }
 
 
     
     
-    public Deque<TypeProduit> getPileProduits() {
+    /*public Deque<TypeProduit> getPileProduits() {
         return pileProduits;
     }
     public void setPileProduits(Deque<TypeProduit> pileProduits) {
         this.pileProduits = pileProduits;
-    }
+    }*/
     public Long getId() {
         return id;
     }

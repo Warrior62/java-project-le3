@@ -137,7 +137,7 @@ public class ReqBDD {
      * @return une List de TypeBox dont l'id est idInstance
      */
     public Set<TypeBox> findBoxByInstanceId(long idI) throws SQLException {
-        String requete = "SELECT * FROM TYPEBOX WHERE INSTANCEBOX_ID = ? ORDER BY ID_B";
+        String requete = "SELECT * FROM TYPEBOX WHERE INSTANCE_BOX_ID = ? ORDER BY ID_B";
         PreparedStatement pstmt = conn.prepareStatement(requete);
         pstmt.setLong(1,idI);
 
@@ -168,7 +168,7 @@ public class ReqBDD {
      * @return une List de TypeProduit dont l'id est idInstance
      */
     public Set<TypeProduit> findProdByInstanceId(long idI) throws SQLException {
-        String requete = "SELECT * FROM TYPEPRODUIT WHERE INSTANCEPROD_ID = ? ORDER BY LONGUEUR_PRODUIT DESC";
+        String requete = "SELECT * FROM TYPEPRODUIT WHERE INSTANCE_PROD_ID = ? ORDER BY LONGUEUR_PRODUIT DESC";
         PreparedStatement pstmt = conn.prepareStatement(requete);
         pstmt.setLong(1,idI);
 

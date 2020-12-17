@@ -27,6 +27,7 @@ public class PileView extends javax.swing.JFrame {
     }
     
      private void initialisationFenetre() {
+         this.setVisible(true);
         this.setTitle("Pile View");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int width = (int) screenSize.getWidth();
@@ -112,7 +113,7 @@ public class PileView extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PileView().setVisible(true);
+                new PileView();
             }
         });
     }

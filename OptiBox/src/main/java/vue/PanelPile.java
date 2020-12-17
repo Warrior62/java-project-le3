@@ -89,7 +89,7 @@ public class PanelPile extends javax.swing.JPanel {
             g.setColor(RandomColor());
             y-=p.getHproduit();
             g.fillRect(x+1, y,p.getLproduit(), p.getHproduit());
-            pileProd.removeLastOccurrence(p);
+            pileProd.removeLast();
         }
         
         int size2 = pileProd2.size();
@@ -102,7 +102,7 @@ public class PanelPile extends javax.swing.JPanel {
             g.setColor(RandomColor());
             y-=p.getHproduit();
             g.fillRect(x+1, y,p.getLproduit(), p.getHproduit());
-            pileProd2.removeLastOccurrence(p);
+            pileProd2.removeLast();
         }
         
         

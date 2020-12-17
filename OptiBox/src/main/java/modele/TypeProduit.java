@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 /**
@@ -47,6 +48,7 @@ public class TypeProduit implements Serializable {
 
     //test afin de pouvoir utiliser le fichier readerInstance
     @ManyToOne
+    @JoinColumn(name="INSTANCE_PROD_ID")
     private Instance instanceProd;
     
     @ManyToOne

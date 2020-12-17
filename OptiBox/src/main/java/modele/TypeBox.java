@@ -14,7 +14,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -47,7 +49,11 @@ public class TypeBox implements Serializable {
 
     //test afin de pouvoir utiliser le fichier readerInstance
     @ManyToOne
+    @JoinColumn(name="INSTANCE_BOX_ID")
     private Instance instanceBox;
+    
+     @OneToOne
+    private ContenuBox monContenuBox;
     
     private Color couleur;
     
@@ -118,4 +124,5 @@ public class TypeBox implements Serializable {
     public void setCouleur(Color couleur) {
         this.couleur = couleur;
     }
+    
 }
