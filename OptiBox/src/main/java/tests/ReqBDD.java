@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -106,7 +107,7 @@ public class ReqBDD {
             ResultSet res = stmt.executeQuery(requete);
             
             Set<TypeBox> mesBox = new HashSet();
-            Set<TypeProduit> mesProd = new HashSet();
+            Set<TypeProduit> mesProd = new TreeSet();
             
             while(res.next()){
                 long id = res.getLong("ID");
@@ -137,7 +138,7 @@ public class ReqBDD {
      * @return une List de TypeBox dont l'id est idInstance
      */
     public Set<TypeBox> findBoxByInstanceId(long idI) throws SQLException {
-        String requete = "SELECT * FROM TYPEBOX WHERE INSTANCEBOX_ID = ? ORDER BY ID_B";
+        String requete = "SELECT * FROM TYPEBOX WHERE INSTANCE_BOX_ID = ? ORDER BY ID_B";
         PreparedStatement pstmt = conn.prepareStatement(requete);
         pstmt.setLong(1,idI);
 
@@ -168,12 +169,14 @@ public class ReqBDD {
      * @return une List de TypeProduit dont l'id est idInstance
      */
     public Set<TypeProduit> findProdByInstanceId(long idI) throws SQLException {
-        String requete = "SELECT * FROM TYPEPRODUIT WHERE INSTANCEPROD_ID = ? ORDER BY ID_P";
+        String requete = "SELECT * FROM TYPEPRODUIT WHERE INSTANCE_PROD_ID = ? ORDER BY LONGUEUR_PRODUIT DESC";
         PreparedStatement pstmt = conn.prepareStatement(requete);
         pstmt.setLong(1,idI);
 
         ResultSet res = pstmt.executeQuery();
-        Set<TypeProduit> mesProd = new HashSet();
+        
+        // TRIER PRODUITS PAR LONGUEUR !!! TreeSet, sort, Collection???
+        Set<TypeProduit> mesProd = new HashSet(); 
         while(res.next()){
             int h = res.getInt("HAUTEUR_PRODUIT");
             int l = res.getInt("LONGUEUR_PRODUIT");
@@ -181,12 +184,16 @@ public class ReqBDD {
             String idP= res.getString("ID_P");
             
             TypeProduit prod = new TypeProduit(idP,l,h,nb);
+            //System.out.println(prod.getLproduit());
             mesProd.add(prod);
+            
             //System.out.println(box.getInstance().getNomInstance());
         }
+       
         res.close();
         pstmt.close();
         return mesProd;
+        
     }
     
     /**
