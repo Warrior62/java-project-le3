@@ -122,4 +122,17 @@ public class TypeProduit implements Serializable {
     public void setCouleur(Color couleur) {
         this.couleur = couleur;
     }
+    public Instance getInstanceProd() {
+        return instanceProd;
+    }
+    public void setInstanceProd(Instance instanceProd) {
+        this.instanceProd = instanceProd;
+    }
+    public PileProduit getPileProd() {
+        return pileProd;
+    }
+    public void setPileProd(PileProduit pileProd) {
+        this.pileProd = pileProd;
+    }
+    
 }

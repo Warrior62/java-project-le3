@@ -124,5 +124,16 @@ public class TypeBox implements Serializable {
     public void setCouleur(Color couleur) {
         this.couleur = couleur;
     }
-    
+    public Instance getInstanceBox() {
+        return instanceBox;
+    }
+    public void setInstanceBox(Instance instanceBox) {
+        this.instanceBox = instanceBox;
+    }
+    public ContenuBox getMonContenuBox() {
+        return monContenuBox;
+    }
+    public void setMonContenuBox(ContenuBox monContenuBox) {
+        this.monContenuBox = monContenuBox;
+    }  
 }

@@ -6,9 +6,11 @@
 package modele;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.HashSet;
+import java.util.List;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
@@ -30,8 +32,8 @@ public class ContenuBox implements Serializable{
     @Id
     private Long id;
     
-    @ManyToOne
-    private PileProduit maPile;
+    @OneToMany(mappedBy="monContenuBox",cascade = CascadeType.PERSIST)
+    private List<PileProduit> maListeProduits;
 
     @OneToOne(mappedBy="monContenuBox")
     private TypeBox maBox;
@@ -41,20 +43,17 @@ public class ContenuBox implements Serializable{
      * On initialise le Set
      */
     public ContenuBox() {
-        //this.setPileProduits = new HashSet();
+        this.maBox = new TypeBox();
+        this.maListeProduits = new ArrayList<>();
     }
-    
-    /**
-     * Constructeur par données du contenu de box
-     * @param setPileProduits
-     * @param maBox 
-     */
-    public ContenuBox(Collection<PileProduit> setPileProduits, TypeBox maBox) {
-      //  this.setPileProduits = setPileProduits;
+
+    public ContenuBox(List<PileProduit> maListeProduits, TypeBox maBox) {
+        this();
+        this.maListeProduits = maListeProduits;
         this.maBox = maBox;
     }
 
-    
+
     
     
     public Long getId() {
@@ -63,6 +62,17 @@ public class ContenuBox implements Serializable{
     public void setId(Long id) {
         this.id = id;
     }
-    
+    public List<PileProduit> getMaListeProduits() {
+        return maListeProduits;
+    }
+    public void setMaListeProduits(List<PileProduit> maListeProduits) {
+        this.maListeProduits = maListeProduits;
+    }
+    public TypeBox getMaBox() {
+        return maBox;
+    }
+    public void setMaBox(TypeBox maBox) {
+        this.maBox = maBox;
+    }
     
 }

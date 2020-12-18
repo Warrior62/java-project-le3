@@ -16,6 +16,7 @@ import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -30,31 +31,42 @@ public class PileProduit implements Serializable {
     @Id
     private Long id;
 
+    @ManyToOne
+    private ContenuBox monContenuBox;
+     
     @OneToMany(mappedBy="pileProd",cascade = CascadeType.PERSIST)
     private List<TypeProduit> pileProduits;
+    
+    
 
     public PileProduit() {
         this.pileProduits = new ArrayList<>();
     }
 
     public PileProduit(List<TypeProduit> pileProduits) {
+        this();
         this.pileProduits = pileProduits;
     }
 
 
     
-    
-    /*public Deque<TypeProduit> getPileProduits() {
-        return pileProduits;
-    }
-    public void setPileProduits(Deque<TypeProduit> pileProduits) {
-        this.pileProduits = pileProduits;
-    }*/
+
     public Long getId() {
         return id;
     }
     public void setId(Long id) {
         this.id = id;
     }
-    
+    public List<TypeProduit> getPileProduits() {
+        return pileProduits;
+    }
+    public void setPileProduits(List<TypeProduit> pileProduits) {
+        this.pileProduits = pileProduits;
+    }
+    public ContenuBox getMonContenuBox() {
+        return monContenuBox;
+    }
+    public void setMonContenuBox(ContenuBox monContenuBox) {
+        this.monContenuBox = monContenuBox;
+    } 
 }
