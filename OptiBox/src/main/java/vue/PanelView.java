@@ -61,7 +61,7 @@ public class PanelView extends javax.swing.JPanel {
         System.out.println("y = "+y);
         
         g.setColor(Color.black);
-        g.drawLine(5,y+maxHeight+20, sizeScreen-5, y+maxHeight+20);
+        //g.drawLine(5,y+maxHeight+20, sizeScreen-5, y+maxHeight+20);
         g.setFont(new Font("Calibri", Font.PLAIN, 35));
         g.drawString("Les Produits", sizeScreen/2, y+maxHeight+50);
         g.drawLine(5,y+maxHeight+70, sizeScreen-5, y+maxHeight+70);
