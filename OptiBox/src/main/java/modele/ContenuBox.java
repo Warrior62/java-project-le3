@@ -26,4 +26,7 @@ public class ContenuBox extends TypeBox implements Serializable{
     private Collection<PileProduit> setPileProduits;
     
     
+    public ContenuBox(){
+       // this.setPileProduits= new Collection<PileProduit>();
+    }
 }

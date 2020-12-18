@@ -10,8 +10,12 @@ import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 import javax.swing.JOptionPane;
+import modele.ContenuBox;
 import modele.TypeBox;
 import modele.TypeProduit;
+import modele.ReqBDD;
+import modele.Solution;
+
 
 /**
  *
@@ -32,7 +36,7 @@ public class TestSolution {
         
          initConnexion();
     }
-    
+   
     private void initConnexion(){
         try
         {
@@ -43,9 +47,10 @@ public class TestSolution {
         }
     }
     
-    public void testSolution0() throws SQLException{
+    public Solution testSolution0() throws SQLException, ClassNotFoundException{
         long idInstance=1;
-        
+        int nbBox = 0;
+        Solution s = new Solution();
         this.produitTest= re.findProdByInstanceId(idInstance);
         this.boxTest= re.findBoxByInstanceId(idInstance);
         
@@ -58,11 +63,36 @@ public class TestSolution {
             }
         }
         
+        
         // On va tout mettre dans cette box
-      
+        TypeProduit p;
+      while(this.produitTest!= null)
+      {
+          //Recupérer premier élément liste 
+          //  p = this.produitTest.get(0);
+          
+          if (s.getListeBoxs() == null){
+            ContenuBox cb1 = new ContenuBox();
+            nbBox++;
+            s.setNbBoxs(nbBox);
+        }
+        //On remplit nos box
+        //if(p.getHproduit()<= boxMaxInstance.getHbox())
+        
+        //Des que la box est remplie
+        //s.Ajouter(cb1); // Créer fonction dans solution qui ajoute dans la liste
+         
+        
+        
+        // A décommenter des qu'on a résolu : Recupérer premier élément liste 
+        //this.produitTest.remove(p);
+          
+      }
+     
+      return s;
     }
     
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
         TestSolution te = new TestSolution();
         te.testSolution0(); 
     }
