@@ -32,8 +32,8 @@ public class ContenuBox implements Serializable{
     @Id
     private Long id;
     
-    @OneToMany(mappedBy="monContenuBox",cascade = CascadeType.PERSIST)
-    private List<PileProduit> maListeProduits;
+    /*@OneToMany(mappedBy="monContenuBox",cascade = CascadeType.PERSIST)
+    private List<PileProduit> maListeProduits;*/
 
     @OneToOne(mappedBy="monContenuBox")
     private TypeBox maBox;
@@ -44,12 +44,12 @@ public class ContenuBox implements Serializable{
      */
     public ContenuBox() {
         this.maBox = new TypeBox();
-        this.maListeProduits = new ArrayList<>();
+        //this.maListeProduits = new ArrayList<>();
     }
 
     public ContenuBox(List<PileProduit> maListeProduits, TypeBox maBox) {
         this();
-        this.maListeProduits = maListeProduits;
+        //this.maListeProduits = maListeProduits;
         this.maBox = maBox;
     }
 
@@ -62,12 +62,12 @@ public class ContenuBox implements Serializable{
     public void setId(Long id) {
         this.id = id;
     }
-    public List<PileProduit> getMaListeProduits() {
+    /*public List<PileProduit> getMaListeProduits() {
         return maListeProduits;
     }
     public void setMaListeProduits(List<PileProduit> maListeProduits) {
         this.maListeProduits = maListeProduits;
-    }
+    }*/
     public TypeBox getMaBox() {
         return maBox;
     }

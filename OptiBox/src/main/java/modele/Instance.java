@@ -6,6 +6,7 @@
 package modele;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -42,6 +43,8 @@ public class Instance implements Serializable {
     @OneToMany(mappedBy="instanceProd",cascade = CascadeType.PERSIST)
     private Collection<TypeProduit> setProduits;
    
+    @OneToMany(mappedBy="InstancePile",cascade = CascadeType.PERSIST)
+    private List<PileProduit> mesPilesProduits;
     
     /*
     * Contructeur par défaut de l'instance
@@ -50,6 +53,7 @@ public class Instance implements Serializable {
         this.nomInstance = "NOM INSTANCE";
         this.setBox = new HashSet<>();
         this.setProduits = new HashSet<>();
+        this.mesPilesProduits = new ArrayList<>();
     }
     
     /**
@@ -74,10 +78,17 @@ public class Instance implements Serializable {
         this.setProduits = setProduits;
     }
 
-    
+   
+
     /********************************************
      ************ GETTER ET SETTER **************
      *******************************************/
+    public void setMesPilesProduits(List<PileProduit> mesPilesProduits) {    
+        this.mesPilesProduits = mesPilesProduits;
+    }
+    public List<PileProduit> getMesPilesProduits() {
+        return mesPilesProduits;
+    }
     public String getNomInstance() {
         return nomInstance;
     }

@@ -20,15 +20,15 @@ import modele.*;
 /**
  *
  * @author agpou
- */
-public class AjoutSolution {
-    /**
-     * même principe que AjoutBDD()
-     * création d'une pile puis convertion en list pour pouvoir ajouter en bdd
-     * Soit un cast en list
-     * ou on parcout la pile et on met dans une liste
-     */
+ */    
+/**
+* même principe que AjoutBDD()
+* création d'une pile puis convertion en list pour pouvoir ajouter en bdd
+* Soit un cast en list
+* ou on parcout la pile et on met dans une liste
+*/
     
+public class AjoutSolution {
      public static void main(String[] args) {
         final EntityManagerFactory emf = Persistence.createEntityManagerFactory("OptiBoxPU");
         final EntityManager em = emf.createEntityManager();
@@ -60,21 +60,34 @@ public class AjoutSolution {
                 p1.setInstance(ins);
                 p3.setInstance(ins);
                 
-               /* Deque<TypeProduit> Pile1 = new ArrayDeque<TypeProduit>();
+                //probleme ici : on ne peut pas cast en list une pile
+                // creation de DequeToList et LisToDeque dans PileProduit
+                Deque<TypeProduit> Pile1 = new ArrayDeque<>();
                 Pile1.push(p2); Pile1.push(p1);
                 
-                Deque<TypeProduit> Pile2 = new ArrayDeque<TypeProduit>();
+                Deque<TypeProduit> Pile2 = new ArrayDeque<>();
                 Pile2.push(p3); Pile2.push(p4);
                 
-                PileProduit PileProd1 = new PileProduit((List<TypeProduit>) Pile1);
+                //on transforme la pile en liste
+                PileProduit PileProd1 = new PileProduit();
+                PileProd1.DequeToList(Pile1);
+               
                 p1.setPileProd(PileProd1);
                 p2.setPileProd(PileProd1);
                 
-                PileProduit PileProd2 = new PileProduit((List<TypeProduit>) Pile2);
+                //on transforme la pile en liste
+                PileProduit PileProd2 = new PileProduit();
+                PileProd2.DequeToList(Pile2);
+               
                 p3.setPileProd(PileProd2);
                 p4.setPileProd(PileProd2);
                 
-                ContenuBox cb1 = new ContenuBox();
+                PileProd2.setInstancePile(ins);
+                PileProd1.setInstancePile(ins);
+                
+                ins.getMesPilesProduits().add(PileProd2);
+                ins.getMesPilesProduits().add(PileProd1);
+                /*ContenuBox cb1 = new ContenuBox();
                 cb1.getMaListeProduits().add(PileProd1);
                 cb1.getMaListeProduits().add(PileProd2);
                 cb1.setMaBox(b1);
@@ -82,14 +95,16 @@ public class AjoutSolution {
                 
                 PileProd1.setMonContenuBox(cb1);
                 PileProd2.setMonContenuBox(cb1);
-*/
+*/              
                 em.persist(ins);
-                //em.persist(cb1);
+                em.persist(PileProd1);
+                em.persist(PileProd2);
                 
-                
+                System.out.println("Ajout dans la bdd réussi !!");
                 et.commit();
             } catch (Exception ex) {
                 et.rollback();
+                System.out.println("erreur : "+ex);
             }
         } finally {
             if (em != null && em.isOpen()) {

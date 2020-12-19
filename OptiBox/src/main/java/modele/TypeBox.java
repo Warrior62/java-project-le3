@@ -52,7 +52,7 @@ public class TypeBox implements Serializable {
     @JoinColumn(name="INSTANCE_BOX_ID")
     private Instance instanceBox;
     
-     @OneToOne
+    @OneToOne
     private ContenuBox monContenuBox;
     
     private Color couleur;
