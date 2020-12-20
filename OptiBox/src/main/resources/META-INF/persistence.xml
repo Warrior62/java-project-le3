@@ -6,6 +6,7 @@
     <class>modele.TypeProduit</class>
     <class>modele.ContenuBox</class>
     <class>modele.PileProduit</class>
+    <class>modele.Solution</class>
     <class>modele.Instance</class>
     <validation-mode>NONE</validation-mode>
     <properties>
@@ -13,7 +14,8 @@
       <property name="javax.persistence.jdbc.user" value="root"/>
       <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
       <property name="javax.persistence.jdbc.password" value="root"/>
-      <property name="eclipselink.ddl-generation" value="none"/>
+      <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
+      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
     </properties>
   </persistence-unit>
 </persistence>

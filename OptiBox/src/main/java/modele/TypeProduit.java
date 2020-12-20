@@ -64,6 +64,7 @@ public class TypeProduit implements Serializable {
         this.Hproduit = 0;
         this.NBproduit = 0;
         this.instanceProd = new Instance();
+        this.pileProd = new PileProduit();
         this.couleur = Color.BLACK;
     }
     

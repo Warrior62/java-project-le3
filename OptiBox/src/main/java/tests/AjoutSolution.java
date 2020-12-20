@@ -55,14 +55,16 @@ public class AjoutSolution {
                 ins.getSetProduits().add(p2);
                 ins.getSetProduits().add(p1);
                 ins.getSetProduits().add(p3);
+                ins.getSetProduits().add(p4);
 
                 p2.setInstance(ins);
                 p1.setInstance(ins);
                 p3.setInstance(ins);
+                p4.setInstance(ins);
                 
                 //probleme ici : on ne peut pas cast en list une pile
                 // creation de DequeToList et LisToDeque dans PileProduit
-                Deque<TypeProduit> Pile1 = new ArrayDeque<>();
+                /*Deque<TypeProduit> Pile1 = new ArrayDeque<>();
                 Pile1.push(p2); Pile1.push(p1);
                 
                 Deque<TypeProduit> Pile2 = new ArrayDeque<>();
@@ -70,24 +72,29 @@ public class AjoutSolution {
                 
                 //on transforme la pile en liste
                 PileProduit PileProd1 = new PileProduit();
-                PileProd1.DequeToList(Pile1);
+                PileProd1.DequeToList(Pile1);*/
                
+                List<TypeProduit> Pile1 = new ArrayList<>();
+                Pile1.add(p2); Pile1.add(p1);
+                PileProduit PileProd1 = new PileProduit();
+                PileProd1.setPileProduits(Pile1);
+                 
                 p1.setPileProd(PileProd1);
                 p2.setPileProd(PileProd1);
-                
-                //on transforme la pile en liste
+                System.out.println(p1.getPileProd().getPileProduits().size());
+
+                List<TypeProduit> Pile2= new ArrayList<>();
+                Pile2.add(p3); Pile2.add(p4);
                 PileProduit PileProd2 = new PileProduit();
-                PileProd2.DequeToList(Pile2);
+                PileProd2.setPileProduits(Pile2);
+                //on transforme la pile en liste
+                /*PileProduit PileProd2 = new PileProduit();
+                PileProd2.DequeToList(Pile2);*/
                
                 p3.setPileProd(PileProd2);
                 p4.setPileProd(PileProd2);
                 
-                PileProd2.setInstancePile(ins);
-                PileProd1.setInstancePile(ins);
-                
-                ins.getMesPilesProduits().add(PileProd2);
-                ins.getMesPilesProduits().add(PileProd1);
-                /*ContenuBox cb1 = new ContenuBox();
+                ContenuBox cb1 = new ContenuBox();
                 cb1.getMaListeProduits().add(PileProd1);
                 cb1.getMaListeProduits().add(PileProd2);
                 cb1.setMaBox(b1);
@@ -95,10 +102,15 @@ public class AjoutSolution {
                 
                 PileProd1.setMonContenuBox(cb1);
                 PileProd2.setMonContenuBox(cb1);
-*/              
-                em.persist(ins);
-                em.persist(PileProd1);
-                em.persist(PileProd2);
+                
+                Solution solu = new Solution("S001",10);
+                solu.getListeContenuBox().add(cb1);
+                
+                solu.setInstanceSolution(ins);
+                ins.setMaSolution(solu);
+           
+                //em.persist(ins);
+                em.persist(solu);
                 
                 System.out.println("Ajout dans la bdd réussi !!");
                 et.commit();

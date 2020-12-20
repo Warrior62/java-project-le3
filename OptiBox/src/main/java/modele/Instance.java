@@ -19,6 +19,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -43,8 +44,10 @@ public class Instance implements Serializable {
     @OneToMany(mappedBy="instanceProd",cascade = CascadeType.PERSIST)
     private Collection<TypeProduit> setProduits;
    
-    @OneToMany(mappedBy="InstancePile",cascade = CascadeType.PERSIST)
-    private List<PileProduit> mesPilesProduits;
+    @OneToOne
+    private Solution maSolution;
+    
+    
     
     /*
     * Contructeur par défaut de l'instance
@@ -53,7 +56,7 @@ public class Instance implements Serializable {
         this.nomInstance = "NOM INSTANCE";
         this.setBox = new HashSet<>();
         this.setProduits = new HashSet<>();
-        this.mesPilesProduits = new ArrayList<>();
+        //this.maSolution = new Solution();
     }
     
     /**
@@ -83,12 +86,6 @@ public class Instance implements Serializable {
     /********************************************
      ************ GETTER ET SETTER **************
      *******************************************/
-    public void setMesPilesProduits(List<PileProduit> mesPilesProduits) {    
-        this.mesPilesProduits = mesPilesProduits;
-    }
-    public List<PileProduit> getMesPilesProduits() {
-        return mesPilesProduits;
-    }
     public String getNomInstance() {
         return nomInstance;
     }
@@ -113,10 +110,11 @@ public class Instance implements Serializable {
     public void setSetProduits(Collection<TypeProduit> setProduits) {
         this.setProduits = setProduits;
     }  
-
-    @Override
-    public String toString() {
-        return nomInstance ;
+    public Solution getMaSolution() {
+        return maSolution;
+    }
+    public void setMaSolution(Solution maSolution) {
+        this.maSolution = maSolution;
     }
     
 }

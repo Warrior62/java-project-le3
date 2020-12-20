@@ -47,13 +47,12 @@ public class TypeBox implements Serializable {
             nullable=false)
      private double Prixbox;
 
-    //test afin de pouvoir utiliser le fichier readerInstance
     @ManyToOne
     @JoinColumn(name="INSTANCE_BOX_ID")
     private Instance instanceBox;
     
     @OneToOne
-    private ContenuBox monContenuBox;
+    private ContenuBox ContenuBox;
     
     private Color couleur;
     
@@ -66,6 +65,7 @@ public class TypeBox implements Serializable {
         this.Hbox = 0;
         this.Prixbox = 0;
         this.instanceBox = new Instance();
+        //this.ContenuBox = new ContenuBox();
         this.couleur = Color.BLUE;
     }
     
@@ -131,9 +131,9 @@ public class TypeBox implements Serializable {
         this.instanceBox = instanceBox;
     }
     public ContenuBox getMonContenuBox() {
-        return monContenuBox;
+        return ContenuBox;
     }
-    public void setMonContenuBox(ContenuBox monContenuBox) {
-        this.monContenuBox = monContenuBox;
+    public void setMonContenuBox(ContenuBox ContenuBox) {
+        this.ContenuBox = ContenuBox;
     }  
 }

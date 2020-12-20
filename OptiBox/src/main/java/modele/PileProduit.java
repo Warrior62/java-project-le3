@@ -15,6 +15,8 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -26,16 +28,14 @@ import javax.persistence.OneToMany;
 @Entity
 @Access(AccessType.FIELD)
 public class PileProduit implements Serializable {
-        private static final long serialVersionUID = 1L;
-
+    
+    private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    /*@ManyToOne
-    private ContenuBox monContenuBox;*/
-     
     @ManyToOne
-    private Instance InstancePile;
+    private ContenuBox monContenuBox;
     
     @OneToMany(mappedBy="pileProd",cascade = CascadeType.PERSIST)
     private List<TypeProduit> listeProduits;
@@ -44,6 +44,7 @@ public class PileProduit implements Serializable {
 
     public PileProduit() {
         this.listeProduits = new ArrayList<>();
+        //this.monContenuBox = new ContenuBox();
     }
 
     public PileProduit(List<TypeProduit> listeProduits) {
@@ -80,13 +81,6 @@ public class PileProduit implements Serializable {
         return pileP;
     }
 
-    public Instance getInstancePile() {
-        return InstancePile;
-    }
-
-    public void setInstancePile(Instance InstancePile) {
-        this.InstancePile = InstancePile;
-    }
 
     
     public Long getId() {
@@ -101,10 +95,10 @@ public class PileProduit implements Serializable {
     public void setPileProduits(List<TypeProduit> listeProduits) {
         this.listeProduits = listeProduits;
     }
-    /*public ContenuBox getMonContenuBox() {
+    public ContenuBox getMonContenuBox() {
         return monContenuBox;
     }
     public void setMonContenuBox(ContenuBox monContenuBox) {
         this.monContenuBox = monContenuBox;
-    } */
+    }
 }
