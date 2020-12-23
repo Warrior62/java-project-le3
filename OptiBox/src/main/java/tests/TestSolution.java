@@ -31,7 +31,7 @@ public class TestSolution {
 
     public TestSolution() {
         this.boxTest = new HashSet();
-        this.produitTest = new HashSet();
+        this.produitTest = new HashSet<>();
         this.boxMaxInstance= new TypeBox();
         
          initConnexion();
@@ -66,16 +66,20 @@ public class TestSolution {
         
         // On va tout mettre dans cette box
         TypeProduit p;
+        Object[] arrayItem = this.produitTest.toArray(); 
+        
       while(this.produitTest!= null)
       {
           //Recupérer premier élément liste 
-          //  p = this.produitTest.get(0);
+        
+            p = (TypeProduit) arrayItem[0];
+            //System.out.println(p.getLproduit());
           
-          if (s.getListeBoxs() == null){
+         /* if (s.getListeBoxs() == null){
             ContenuBox cb1 = new ContenuBox();
             nbBox++;
             s.setNbBoxs(nbBox);
-        }
+        }*/
         //On remplit nos box
         //if(p.getHproduit()<= boxMaxInstance.getHbox())
         
@@ -85,7 +89,7 @@ public class TestSolution {
         
         
         // A décommenter des qu'on a résolu : Recupérer premier élément liste 
-        //this.produitTest.remove(p);
+        this.produitTest.remove(p);
           
       }
      
