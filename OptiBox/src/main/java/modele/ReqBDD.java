@@ -179,8 +179,10 @@ public class ReqBDD {
             int l = res.getInt("LONGUEUR_PRODUIT");
             int nb= res.getInt("NB_PRODUITS");
             String idP= res.getString("ID_P");
+            int grp = res.getInt("GROUPE_PRODUITS");
             
             TypeProduit prod = new TypeProduit(idP,l,h,nb);
+            prod.setGrpProduit(grp);
             mesProd.add(prod);
             //System.out.println(box.getInstance().getNomInstance());
         }

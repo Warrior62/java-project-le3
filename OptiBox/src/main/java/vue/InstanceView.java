@@ -53,9 +53,19 @@ public class InstanceView extends javax.swing.JFrame {
     public InstanceView(Instance instance) {
         this();
         this.setTitle("Instance : "+instance.getNomInstance());
-
+        int oldGroup=-1; int actualGroup=-1;
+        Color couleur = null;
         for(TypeProduit p : instance.getSetProduits()){
-            p.setCouleur(RandomColor());
+            actualGroup = p.getGrpProduit();
+            System.out.println("old : "+ oldGroup);
+            System.out.println("actuel : "+ actualGroup);
+            //si le groupe du produit n'est pas le même que celui d'avant
+            if(oldGroup == -1 || oldGroup != actualGroup){
+                couleur = RandomColor();
+                System.out.println("iffffffffffffffffff");
+            }
+            oldGroup = actualGroup;
+            p.setCouleur(couleur);
         }
         this.zoneGraph.setListB(instance.getSetBox());
         this.zoneGraph.setListP(instance.getSetProduits());

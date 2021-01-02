@@ -128,7 +128,7 @@ public class InstanceReader {
             ////////////////////////////////////////////
             for(int nb=0;nb<elem.getQuantite();nb++){
                 TypeProduit p1 = new TypeProduit(elem.getIdentifiant(),elem.getLongueur(), elem.getHauteur(), elem.getQuantite());
-                System.out.println(elem.getLongueur()+" - "+elem.getHauteur());
+                //System.out.println(elem.getLongueur()+" - "+elem.getHauteur());
                 p1.setGrpProduit(cpt);
                 p1.setInstance(ins);
                 ins.getSetProduits().add(p1);
