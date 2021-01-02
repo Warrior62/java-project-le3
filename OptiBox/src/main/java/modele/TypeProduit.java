@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.io.Serializable;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -46,12 +47,16 @@ public class TypeProduit implements Serializable {
             nullable=false)
      private int NBproduit;
 
+    @Column(name="GROUPE_PRODUITS",
+            nullable=false)
+     private int GrpProduit;
+    
     //test afin de pouvoir utiliser le fichier readerInstance
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name="INSTANCE_PROD_ID")
     private Instance instanceProd;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private PileProduit pileProd;
     
      private Color couleur;
@@ -63,6 +68,7 @@ public class TypeProduit implements Serializable {
         this.Lproduit = 0;
         this.Hproduit = 0;
         this.NBproduit = 0;
+        this.GrpProduit = 0;
         this.instanceProd = new Instance();
         this.pileProd = new PileProduit();
         this.couleur = Color.BLACK;
@@ -70,6 +76,7 @@ public class TypeProduit implements Serializable {
     
     /**
      * Constructeur par données du type de produit
+     * @param idP
      * @param Lproduit : longueur du produit
      * @param Hproduit : hauteur du produit
      * @param NBproduit : quantité du produit
@@ -134,6 +141,12 @@ public class TypeProduit implements Serializable {
     }
     public void setPileProd(PileProduit pileProd) {
         this.pileProd = pileProd;
+    }
+    public int getGrpProduit() {
+        return GrpProduit;
+    }
+    public void setGrpProduit(int GrpProduit) {
+        this.GrpProduit = GrpProduit;
     }
     
 }

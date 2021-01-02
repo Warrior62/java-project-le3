@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.io.Serializable;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -47,11 +48,11 @@ public class TypeBox implements Serializable {
             nullable=false)
      private double Prixbox;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name="INSTANCE_BOX_ID")
     private Instance instanceBox;
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     private ContenuBox ContenuBox;
     
     private Color couleur;

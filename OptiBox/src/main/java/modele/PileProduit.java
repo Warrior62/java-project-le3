@@ -31,10 +31,10 @@ public class PileProduit implements Serializable {
     
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private ContenuBox monContenuBox;
     
     @OneToMany(mappedBy="pileProd",cascade = CascadeType.PERSIST)
@@ -44,7 +44,7 @@ public class PileProduit implements Serializable {
 
     public PileProduit() {
         this.listeProduits = new ArrayList<>();
-        //this.monContenuBox = new ContenuBox();
+        this.monContenuBox = new ContenuBox();
     }
 
     public PileProduit(List<TypeProduit> listeProduits) {

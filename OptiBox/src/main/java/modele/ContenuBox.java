@@ -29,16 +29,16 @@ public class ContenuBox implements Serializable{
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     @OneToMany(mappedBy="monContenuBox",cascade = CascadeType.PERSIST)
     private List<PileProduit> maPileDeProduits;
 
-    @OneToOne(mappedBy="ContenuBox")
+    @OneToOne(mappedBy="ContenuBox",cascade = CascadeType.PERSIST)
     private TypeBox maBox;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Solution nomSolution;
 
     /**
@@ -46,7 +46,7 @@ public class ContenuBox implements Serializable{
      * On initialise le Set
      */
     public ContenuBox() {
-        this.maBox = new TypeBox();
+        //this.maBox = new TypeBox();
         this.maPileDeProduits = new ArrayList<>();
         //this.nomSolution = new Solution();
     }
