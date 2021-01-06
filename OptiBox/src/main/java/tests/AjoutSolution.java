@@ -62,17 +62,6 @@ public class AjoutSolution {
                 p3.setInstance(ins);
                 p4.setInstance(ins);
                 
-                //probleme ici : on ne peut pas cast en list une pile
-                // creation de DequeToList et LisToDeque dans PileProduit
-                /*Deque<TypeProduit> Pile1 = new ArrayDeque<>();
-                Pile1.push(p2); Pile1.push(p1);
-                
-                Deque<TypeProduit> Pile2 = new ArrayDeque<>();
-                Pile2.push(p3); Pile2.push(p4);
-                
-                //on transforme la pile en liste
-                PileProduit PileProd1 = new PileProduit();
-                PileProd1.DequeToList(Pile1);*/
                
                 List<TypeProduit> Pile1 = new ArrayList<>();
                 Pile1.add(p2); Pile1.add(p1);
@@ -97,8 +86,8 @@ public class AjoutSolution {
                 ContenuBox cb1 = new ContenuBox();
                 cb1.getMaListeProduits().add(PileProd1);
                 cb1.getMaListeProduits().add(PileProd2);
-                cb1.setMaBox(b1);
-                b1.setMonContenuBox(cb1);
+                cb1.setMaTypeBox(b1);
+                b1.getListMesContenuBox().add(cb1);
                 
                 PileProd1.setMonContenuBox(cb1);
                 PileProd2.setMonContenuBox(cb1);
