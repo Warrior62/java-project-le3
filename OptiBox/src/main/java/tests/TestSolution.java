@@ -64,7 +64,8 @@ public class TestSolution {
         }
         
         
-        // On va tout mettre dans cette box
+        // On va tout mettre dans cette box !!! 
+        //UNE SEULE BOX D UTILE POUR LE TEST 0
         TypeProduit p;
         Object[] arrayItem = this.produitTest.toArray(); 
         
@@ -72,15 +73,34 @@ public class TestSolution {
       {
           //Recupérer premier élément liste 
         
-            p = (TypeProduit) arrayItem[0];
+        //    p = (TypeProduit) arrayItem[0];
             //System.out.println(p.getLproduit());
           
+          
+          // On regarde si la liste est vide on ajoute notre boite
          /* if (s.getListeBoxs() == null){
             ContenuBox cb1 = new ContenuBox();
             nbBox++;
             s.setNbBoxs(nbBox);
         }*/
+          
+          
         //On remplit nos box
+         // ETAPE 1 : prendre la box 0
+         //ETAPE 2 on regarde la première pile dans a box 
+          // on regarde si on peut empiler 
+          //si oui on sort de la boucle
+          //si non on continue on passe à la pile d'après 
+          
+          //ETAPE 3 : on ne peut pas mettre dans la box 0
+          // On passe à la box 1 et on répète jusqu'à temps que ca marche
+          
+          // Si on sort de la boucle sans avoir ajouté
+          // on crée une box et on l'ajoute dedans (on ajoute la box dans notre liste de box)
+          
+          
+          
+        //for()   
         //if(p.getHproduit()<= boxMaxInstance.getHbox())
         
         //Des que la box est remplie
