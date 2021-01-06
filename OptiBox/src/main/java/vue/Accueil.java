@@ -29,7 +29,7 @@ public class Accueil extends javax.swing.JFrame {
      * @throws java.lang.ClassNotFoundException
      * @throws java.sql.SQLException
      */
-    public Accueil() throws Exception{
+    public Accueil(){
         initComponents();
         initialisationFenetre();
         initConnexion();
@@ -42,7 +42,7 @@ public class Accueil extends javax.swing.JFrame {
         this.setVisible(true);
     }
        
-    private void initConnexion() throws Exception{
+    private void initConnexion(){
         try
         {
            this.requeteBDD = ReqBDD.getInstance(); 
@@ -152,11 +152,7 @@ public class Accueil extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                try {
-                    new Accueil();
-                } catch (Exception ex) {
-                    Logger.getLogger(Accueil.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                new Accueil();
             }
         });
     }

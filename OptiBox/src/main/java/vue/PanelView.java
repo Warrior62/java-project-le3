@@ -8,10 +8,10 @@ package vue;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import modele.TypeBox;
 import modele.TypeProduit;
 
@@ -21,8 +21,8 @@ import modele.TypeProduit;
  */
 public class PanelView extends javax.swing.JPanel {
     public Collection<TypeBox> listB = new HashSet<>();
-    public Collection<TypeProduit> listP = new HashSet<>();
-    private int echelle=3;
+    public List<TypeProduit> listP = new ArrayList<>();
+    private final int echelle=3;
     
     /**
      * Creates new form Test
@@ -74,7 +74,6 @@ public class PanelView extends javax.swing.JPanel {
             System.out.println(p.getLproduit());
             g.setColor(p.getCouleur());
             int nbProd = p.getNBproduit();
-            for(int nb=0;nb<nbProd;nb++){
                 if(x+p.getLproduit()/echelle >= sizeScreen){
                     x = 5;
                     y+=maxHeight+10;
@@ -83,7 +82,6 @@ public class PanelView extends javax.swing.JPanel {
                 g.fillRect(x,y,p.getLproduit()/echelle,p.getHproduit()/echelle);
                 if(maxHeight < p.getHproduit()/echelle )  maxHeight = p.getHproduit()/echelle;
                 x+=(p.getLproduit()/echelle)+10;
-            } 
         }
         System.out.println("Affichage des produits réussi !!");
     }
@@ -116,10 +114,10 @@ public class PanelView extends javax.swing.JPanel {
     public void setListB(Collection<TypeBox> listB) {
         this.listB = listB;
     }
-    public Collection<TypeProduit> getListP() {
+    public List<TypeProduit> getListP() {
         return listP;
     }
-    public void setListP(Collection<TypeProduit> listP) {
+    public void setListP(List<TypeProduit> listP) {
         this.listP = listP;
     }
     

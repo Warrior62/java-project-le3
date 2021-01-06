@@ -107,7 +107,9 @@ public class ReqBDD {
             ResultSet res = stmt.executeQuery(requete);
             
             Set<TypeBox> mesBox = new HashSet();
-            Set<TypeProduit> mesProd = new TreeSet();
+
+            List<TypeProduit> mesProd = new ArrayList();
+
             
             while(res.next()){
                 long id = res.getLong("ID");
@@ -168,25 +170,22 @@ public class ReqBDD {
      *       renvoie une ArrayList de TypeProduit vide
      * @return une List de TypeProduit dont l'id est idInstance
      */
-    public Set<TypeProduit> findProdByInstanceId(long idI) throws SQLException {
-
-        String requete = "SELECT * FROM TYPEPRODUIT WHERE INSTANCE_PROD_ID = ? ORDER BY LONGUEUR_PRODUIT DESC";
-
+    public List<TypeProduit> findProdByInstanceId(long idI) throws SQLException {
+        String requete = "SELECT * FROM TYPEPRODUIT WHERE INSTANCE_PROD_ID = ? ORDER BY GROUPE_PRODUITS";
         PreparedStatement pstmt = conn.prepareStatement(requete);
         pstmt.setLong(1,idI);
 
         ResultSet res = pstmt.executeQuery();
-        
-        // TRIER PRODUITS PAR LONGUEUR !!! TreeSet, sort, Collection???
-        Set<TypeProduit> mesProd = new HashSet(); 
+        List<TypeProduit> mesProd = new ArrayList();
         while(res.next()){
             int h = res.getInt("HAUTEUR_PRODUIT");
             int l = res.getInt("LONGUEUR_PRODUIT");
             int nb= res.getInt("NB_PRODUITS");
             String idP= res.getString("ID_P");
+            int grp = res.getInt("GROUPE_PRODUITS");
             
             TypeProduit prod = new TypeProduit(idP,l,h,nb);
-            //System.out.println(prod.getLproduit());
+            prod.setGrpProduit(grp);
             mesProd.add(prod);
             
             //System.out.println(box.getInstance().getNomInstance());

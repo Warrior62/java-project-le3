@@ -5,97 +5,99 @@
  */
 package modele;
 
-import static java.awt.image.ImageObserver.HEIGHT;
-import java.sql.SQLException;
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import javax.swing.JOptionPane;
-
+import java.util.List;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
- * @author tryla
+ * @author agpou
  */
-public class Solution {
-    private Collection<ContenuBox> listeBoxs;
+@Entity
+@Access(AccessType.FIELD)
+public class Solution implements Serializable {
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @Column(name="NOM_SOLUTION",
+            nullable=false)
     private String nomSolution;
-    private Integer prixFinal, nbBoxs;
-    private ReqBDD requeteBDD;
+    
+    @Column(name="PRIX_FINAL",
+            nullable=false)
+    private Integer prixFinal;
+    
+    @OneToMany(mappedBy="nomSolution",cascade = CascadeType.PERSIST)
+    private List<ContenuBox> listeContenuBox;
+    
+    @OneToOne(mappedBy="maSolution",cascade = CascadeType.PERSIST)
+    private Instance InstanceSolution;
 
-
-    public Solution() throws ClassNotFoundException, SQLException {
-        this.nomSolution = "DEFAULT_SOLUTION";
-        this.listeBoxs = new HashSet<ContenuBox>();
+    
+    public Solution() {
+        this.nomSolution = "S000";
         this.prixFinal = 0;
-        this.nbBoxs = this.listeBoxs.size();
-        initConnexion();
+        this.listeContenuBox = new ArrayList<>();
+       // this.InstanceSolution = new Instance();
     }
     
-    public Solution(Collection<ContenuBox> listeBoxs) throws ClassNotFoundException, SQLException {
+    public Solution(String nomSolution, Integer prixFinal) {
         this();
-        this.listeBoxs = listeBoxs;
+        this.nomSolution = nomSolution;
+        this.prixFinal = prixFinal;
     }
     
-    private void initConnexion() throws ClassNotFoundException, SQLException{
-        try
-        {
-           this.requeteBDD = ReqBDD.getInstance(); 
-        } catch(Exception ex){
-            System.err.println("Erreur connexion BDD : Solution");
-        }
+    public Solution(String nomSolution, Integer prixFinal, List<ContenuBox> listeContenuBox, Instance InstanceSolution) {
+        this();
+        this.nomSolution = nomSolution;
+        this.prixFinal = prixFinal;
+        this.listeContenuBox = listeContenuBox;
+        this.InstanceSolution = InstanceSolution;
     }
     
-    public void findSolution() throws SQLException, ClassNotFoundException{
-        for(TypeBox tb : requeteBDD.findBoxByInstanceId(7)){
-            System.out.println(tb.getPrixbox());
-        }
-        
-    }
-
-    public Collection<ContenuBox> getListeBoxs() {
-        return listeBoxs;
-    }
-
-    public void setListeBoxs(Collection<ContenuBox> listeBoxs) {
-        this.listeBoxs = listeBoxs;
-    }
+    
 
     public String getNomSolution() {
         return nomSolution;
     }
-
     public void setNomSolution(String nomSolution) {
         this.nomSolution = nomSolution;
     }
-
+    public List<ContenuBox> getListeContenuBox() {
+        return listeContenuBox;
+    }
+    public void setListeContenuBox(List<ContenuBox> listeContenuBox) {
+        this.listeContenuBox = listeContenuBox;
+    }
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
     public Integer getPrixFinal() {
         return prixFinal;
     }
-
     public void setPrixFinal(Integer prixFinal) {
         this.prixFinal = prixFinal;
     }
-
-    public Integer getNbBoxs() {
-        return nbBoxs;
+    public Instance getInstanceSolution() {
+        return InstanceSolution;
     }
-
-    public void setNbBoxs(Integer nbBoxs) {
-        this.nbBoxs = nbBoxs;
-    }
-    
-    
-    
-    public static void main(String[] args) throws ClassNotFoundException, SQLException, Exception {
-   /*     ReqBDD reqBDD = new ReqBDD();
-        Solution sol1 = new Solution(reqBDD.findBoxByInstanceId(7));
-        System.out.println("-------------- GET TB DATA --------------");
-        for(TypeBox tb : reqBDD.findBoxByInstanceId(7)){
-            System.out.println(tb.getHbox() + " " + tb.getLbox());
-        }
-        System.out.println("-------------- FIND SOLUTION --------------");
-        sol1.findSolution();*/
-    }
-    
+    public void setInstanceSolution(Instance InstanceSolution) {
+        this.InstanceSolution = InstanceSolution;
+    } 
+  
 }

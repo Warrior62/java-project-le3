@@ -7,11 +7,7 @@ package vue;
 
 import java.awt.Color;
 import static java.awt.image.ImageObserver.HEIGHT;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -37,14 +33,8 @@ public class GestionInstances extends javax.swing.JFrame {
         initListe();
     }
     
-    private void initConnexion(){
-        try
-        {
+    private void initConnexion() throws Exception{
            this.requeteBDD= ReqBDD.getInstance(); 
-        } catch(Exception ex){
-            JOptionPane.showMessageDialog(this,"Connexion à la bdd impossible, vérifiez que vous êtes connecté", "Erreur", HEIGHT);
-            this.dispose();
-        }
     }
     
     private void initialisationFenetre() {
@@ -56,8 +46,7 @@ public class GestionInstances extends javax.swing.JFrame {
     }
     
     
-    private void initListe(){
-        try{
+    private void initListe() throws Exception{
             DefaultListModel defm = new DefaultListModel();
             this.jListInstance.setModel(defm);
             ArrayList<Instance> listToIterateOn = (ArrayList<Instance>) this.requeteBDD.findAllInstances();
@@ -65,11 +54,6 @@ public class GestionInstances extends javax.swing.JFrame {
             for (Instance cli : listToIterateOn) {
                 defm.addElement(cli);
             }
-        }catch(Exception ex){
-            JOptionPane.showMessageDialog(this,"Erreur de chargement des instances", "Erreur", HEIGHT);
-            this.dispose();
-            Logger.getLogger(GestionInstances.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     /**
@@ -145,12 +129,11 @@ public class GestionInstances extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         if (jListInstance.getSelectedIndex()==-1){
-            System.out.println("RIEN DE CLIQUE");
+            //System.out.println("RIEN DE CLIQUE");
             JOptionPane.showMessageDialog(this,"Veuillez sélectionner une instance", "Erreur", HEIGHT);
-
         }
         else {
-                System.out.println("C BON " + jListInstance.getSelectedIndex());
+                //System.out.println("C BON " + jListInstance.getSelectedIndex());
                 Object obj = this.jListInstance.getModel().getElementAt(jListInstance.getSelectedIndex());
                 Instance instance = (Instance) obj;
                 InstanceView view = new InstanceView(instance);
@@ -188,11 +171,14 @@ public class GestionInstances extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+
                 try {
                     new GestionInstances();
                 } catch (Exception ex) {
                     Logger.getLogger(GestionInstances.class.getName()).log(Level.SEVERE, null, ex);
                 }
+
+
             }
         });
     }
