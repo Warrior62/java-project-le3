@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tests;
+package modele;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -106,7 +106,7 @@ public class ReqBDD {
             ResultSet res = stmt.executeQuery(requete);
             
             Set<TypeBox> mesBox = new HashSet();
-            Set<TypeProduit> mesProd = new HashSet();
+            List<TypeProduit> mesProd = new ArrayList();
             
             while(res.next()){
                 long id = res.getLong("ID");
@@ -137,7 +137,7 @@ public class ReqBDD {
      * @return une List de TypeBox dont l'id est idInstance
      */
     public Set<TypeBox> findBoxByInstanceId(long idI) throws SQLException {
-        String requete = "SELECT * FROM TYPEBOX WHERE INSTANCEBOX_ID = ? ORDER BY ID_B";
+        String requete = "SELECT * FROM TYPEBOX WHERE INSTANCE_BOX_ID = ? ORDER BY ID_B";
         PreparedStatement pstmt = conn.prepareStatement(requete);
         pstmt.setLong(1,idI);
 
@@ -167,20 +167,22 @@ public class ReqBDD {
      *       renvoie une ArrayList de TypeProduit vide
      * @return une List de TypeProduit dont l'id est idInstance
      */
-    public Set<TypeProduit> findProdByInstanceId(long idI) throws SQLException {
-        String requete = "SELECT * FROM TYPEPRODUIT WHERE INSTANCEPROD_ID = ? ORDER BY ID_P";
+    public List<TypeProduit> findProdByInstanceId(long idI) throws SQLException {
+        String requete = "SELECT * FROM TYPEPRODUIT WHERE INSTANCE_PROD_ID = ? ORDER BY GROUPE_PRODUITS";
         PreparedStatement pstmt = conn.prepareStatement(requete);
         pstmt.setLong(1,idI);
 
         ResultSet res = pstmt.executeQuery();
-        Set<TypeProduit> mesProd = new HashSet();
+        List<TypeProduit> mesProd = new ArrayList();
         while(res.next()){
             int h = res.getInt("HAUTEUR_PRODUIT");
             int l = res.getInt("LONGUEUR_PRODUIT");
             int nb= res.getInt("NB_PRODUITS");
             String idP= res.getString("ID_P");
+            int grp = res.getInt("GROUPE_PRODUITS");
             
             TypeProduit prod = new TypeProduit(idP,l,h,nb);
+            prod.setGrpProduit(grp);
             mesProd.add(prod);
             //System.out.println(box.getInstance().getNomInstance());
         }
@@ -254,17 +256,5 @@ public class ReqBDD {
         return new ArrayList<String>();
     }*/
     
-    public static void main(String[] args) throws SQLException, Exception {
-//        findInstanceByName("C001");
-     //     ReqBDD r = new ReqBDD();
-       //   Set<Instance> mySet = new HashSet();
-         // mySet = r.findAllInstances();
-//        for(Instance i : findAllInstances())
-//            System.out.println(i.getNom_instance());
-//        for(TypeBox tb : findBoxesByInstanceId(7))
-//            System.out.println(tb.getPrixbox());
-//        for(TypeProduit tp : findProductsByInstanceId(7))
-//            System.out.println(tp.getLproduit());
-        //System.out.println(findSmallestProduct(7).toString());
-    }
+
 }

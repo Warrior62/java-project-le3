@@ -7,14 +7,19 @@ package modele;
 
 import java.awt.Color;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -25,7 +30,6 @@ import javax.persistence.ManyToOne;
 public class TypeBox implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -46,9 +50,12 @@ public class TypeBox implements Serializable {
             nullable=false)
      private double Prixbox;
 
-    //test afin de pouvoir utiliser le fichier readerInstance
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name="INSTANCE_BOX_ID")
     private Instance instanceBox;
+    
+    @OneToMany(mappedBy="maTypeBox",cascade = CascadeType.PERSIST)
+    private List<ContenuBox> listMesContenuBox;
     
     private Color couleur;
     
@@ -60,6 +67,7 @@ public class TypeBox implements Serializable {
         this.Lbox = 0;
         this.Hbox = 0;
         this.Prixbox = 0;
+        this.listMesContenuBox = new ArrayList<>();
         this.instanceBox = new Instance();
         this.couleur = Color.BLUE;
     }
@@ -83,6 +91,12 @@ public class TypeBox implements Serializable {
     /********************************************
      ************ GETTER ET SETTER **************
      *******************************************/
+    public List<ContenuBox> getListMesContenuBox() {
+        return listMesContenuBox;
+    }
+    public void setListMesContenuBox(List<ContenuBox> listMesContenuBox) {    
+        this.listMesContenuBox = listMesContenuBox;
+    }
     public Instance getInstance() {
         return instanceBox;
     }
@@ -119,4 +133,11 @@ public class TypeBox implements Serializable {
     public void setCouleur(Color couleur) {
         this.couleur = couleur;
     }
+    public Instance getInstanceBox() {
+        return instanceBox;
+    }
+    public void setInstanceBox(Instance instanceBox) {
+        this.instanceBox = instanceBox;
+    }
+
 }
