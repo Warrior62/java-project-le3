@@ -9,6 +9,7 @@ import static java.awt.image.ImageObserver.HEIGHT;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -53,11 +54,8 @@ public class TestSolution {
     
     
     public List<TypeProduit> creerListeProduit(){
-         TypeProduit ProdMax;
-         
-        List<TypeProduit> listeProd = new ArrayList<>();
-        List<TypeProduit> listeProdTriee = new ArrayList<>();
         
+        List<TypeProduit> listeProd = new ArrayList<>();
         TypeProduit p1 =new TypeProduit("1",50,50,1); 
         TypeProduit p2 =new TypeProduit("2",30,60,1); 
         TypeProduit p3 =new TypeProduit("3",100,80,1); 
@@ -71,33 +69,11 @@ public class TestSolution {
         listeProd.add(p5);
         
         //Trier liste
-        /*on peut trier la liste comme ça :
-            Collections.sort(listeProd,(o1, o2)-> o1.getLproduit()-o2.getLproduit());
-        source : https://discord.com/channels/@me/704627618087043145/797384532017283113
-        */
-        while (listeProd.size() >0){
-           ProdMax= new TypeProduit();
-           
-            for(TypeProduit j : listeProd ){
-                if(j.getLproduit()>ProdMax.getLproduit()){
-                    ProdMax=j;
-                }
-                   
-            }
-            if(ProdMax.getLproduit() != 0)
-            {
-                listeProd.remove(ProdMax);
-                listeProdTriee.add(ProdMax);
-            }
-            
-            else{
-                System.out.println("Un Produit vaut 0 en longueur  !");
-                return null;
-            }
-            
-        }
+        //on peut trier la liste comme ça :
+            Collections.sort(listeProd,(o1, o2)-> o2.getLproduit()-o1.getLproduit());
+        //source : https://discord.com/channels/@me/704627618087043145/797384532017283113
         
-        return listeProdTriee;
+        return listeProd;
     }
     
     public List<TypeBox> creerListeBox(){
@@ -108,8 +84,11 @@ public class TestSolution {
         listBox.add(b2);
         listBox.add(b1);
         
+         Collections.sort(listBox,(o1, o2)-> o2.getLbox()*o2.getHbox()-o1.getLbox()*o1.getHbox());
+        
         return listBox;
     }
+    
     
     public Solution testSolution0() throws SQLException, ClassNotFoundException{
         
@@ -127,40 +106,30 @@ public class TestSolution {
       this.produitTest= creerListeProduit();
       this.boxTest=creerListeBox();
       
-      /*PB ICI : plus simple de trier la liste à l'envers (+ grand au + petit)
-      comme ça on récupère simplement la première et on l'utilise tout le temps
-      */
-        //On récupère la box la plus grande
-        for (TypeBox b : boxTest)
-        {
-            if(b.getLbox()*b.getHbox()>boxMaxInstance.getHbox()*boxMaxInstance.getLbox())
-            {
-                boxMaxInstance = b;
-            }
-        }
+       //On récupère la box la plus grande
+       // On va tout mettre dans cette box !!! 
+       //UNE SEULE BOX D UTILE POUR LE TEST 0
+      boxMaxInstance = this.boxTest.get(0);
+         
+      
+      //On crée déjà une boîte
+      
+        ContenuBox cb1 = new ContenuBox();
+        nbBox++;
+        cb1.setMaTypeBox(boxMaxInstance);
+        s.getListeContenuBox().add(cb1);
+        // s.setPrixFinal(boxMaxInstance.getPrixbox()); PRIX
+
         
-        // On va tout mettre dans cette box !!! 
-        //UNE SEULE BOX D UTILE POUR LE TEST 0
         
-      while(this.produitTest!= null)
+      while(this.produitTest.size()>0)
       {
           //Recupérer premier élément liste 
             TypeProduit p = this.produitTest.get(0);
           
-          /* PB ICI : il ne passe qu'une fois dans le if au démarrage
-            car après la liste ne vaut plus null donc on aura qu'une
-            seule ContenuBox dans la solution
-           */
-          // On regarde si la liste est vide on ajoute notre boite
-          if (s.getListeContenuBox()== null){
-            ContenuBox cb1 = new ContenuBox();
-            nbBox++;
-            cb1.setMaTypeBox(boxMaxInstance);
-            s.getListeContenuBox().add(cb1);
-            
-           // s.setPrixFinal(boxMaxInstance.getPrixbox()); PRIX
-        }
-          
+           System.out.println("Box: " +boxMaxInstance.getLbox()); 
+           System.out.println(p.getHproduit()+" Long:  "+p.getLproduit()); 
+   
          //On remplit nos box
          
          
@@ -175,11 +144,13 @@ public class TestSolution {
               if (c.getMaTypeBox().getLbox()>p.getLproduit() && c.getMaTypeBox().getHbox()>p.getHproduit())
               {
                   
-               
-                  if(c.getMaListeProduits()==null){
+                  System.out.println("On peut mettre le produit dans cette box");
+                  
+                  if(c.getMaListeProduits().size()==0){
                       PileProduit p1= new PileProduit();
                       p1.getPileProduits().add(p);
                       c.getMaListeProduits().add(p1);
+                      System.out.println("On peut ajouter le produit dans la box 1");
                       ProduitPlace= 1;
                   }
                   
@@ -189,7 +160,7 @@ public class TestSolution {
           //si non on continue on passe à la pile d'après 
         
                  // Si le produit est deja inséré, inutile qu'il recherche une pile
-            if (ProduitPlace == 0){     
+         /*   if (ProduitPlace == 0){     
             for(PileProduit pp : c.getMaListeProduits()) 
             {
                int hauteurMaxInserer =p.getHproduit();
@@ -229,7 +200,7 @@ public class TestSolution {
                c.getMaListeProduits().add((pp1));
                ProduitPlace=1;
             }
-            }
+            } */
             
               }
               else{
@@ -255,6 +226,7 @@ public class TestSolution {
             cb2.getMaListeProduits().add(pp1);
             s.getListeContenuBox().add(cb2);
             
+              System.out.println("On a ajouté le produit dans une nouvelle box");
               
           }
           
@@ -265,7 +237,7 @@ public class TestSolution {
         //Des que la box est remplie
         //s.Ajouter(cb1); // Créer fonction dans solution qui ajoute dans la liste
          
-        
+          System.out.println("Nombre de box crées: "+ nbBox);
         
         this.produitTest.remove(p);
           
