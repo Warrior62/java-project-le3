@@ -68,6 +68,12 @@ public class InstanceView extends javax.swing.JFrame {
             p.setCouleur(couleur);
         }
         this.zoneGraph.setListB(instance.getSetBox());
+        
+        
+        for( TypeProduit p : instance.getSetProduits())
+        //System.out.println(""+ p.getLproduit());
+        
+        
         this.zoneGraph.setListP(instance.getSetProduits());
         this.zoneGraph.repaint();
     }
