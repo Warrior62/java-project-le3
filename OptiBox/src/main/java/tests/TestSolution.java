@@ -59,7 +59,7 @@ public class TestSolution {
         TypeProduit p1 =new TypeProduit("1",50,50,1); 
         TypeProduit p2 =new TypeProduit("2",40,60,2); 
         TypeProduit p3 =new TypeProduit("3",100,80,1); 
-        TypeProduit p4 =new TypeProduit("4",20,20,20); 
+        TypeProduit p4 =new TypeProduit("4",20,20,50); 
         TypeProduit p5 =new TypeProduit("5",120,20,1);
         TypeProduit p6 =new TypeProduit("4",25,23,2); 
         TypeProduit p7 =new TypeProduit("4",100,75,2); 
@@ -84,6 +84,9 @@ public class TestSolution {
         List<TypeBox> listBox = new ArrayList<>();
         TypeBox b1= new TypeBox("1", 150, 150, 200);
         TypeBox b2 = new TypeBox("2", 130, 130, 130);
+        TypeBox b3 = new TypeBox("2", 120, 120, 120);
+        
+        listBox.add(b3);
         listBox.add(b2);
         listBox.add(b1);
         
@@ -168,7 +171,7 @@ public class TestSolution {
           {
               // ETAPE 1 : prendre la box 0
               
-              if (c.getMaTypeBox().getLbox()>p.getLproduit() && c.getMaTypeBox().getHbox()>p.getHproduit())
+              if (c.getMaTypeBox().getLbox()>=p.getLproduit() && c.getMaTypeBox().getHbox()>=p.getHproduit())
               {
                   
                   System.out.println("On peut mettre le produit dans la box");
@@ -355,7 +358,7 @@ public class TestSolution {
           {
               // ETAPE 1 : prendre la box 0
               
-              if (c.getMaTypeBox().getLbox()>p.getLproduit() && c.getMaTypeBox().getHbox()>p.getHproduit())
+              if (c.getMaTypeBox().getLbox()>=p.getLproduit() && c.getMaTypeBox().getHbox()>=p.getHproduit())
               {
                   
                  //On peut mettre le produit dans la box
