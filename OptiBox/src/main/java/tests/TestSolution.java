@@ -8,6 +8,7 @@ package tests;
 import static java.awt.image.ImageObserver.HEIGHT;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -70,6 +71,10 @@ public class TestSolution {
         listeProd.add(p5);
         
         //Trier liste
+        /*on peut trier la liste comme ça :
+            Collections.sort(listeProd,(o1, o2)-> o1.getLproduit()-o2.getLproduit());
+        source : https://discord.com/channels/@me/704627618087043145/797384532017283113
+        */
         while (listeProd.size() >0){
            ProdMax= new TypeProduit();
            
@@ -80,8 +85,9 @@ public class TestSolution {
                    
             }
             if(ProdMax.getLproduit() != 0)
-            {listeProd.remove(ProdMax);
-            listeProdTriee.add(ProdMax);
+            {
+                listeProd.remove(ProdMax);
+                listeProdTriee.add(ProdMax);
             }
             
             else{
@@ -121,6 +127,9 @@ public class TestSolution {
       this.produitTest= creerListeProduit();
       this.boxTest=creerListeBox();
       
+      /*PB ICI : plus simple de trier la liste à l'envers (+ grand au + petit)
+      comme ça on récupère simplement la première et on l'utilise tout le temps
+      */
         //On récupère la box la plus grande
         for (TypeBox b : boxTest)
         {
@@ -138,9 +147,11 @@ public class TestSolution {
           //Recupérer premier élément liste 
             TypeProduit p = this.produitTest.get(0);
           
-          
+          /* PB ICI : il ne passe qu'une fois dans le if au démarrage
+            car après la liste ne vaut plus null donc on aura qu'une
+            seule ContenuBox dans la solution
+           */
           // On regarde si la liste est vide on ajoute notre boite
-          
           if (s.getListeContenuBox()== null){
             ContenuBox cb1 = new ContenuBox();
             nbBox++;
