@@ -59,7 +59,7 @@ public class TestSolution {
         TypeProduit p1 =new TypeProduit("1",50,50,1); 
         TypeProduit p2 =new TypeProduit("2",40,60,2); 
         TypeProduit p3 =new TypeProduit("3",100,80,1); 
-        TypeProduit p4 =new TypeProduit("4",20,20,2); 
+        TypeProduit p4 =new TypeProduit("4",20,20,20); 
         TypeProduit p5 =new TypeProduit("5",120,20,1);
         TypeProduit p6 =new TypeProduit("4",25,23,2); 
         TypeProduit p7 =new TypeProduit("4",100,75,2); 
@@ -118,11 +118,10 @@ public class TestSolution {
     }
     
     public Solution testSolution0() throws SQLException, ClassNotFoundException{
-        
+        int idInstance = 1;
         int nbBox = 0;
         Solution s = new Solution();
-        
-        
+                
       //Si on veut récup de la bdd  
       //long idInstance=1;
       //  this.produitTest= re.findProdByInstanceId(idInstance);
@@ -289,8 +288,205 @@ public class TestSolution {
     }
     
     
+    
+    public Solution testSolution1() throws SQLException, ClassNotFoundException{
+        
+        int nbBox = 0;
+        Solution solutionOpti = new Solution();
+        solutionOpti.setPrixFinal(Integer.MAX_VALUE);
+        
+      //Si on veut récup de la bdd  
+      //long idInstance=1;
+      //  this.produitTest= re.findProdByInstanceId(idInstance);
+      //  this.boxTest= re.findBoxByInstanceId(idInstance);
+       
+      
+      
+      // On récupère les produits triés selon la longueur !
+      
+      this.boxTest=creerListeBox();
+      
+       
+      
+      for (TypeBox boxMaxInstance : this.boxTest)
+      {
+       //On utilise plusieurs Box 
+       //On va tester la solution avec plusieurs box en boxMaxInstance
+       // Celui qui coutera le moins cher au final sera conservé
+      //On crée la solution
+         
+        Solution s =new Solution();  
+        int prixFinal=0;
+        
+      // On récupère les produits triés selon la longueur !  
+        this.produitTest= creerListeProduit();
+            
+      //On crée déjà une boîte
+      
+        ContenuBox cb1 = new ContenuBox();
+        nbBox++;
+        cb1.setMaTypeBox(boxMaxInstance);
+        s.getListeContenuBox().add(cb1);
+        prixFinal += boxMaxInstance.getPrixbox();
+        s.setPrixFinal(prixFinal); 
+
+        
+        
+      while(this.produitTest.size()>0)
+      {
+          
+          //Recupérer premier élément liste 
+            TypeProduit p = this.produitTest.get(0);
+          System.out.println(" ");
+           System.out.println("Box: Longueur " +boxMaxInstance.getLbox()+ " Hauteur : "+boxMaxInstance.getHbox() ); 
+           System.out.println("Produit: Hauteur : "+  p.getHproduit()+" Longueur :  "+p.getLproduit()); 
+   
+         //On remplit nos box
+         
+         
+         // On met un flag pour savoir si il est placé
+         int ProduitPlace=0;
+          
+         
+          for(ContenuBox c : s.getListeContenuBox())
+          {
+              // ETAPE 1 : prendre la box 0
+              
+              if (c.getMaTypeBox().getLbox()>p.getLproduit() && c.getMaTypeBox().getHbox()>p.getHproduit())
+              {
+                  
+                  System.out.println("On peut mettre le produit dans la box");
+                  
+                  if(c.getMaListeProduits().size()==0){
+                      PileProduit p1= new PileProduit();
+                      p1.getPileProduits().add(p);
+                      c.getMaListeProduits().add(p1);
+                      System.out.println("On ajoute le produit dans la box crée au début");
+                      ProduitPlace= 1;
+                  }
+                  
+                  //ETAPE 2 on regarde la première pile dans a box 
+          // on regarde si on peut empiler 
+          //si oui on sort de la boucle
+          //si non on continue on passe à la pile d'après 
+        
+                 // Si le produit est deja inséré, inutile qu'il recherche une pile
+            if (ProduitPlace == 0){ 
+                System.out.println("On regarde la pile du contenuBox sa taille est de "+c.getMaListeProduits().get(0).getPileProduits().size());
+           for(PileProduit pp : c.getMaListeProduits()) 
+           {
+              
+                
+               int hauteurMaxInserer =p.getHproduit();
+               TypeProduit produitHauteur = new TypeProduit();
+               
+                for (TypeProduit prodPile : pp.getPileProduits()){
+                  
+                    //System.out.println("Je suis un élément de la pile");
+                hauteurMaxInserer += prodPile.getHproduit();
+                
+                //on récupère l'élément le plus haut
+                produitHauteur=prodPile;
+                }
+                if( produitHauteur.getLproduit() >= p.getLproduit() && hauteurMaxInserer <= c.getMaTypeBox().getHbox())
+                {
+                    pp.getPileProduits().add(p);
+                    System.out.println("On peux ajouter dans la pile ");
+                    ProduitPlace=1;
+                }
+                    
+                
+                                
+            }
+            
+                 }
+            
+            
+            //On sort de la boucle qui vérifie chaque pile 
+            //Maintenant on revérifie si le p a été ajouté
+            // Le produit n'a pas été ajouté dans les piles existantes de la box
+            //On regarde si on peut en créer une et l'insérer dans la box
+            if (ProduitPlace == 0){
+                
+                int longueurRestante=0;
+                for (PileProduit ppCalc : c.getMaListeProduits())
+                {
+                    longueurRestante += ppCalc.getPileProduits().get(0).getLproduit();
+                }
+                
+            if ((c.getMaTypeBox().getLbox()-longueurRestante)>=p.getLproduit())
+            {
+               PileProduit pp1= new PileProduit();
+               pp1.getPileProduits().add(p);
+               c.getMaListeProduits().add((pp1));
+               ProduitPlace=1;
+            }
+            else{
+                System.out.println("On ne peut pas créer de nouvelle pile dans la box avec pour base le produit");
+            }
+            } 
+            
+              }
+              else{
+                  System.out.println("Ajout Impossible, Un des produits ne peut pas rentrer dans la boîte");
+                  return null;
+              }
+              
+          }
+          
+          //ETAPE 3 : on ne peut pas mettre dans la box 0
+          // On passe à la box 1 et on répète jusqu'à temps que ca marche
+          //BOUCLE FOR QUI FAIT CA
+          
+          // Si on sort de la boucle sans avoir ajouté
+          // on crée une box et on l'ajoute dedans (on ajoute la box dans notre liste de box)
+          if (ProduitPlace ==0){
+              
+               ContenuBox cb2 = new ContenuBox();
+               cb2.setMaTypeBox(boxMaxInstance);
+            nbBox++;
+            PileProduit pp1= new PileProduit();
+            pp1.getPileProduits().add(p);
+            cb2.getMaListeProduits().add(pp1);
+            s.getListeContenuBox().add(cb2);
+            prixFinal += boxMaxInstance.getPrixbox();
+            s.setPrixFinal(prixFinal); 
+            
+              System.out.println("On a ajouté le produit dans une nouvelle box");
+              
+          }
+          
+        System.out.println("Nombre de box crées: "+ nbBox);
+        
+        //Ici si la quantité égale 1 on supprime le produit sinon on baisse sa quantité de 1
+        if (p.getNBproduit()==1){  
+        this.produitTest.remove(p);
+        }
+        else{
+            int nombreProd=p.getNBproduit();
+            nombreProd--;
+            p.setNBproduit(nombreProd);
+        }
+      }
+      
+        System.out.println(" ");
+          System.out.println("Prix solution : "+s.getPrixFinal());
+          System.out.println("Prix solution optimale : "+solutionOpti.getPrixFinal());
+          
+      if(s.getPrixFinal()<solutionOpti.getPrixFinal())
+      {
+          solutionOpti=s;
+          
+      }
+      
+      }
+        
+       afficherResultat(solutionOpti);
+      return solutionOpti;
+    }
+    
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         TestSolution te = new TestSolution();
-        te.testSolution0(); 
+        te.testSolution1(); 
     }
 }
