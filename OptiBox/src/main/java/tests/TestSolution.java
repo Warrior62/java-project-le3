@@ -270,7 +270,7 @@ public class TestSolution {
               
           }
           
-        System.out.println("Nombre de box crées: "+ nbBox);
+        
         
         //Ici si la quantité égale 1 on supprime le produit sinon on baisse sa quantité de 1
         if (p.getNBproduit()==1){  
@@ -291,7 +291,7 @@ public class TestSolution {
     
     public Solution testSolution1() throws SQLException, ClassNotFoundException{
         
-        int nbBox = 0;
+
         Solution solutionOpti = new Solution();
         solutionOpti.setPrixFinal(Integer.MAX_VALUE);
         
@@ -310,13 +310,17 @@ public class TestSolution {
       
       for (TypeBox boxMaxInstance : this.boxTest)
       {
+          
+      System.out.println(" ");
+      System.out.println("Box: Longueur " +boxMaxInstance.getLbox()+ " Hauteur : "+boxMaxInstance.getHbox() );  
        //On utilise plusieurs Box 
        //On va tester la solution avec plusieurs box en boxMaxInstance
        // Celui qui coutera le moins cher au final sera conservé
       //On crée la solution
          
         Solution s =new Solution();  
-        int prixFinal=0;
+        int prixFinal=0; 
+        int nbBox = 0;
         
       // On récupère les produits triés selon la longueur !  
         this.produitTest= creerListeProduit();
@@ -338,7 +342,6 @@ public class TestSolution {
           //Recupérer premier élément liste 
             TypeProduit p = this.produitTest.get(0);
           System.out.println(" ");
-           System.out.println("Box: Longueur " +boxMaxInstance.getLbox()+ " Hauteur : "+boxMaxInstance.getHbox() ); 
            System.out.println("Produit: Hauteur : "+  p.getHproduit()+" Longueur :  "+p.getLproduit()); 
    
          //On remplit nos box
@@ -355,13 +358,13 @@ public class TestSolution {
               if (c.getMaTypeBox().getLbox()>p.getLproduit() && c.getMaTypeBox().getHbox()>p.getHproduit())
               {
                   
-                  System.out.println("On peut mettre le produit dans la box");
+                 //On peut mettre le produit dans la box
                   
+                  //On ajoute le produit dans la box crée au début
                   if(c.getMaListeProduits().size()==0){
                       PileProduit p1= new PileProduit();
                       p1.getPileProduits().add(p);
                       c.getMaListeProduits().add(p1);
-                      System.out.println("On ajoute le produit dans la box crée au début");
                       ProduitPlace= 1;
                   }
                   
@@ -372,7 +375,7 @@ public class TestSolution {
         
                  // Si le produit est deja inséré, inutile qu'il recherche une pile
             if (ProduitPlace == 0){ 
-                System.out.println("On regarde la pile du contenuBox sa taille est de "+c.getMaListeProduits().get(0).getPileProduits().size());
+                //System.out.println("On regarde la pile du contenuBox sa taille est de "+c.getMaListeProduits().get(0).getPileProduits().size());
            for(PileProduit pp : c.getMaListeProduits()) 
            {
               
@@ -390,8 +393,7 @@ public class TestSolution {
                 }
                 if( produitHauteur.getLproduit() >= p.getLproduit() && hauteurMaxInserer <= c.getMaTypeBox().getHbox())
                 {
-                    pp.getPileProduits().add(p);
-                    System.out.println("On peux ajouter dans la pile ");
+                    pp.getPileProduits().add(p);                    
                     ProduitPlace=1;
                 }
                     
@@ -470,6 +472,7 @@ public class TestSolution {
       }
       
         System.out.println(" ");
+        System.out.println("Nombre de box crées avec cette solution : "+ nbBox);
           System.out.println("Prix solution : "+s.getPrixFinal());
           System.out.println("Prix solution optimale : "+solutionOpti.getPrixFinal());
           
