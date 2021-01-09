@@ -160,23 +160,33 @@ public class TestSolution {
           //si non on continue on passe à la pile d'après 
         
                  // Si le produit est deja inséré, inutile qu'il recherche une pile
-         /*   if (ProduitPlace == 0){     
-            for(PileProduit pp : c.getMaListeProduits()) 
-            {
+            if (ProduitPlace == 0){ 
+                System.out.println("On regarde la pile sa taille est de "+c.getMaListeProduits().get(0).getPileProduits().size());
+      //     for(PileProduit pp : c.getMaListeProduits()) 
+      //      {
+                PileProduit pp = c.getMaListeProduits().get(0);
+                
                int hauteurMaxInserer =p.getHproduit();
+               TypeProduit produitHauteur = new TypeProduit();
                
                 for (TypeProduit prodPile : pp.getPileProduits()){
-                   
+                  
+                    //System.out.println("Je suis un élément de la pile");
                 hauteurMaxInserer += prodPile.getHproduit();
-                if( prodPile.getLproduit() > p.getLproduit() && hauteurMaxInserer < c.getMaTypeBox().getHbox())
+                
+                //on récupère l'élément le plus haut
+                produitHauteur=prodPile;
+                }
+                if( produitHauteur.getLproduit() >= p.getLproduit() && hauteurMaxInserer <= c.getMaTypeBox().getHbox())
                 {
                     pp.getPileProduits().add(p);
+                    System.out.println("On peux ajouter dans la pile");
                     ProduitPlace=1;
                 }
                     
-                }
+                
                                 
-            }
+       //     }
             
                  
                  }
@@ -186,7 +196,7 @@ public class TestSolution {
             //Maintenant on revérifie si le p a été ajouté
             // Le produit n'a pas été ajouté dans les piles existantes de la box
             //On regarde si on peut en créer une et l'insérer dans la box
-            if (ProduitPlace == 0){
+      /*      if (ProduitPlace == 0){
                 int longueurRestante=0;
                 for (PileProduit ppCalc : c.getMaListeProduits())
                 {
