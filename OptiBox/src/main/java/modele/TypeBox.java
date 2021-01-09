@@ -67,6 +67,7 @@ public class TypeBox implements Serializable {
         this.Lbox = 0;
         this.Hbox = 0;
         this.Prixbox = 0;
+        this.idB = "DEFAULT_ID";
         this.listMesContenuBox = new ArrayList<>();
         this.instanceBox = new Instance();
         this.couleur = Color.BLUE;
@@ -102,6 +103,7 @@ public class TypeBox implements Serializable {
     }
     public void setInstance(Instance C_instance) {
         this.instanceBox = C_instance;
+        C_instance.getSetBox().add(this);
     }
     public int getLbox() {
         return Lbox;

@@ -105,8 +105,8 @@ public class ReqBDD {
             Statement stmt = conn.createStatement();
             ResultSet res = stmt.executeQuery(requete);
             
-            Set<TypeBox> mesBox = new HashSet();
-            List<TypeProduit> mesProd = new ArrayList();
+            List<TypeBox> mesBox = new ArrayList<>();
+            List<TypeProduit> mesProd = new ArrayList<>();
             
             while(res.next()){
                 long id = res.getLong("ID");
@@ -136,13 +136,13 @@ public class ReqBDD {
      *       renvoie une ArrayList de TypeBox vide
      * @return une List de TypeBox dont l'id est idInstance
      */
-    public Set<TypeBox> findBoxByInstanceId(long idI) throws SQLException {
+    public List<TypeBox> findBoxByInstanceId(long idI) throws SQLException {
         String requete = "SELECT * FROM TYPEBOX WHERE INSTANCE_BOX_ID = ? ORDER BY ID_B";
         PreparedStatement pstmt = conn.prepareStatement(requete);
         pstmt.setLong(1,idI);
 
         ResultSet res = pstmt.executeQuery();
-        Set<TypeBox> mesBox = new HashSet();
+        List<TypeBox> mesBox = new ArrayList<>();
         while(res.next()){
             int h = res.getInt("HAUTEUR_BOX");
             int l = res.getInt("LONGUEUR_BOX");
@@ -173,7 +173,7 @@ public class ReqBDD {
         pstmt.setLong(1,idI);
 
         ResultSet res = pstmt.executeQuery();
-        List<TypeProduit> mesProd = new ArrayList();
+        List<TypeProduit> mesProd = new ArrayList<>();
         while(res.next()){
             int h = res.getInt("HAUTEUR_PRODUIT");
             int l = res.getInt("LONGUEUR_PRODUIT");

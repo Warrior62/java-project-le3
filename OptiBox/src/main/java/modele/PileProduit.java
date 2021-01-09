@@ -100,5 +100,6 @@ public class PileProduit implements Serializable {
     }
     public void setMonContenuBox(ContenuBox monContenuBox) {
         this.monContenuBox = monContenuBox;
+        monContenuBox.getMaListeProduits().add(this);
     }
 }

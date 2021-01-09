@@ -46,7 +46,7 @@ public class ContenuBox implements Serializable{
      * On initialise le Set
      */
     public ContenuBox() {
-        //this.maBox = new TypeBox();
+        //this.maTypeBox = new TypeBox();
         this.maPileDeProduits = new ArrayList<>();
         //this.nomSolution = new Solution();
     }
@@ -71,6 +71,7 @@ public class ContenuBox implements Serializable{
     }
     public void setNomSolution(Solution nomSolution) {
         this.nomSolution = nomSolution;
+        nomSolution.getListeContenuBox().add(this);
     }
     public Long getId() {
         return id;
@@ -89,6 +90,7 @@ public class ContenuBox implements Serializable{
     }
     public void setMaTypeBox(TypeBox maTypeBox) {
         this.maTypeBox = maTypeBox;
+        maTypeBox.getListMesContenuBox().add(this);
     }
  
 }

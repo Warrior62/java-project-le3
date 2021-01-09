@@ -39,7 +39,7 @@ public class Instance implements Serializable {
     private String nomInstance;
     
     @OneToMany(mappedBy="instanceBox",cascade = CascadeType.PERSIST)
-    private Collection<TypeBox> setBox;
+    private List<TypeBox> setBox;
 
     @OneToMany(mappedBy="instanceProd",cascade = CascadeType.PERSIST)
     private List<TypeProduit> setProduits;
@@ -54,7 +54,7 @@ public class Instance implements Serializable {
     */
     public Instance() {
         this.nomInstance = "NOM INSTANCE";
-        this.setBox = new HashSet<>();
+        this.setBox = new ArrayList<>();
         this.setProduits = new ArrayList<>();
         //this.maSolution = new Solution();
     }
@@ -74,7 +74,7 @@ public class Instance implements Serializable {
      * @param setBox : liste de TypeBox
      * @param setProduits : liste de TypeProduit
      */
-    public Instance(String nomInstance, Collection<TypeBox> setBox, List<TypeProduit> setProduits) {
+    public Instance(String nomInstance, List<TypeBox> setBox, List<TypeProduit> setProduits) {
         this();
         this.nomInstance = nomInstance;
         this.setBox = setBox;
@@ -95,10 +95,12 @@ public class Instance implements Serializable {
     public void setNomInstance(String nomInstance) {
         this.nomInstance = nomInstance;
     }
-    public Collection<TypeBox> getSetBox() {
+
+    public List<TypeBox> getSetBox() {
         return setBox;
     }
-    public void setSetBox(Collection<TypeBox> setBox) {
+
+    public void setSetBox(List<TypeBox> setBox) {
         this.setBox = setBox;
     }
     public Long getId() {
