@@ -15,11 +15,6 @@ import java.util.Collection;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.Random;
-import modele.Algorithme;
-import modele.ContenuBox;
-import modele.Instance;
-import modele.PileProduit;
-import modele.Solution;
 import modele.TypeBox;
 import modele.TypeProduit;
 
@@ -65,117 +60,69 @@ public class PanelPile extends javax.swing.JPanel {
 
         System.out.println("size screen :"+sizeScreen);
         
-       
-        
-        TypeProduit p1 = new TypeProduit("P001_0",200,300,4);    
-        TypeProduit p2 = new TypeProduit("P001_1",200,300,4);    
-        TypeProduit p3 = new TypeProduit("P001_2",200,300,4);  
-        
-        TypeProduit p4 = new TypeProduit("P002_0",23,50,2);
-        
-        TypeProduit p5 = new TypeProduit("P003_0",90,290,2);
-        
-        TypeProduit p6 = new TypeProduit("P004_0",300,160,1);
-        
-        TypeProduit p7 = new TypeProduit("P005_0",250,100,1);
-        
-        TypeProduit p8 = new TypeProduit("P006_0",100,100,4);    
-        TypeProduit p9 = new TypeProduit("P006_1",100,100,4);    
-        TypeProduit p10 = new TypeProduit("P006_2",100,100,4);  
-        TypeProduit p11 = new TypeProduit("P006_3",100,100,4);
-        
-        TypeProduit p12 = new TypeProduit("P007_1",90,230,1);
-        
-        TypeProduit p13 = new TypeProduit("P008_0",80,150,3);
-        TypeProduit p14 = new TypeProduit("P008_1",80,150,3);
-        TypeProduit p15 = new TypeProduit("P008_2",80,150,3);
-        
-        TypeProduit p16 = new TypeProduit("P009_0",120,170,2);
-        TypeProduit p17 = new TypeProduit("P009_1",120,170,2);
-        
-        TypeProduit p18 = new TypeProduit("P0010_0",160,160,1);
-        
-        TypeProduit p19 = new TypeProduit("P0011_0",330,220,2);
-        TypeProduit p20 = new TypeProduit("P0012_0",330,220,2);
+        Deque<TypeProduit> pileProd = new ArrayDeque<TypeProduit>();
+        Deque<TypeProduit> pileProd2 = new ArrayDeque<TypeProduit>();
 
-        //création d'une TypeBox
-        TypeBox b1 = new TypeBox("B001",40,20,8);
-        TypeBox b2 = new TypeBox("B002",300,200,8);
-        TypeBox b3 = new TypeBox("B003",400,300,10);
+        TypeProduit p1 = new TypeProduit("P001",100,100,1);    
+        TypeProduit p2 = new TypeProduit("P002",220,80,1);
+        TypeProduit p3 = new TypeProduit("P003",260,120,1);
+        pileProd.push(p3); pileProd.push(p2); pileProd.push(p1);
 
-
-        //on crée une instance dans laquelle on ajoute les TypeBox et TypeProduits
-        Instance ins = new Instance("I1000");
-        //liste de box dans instance
-        b1.setInstance(ins);
-        b2.setInstance(ins);
-        b3.setInstance(ins);
-        //liste de produits dans l'instance, liste qui n'est pas triée
-        p1.setInstance(ins);
-        p2.setInstance(ins);
-        p3.setInstance(ins);
-        p4.setInstance(ins);
-        p5.setInstance(ins);
-        p6.setInstance(ins);
-        p7.setInstance(ins);
-        p8.setInstance(ins);
-        p9.setInstance(ins);
-        p10.setInstance(ins);
-        p11.setInstance(ins);
-        p12.setInstance(ins);
-        p13.setInstance(ins);
-        p14.setInstance(ins);
-        p15.setInstance(ins);
-        p16.setInstance(ins);
-        p17.setInstance(ins);
-        p18.setInstance(ins);
-        p19.setInstance(ins);
-        p20.setInstance(ins);
-        
-        Solution sol_final = Algorithme.algorithme(ins);
+        TypeProduit p4 = new TypeProduit("P004",160,70,1);    
+        TypeProduit p5 = new TypeProduit("P005",220,50,1);
+        TypeProduit p6 = new TypeProduit("P006",300,90,1);
+        pileProd2.push(p6); pileProd2.push(p5); pileProd2.push(p4);
         
         
+        TypeBox b1 = new TypeBox("B001",600,320,8);
         
-
-        /*g.setColor(Color.blue);
+        g.setColor(Color.blue);
         g.drawRect(x,y,b1.getLbox(),b1.getHbox());
-        y+=b1.getHbox();*/
-        int maxW = 0,maxHeight =0, positionRef=0, y2=0, x2=0;
-        for(ContenuBox cb : sol_final.getListeContenuBox()){
-            //System.out.println("ContenuBox");
-            g.setColor(Color.blue);
-            //si la box dépasse en largeur de l'écran du pc 
-            if(x+cb.getMaTypeBox().getLbox() > sizeScreen){
-                y = positionRef + maxHeight+10;
-                x=50;
-                //System.out.println("passer la ");
-            }
-            g.drawRect(x,y-1,cb.getMaTypeBox().getLbox(),cb.getMaTypeBox().getHbox()+1);
-            if(maxHeight < cb.getMaTypeBox().getHbox())  maxHeight = cb.getMaTypeBox().getHbox();
+        y+=b1.getHbox();
+        int size1 = pileProd.size();
 
-            positionRef = y;
-            y = positionRef+cb.getMaTypeBox().getHbox();
-            y2 = y;
-            x2=x;
-            for(PileProduit pileProd : cb.getMaListeProduits()){
-                //System.out.println("PileProduit");
-                for(TypeProduit p : pileProd.getPileProduits()){
-                    //System.out.println("TypeProduit");
-                    if(p.getLproduit() > maxW) maxW = p.getLproduit();
-                    //System.out.println(p.getId());
-                    g.setColor(RandomColor());
-                    y-=p.getHproduit();
-                    g.fillRect(x+1, y,p.getLproduit(), p.getHproduit());
-                    
-                }
-                y= y2;
-                x+=maxW;
-                maxW =0;
-            }
-            x = x2+cb.getMaTypeBox().getLbox()+10;
-            y=positionRef;
+        int maxW = 0;
+        for(int i=0; i<size1;i++){
+            TypeProduit p = pileProd.getLast();
+            if(p.getLproduit() > maxW) maxW = p.getLproduit();
+            System.out.println(p.getId());
+            g.setColor(RandomColor());
+            y-=p.getHproduit();
+            g.fillRect(x+1, y,p.getLproduit(), p.getHproduit());
+            pileProd.removeLast();
         }
+        
+        int size2 = pileProd2.size();
+        y= 50 +b1.getHbox();
+        x+=maxW;
+        for(int i=0; i<size2;i++){
+           // System.out.println("size pile : "+pileProd.size());
+            TypeProduit p = pileProd2.getLast();
+            System.out.println(p.getId());
+            g.setColor(RandomColor());
+            y-=p.getHproduit();
+            g.fillRect(x+1, y,p.getLproduit(), p.getHproduit());
+            pileProd2.removeLast(); 
+        }
+        
+        
+        
+        
 
+
+        
+        
+        
+        
+        
+        
+        
+        /*g.setFont(new Font("Calibri", Font.PLAIN, 35));
+        g.drawString("Les Box", sizeScreen/2, 25);
+        g.drawLine(5,35, sizeScreen-5, 35);*/
+        
+
+       
     }
     /**
      * This method is called from within the constructor to initialize the form.
