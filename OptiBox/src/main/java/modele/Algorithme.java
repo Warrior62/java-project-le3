@@ -33,6 +33,7 @@ public class Algorithme {
     
     public static void resolutionAlgo(List<TypeBox >listBox, List<TypeProduit> listProd,Solution solution){
         int largeurUtilise=0, hauteurUtilise=0, nbAjout=0;
+        double prixFinalSolu = 0;
         boolean flag=false;
         TypeProduit produit = null;
         //Création d'une ContenuBox
@@ -42,10 +43,13 @@ public class Algorithme {
         //on récupère la première box et on l'ajoute dans une ContenuBox
         TypeBox maBox = listBox.get(0);
         contenu_box1.setMaTypeBox(maBox);
+        //on ajoute le prix de la box dans le prix final
+        prixFinalSolu = maBox.getPrixbox();
+        //System.out.println("prix 1 :"+prixFinalSolu);
         
         //Tant que le nbAjout est inférieur à la taille de la listeProduit
         int sizeP = listProd.size();
-        System.out.println("size : "+sizeP);
+        System.out.println("nb produits : "+sizeP);
         while(nbAjout < sizeP && flag == false){
             //System.out.println("nb ajout premiere boucle : "+nbAjout);
             //System.out.println("hauteurUtile while 1 : "+hauteurUtilise);
@@ -64,7 +68,12 @@ public class Algorithme {
                 
                 nbAjout++;
                 //on prend le produit suivant dans la liste
-                produit = listProd.get(nbAjout);
+                if(nbAjout < sizeP){
+                        produit = listProd.get(nbAjout);
+                    }
+                //si c'est le dernier on passe le flag à 1 pour quitter les boucles while
+                else flag = true;
+                
                 //Tant que la hauteur de la pile ne dépasse pas la hauteur de la box
                 //System.out.println("maBox hauteur "+maBox.getHbox());
                 while(hauteurUtilise+produit.getHproduit() < maBox.getHbox() && flag == false){
@@ -98,11 +107,28 @@ public class Algorithme {
                 //on récupère la première box et on l'ajoute dans une ContenuBox
                 maBox = listBox.get(0);
                 contenu_box1.setMaTypeBox(maBox);
+                //on ajoute le prix de la box dans le prix final
+                prixFinalSolu += maBox.getPrixbox();
+                //System.out.println("prix 2 :"+prixFinalSolu);
             }
         }
+        //on set le prix final dans la solution
+        solution.setPrixFinal(prixFinalSolu);
+        
         System.out.println("nb contenuBox : "+solution.getListeContenuBox().size());
         for(ContenuBox cb : solution.getListeContenuBox()){
             System.out.println("nb pile : "+cb.getMaListeProduits().size());
+            System.out.println("largeur box : "+ cb.getMaTypeBox().getLbox()+" | hauteur box : "+cb.getMaTypeBox().getHbox());
+            for(PileProduit pileP : cb.getMaListeProduits()){
+                System.out.println(pileP.toString());
+                for(TypeProduit p : pileP.getPileProduits()){
+                    System.out.println(p.toString());
+                }
+                System.out.println("\n");
+            }
         }
+
+        System.out.println("prix total : "+solution.getPrixFinal());
+
     }
 }

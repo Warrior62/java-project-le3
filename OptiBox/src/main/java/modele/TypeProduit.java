@@ -106,10 +106,13 @@ public class TypeProduit implements Serializable {
         this.NBproduit = NBproduit;
         this.GrpProduit = GrpProduit;
     }
+
+    @Override
+    public String toString() {
+        return "TypeProduit{" + "idP=" + idP + ", Lproduit=" + Lproduit + ", Hproduit=" + Hproduit + ", instanceProd=" + instanceProd + '}';
+    }
     
-    
-    
-    
+
  
     
 

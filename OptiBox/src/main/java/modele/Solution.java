@@ -37,7 +37,7 @@ public class Solution implements Serializable {
     
     @Column(name="PRIX_FINAL",
             nullable=false)
-    private Integer prixFinal;
+    private double prixFinal;
     
     @OneToMany(mappedBy="nomSolution",cascade = CascadeType.PERSIST)
     private List<ContenuBox> listeContenuBox;
@@ -87,10 +87,10 @@ public class Solution implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    public Integer getPrixFinal() {
+    public double getPrixFinal() {
         return prixFinal;
     }
-    public void setPrixFinal(Integer prixFinal) {
+    public void setPrixFinal(double prixFinal) {
         this.prixFinal = prixFinal;
     }
     public Instance getInstanceSolution() {

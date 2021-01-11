@@ -102,7 +102,7 @@ public class PanelPile extends javax.swing.JPanel {
             g.setColor(RandomColor());
             y-=p.getHproduit();
             g.fillRect(x+1, y,p.getLproduit(), p.getHproduit());
-            pileProd2.removeLast();
+            pileProd2.removeLast(); 
         }
         
         

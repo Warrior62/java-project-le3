@@ -116,15 +116,36 @@ public class TestJPQL2 {
     
     public static void main(String[] args) {
         //création de TypeProduits
-        TypeProduit p1 = new TypeProduit("P001_0",20,10,4);    
-        TypeProduit p2 = new TypeProduit("P001_1",20,10,4);    
-        TypeProduit p3 = new TypeProduit("P001_2",20,10,4);  
+        TypeProduit p1 = new TypeProduit("P001_0",200,300,4);    
+        TypeProduit p2 = new TypeProduit("P001_1",200,300,4);    
+        TypeProduit p3 = new TypeProduit("P001_2",200,300,4);  
         
         TypeProduit p4 = new TypeProduit("P002_0",23,50,2);
-        TypeProduit p5 = new TypeProduit("P002_1",90,290,2);
         
-        TypeProduit p6 = new TypeProduit("P003_0",300,160,1);
-        TypeProduit p7 = new TypeProduit("P004_0",250,100,1);
+        TypeProduit p5 = new TypeProduit("P003_0",90,290,2);
+        
+        TypeProduit p6 = new TypeProduit("P004_0",300,160,1);
+        
+        TypeProduit p7 = new TypeProduit("P005_0",250,100,1);
+        
+        TypeProduit p8 = new TypeProduit("P006_0",100,100,4);    
+        TypeProduit p9 = new TypeProduit("P006_1",100,100,4);    
+        TypeProduit p10 = new TypeProduit("P006_2",100,100,4);  
+        TypeProduit p11 = new TypeProduit("P006_3",100,100,4);
+        
+        TypeProduit p12 = new TypeProduit("P007_1",90,230,1);
+        
+        TypeProduit p13 = new TypeProduit("P008_0",80,150,3);
+        TypeProduit p14 = new TypeProduit("P008_1",80,150,3);
+        TypeProduit p15 = new TypeProduit("P008_2",80,150,3);
+        
+        TypeProduit p16 = new TypeProduit("P009_0",120,170,2);
+        TypeProduit p17 = new TypeProduit("P009_1",120,170,2);
+        
+        TypeProduit p18 = new TypeProduit("P0010_0",160,160,1);
+        
+        TypeProduit p19 = new TypeProduit("P0011_0",330,220,2);
+        TypeProduit p20 = new TypeProduit("P0012_0",330,220,2);
 
         //création d'une TypeBox
         TypeBox b1 = new TypeBox("B001",40,20,8);
@@ -146,6 +167,19 @@ public class TestJPQL2 {
         p5.setInstance(ins);
         p6.setInstance(ins);
         p7.setInstance(ins);
+        p8.setInstance(ins);
+        p9.setInstance(ins);
+        p10.setInstance(ins);
+        p11.setInstance(ins);
+        p12.setInstance(ins);
+        p13.setInstance(ins);
+        p14.setInstance(ins);
+        p15.setInstance(ins);
+        p16.setInstance(ins);
+        p17.setInstance(ins);
+        p18.setInstance(ins);
+        p19.setInstance(ins);
+        p20.setInstance(ins);
         
         Solution sol_final = Algorithme.algorithme(ins);
         
