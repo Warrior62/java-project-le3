@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -184,11 +185,14 @@ public class ReqBDD {
             TypeProduit prod = new TypeProduit(idP,l,h,nb);
             prod.setGrpProduit(grp);
             mesProd.add(prod);
+            
             //System.out.println(box.getInstance().getNomInstance());
         }
+       
         res.close();
         pstmt.close();
         return mesProd;
+        
     }
     
     /**

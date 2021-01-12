@@ -71,6 +71,7 @@ public class PanelView extends javax.swing.JPanel {
         maxHeight = 0;
 
         for(TypeProduit p : listP){
+            System.out.println(p.getLproduit());
             g.setColor(p.getCouleur());
             int nbProd = p.getNBproduit();
                 if(x+p.getLproduit()/echelle >= sizeScreen){
