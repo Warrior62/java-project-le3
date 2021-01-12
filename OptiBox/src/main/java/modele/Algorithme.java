@@ -5,8 +5,13 @@
  */
 package modele;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 
 /**
  *
@@ -131,4 +136,33 @@ public class Algorithme {
         System.out.println("prix total : "+solution.getPrixFinal());
 
     }
+    
+    public static void ajoutSolutionBDD(Solution solution) {
+        final EntityManagerFactory emf = Persistence.createEntityManagerFactory("OptiBoxPU");
+        final EntityManager em = emf.createEntityManager();
+        
+        try {
+            final EntityTransaction et = em.getTransaction();
+            try {
+                et.begin();
+                em.persist(solution);
+                
+                System.out.println("Ajout de la solution dans la bdd réussi !!");
+                et.commit();
+            } catch (Exception ex) {
+                et.rollback();
+                System.out.println("erreur : "+ex);
+            }
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+            if (emf != null && emf.isOpen()) {
+                emf.close();
+            }
+        }
+    }
+    
+    
+    
 }

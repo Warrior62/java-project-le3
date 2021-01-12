@@ -81,10 +81,6 @@ public class PileProduit implements Serializable {
         return pileP;
     }
 
-    @Override
-    public String toString() {
-        return "PileProduit{" + " listeProduits=" + listeProduits + '}';
-    }
 
 
     

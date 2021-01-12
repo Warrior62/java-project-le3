@@ -182,7 +182,7 @@ public class TestJPQL2 {
         p20.setInstance(ins);
         
         Solution sol_final = Algorithme.algorithme(ins);
-        
+        Algorithme.ajoutSolutionBDD(sol_final);
         
     }
     

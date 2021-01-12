@@ -70,7 +70,7 @@ public class InstanceView extends javax.swing.JFrame {
         this.zoneGraph.setListB(instance.getSetBox());
         
         
-        for( TypeProduit p : instance.getSetProduits())
+        //for( TypeProduit p : instance.getSetProduits())
         //System.out.println(""+ p.getLproduit());
         
         
@@ -88,6 +88,7 @@ public class InstanceView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
         zoneGraph = new vue.PanelView();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -96,28 +97,24 @@ public class InstanceView extends javax.swing.JFrame {
         zoneGraph.setLayout(zoneGraphLayout);
         zoneGraphLayout.setHorizontalGroup(
             zoneGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 436, Short.MAX_VALUE)
+            .addGap(0, 517, Short.MAX_VALUE)
         );
         zoneGraphLayout.setVerticalGroup(
             zoneGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 162, Short.MAX_VALUE)
+            .addGap(0, 300, Short.MAX_VALUE)
         );
+
+        jScrollPane1.setViewportView(zoneGraph);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(zoneGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(51, 51, 51))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addComponent(zoneGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(92, 92, 92))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
         pack();
@@ -159,6 +156,7 @@ public class InstanceView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane jScrollPane1;
     private vue.PanelView zoneGraph;
     // End of variables declaration//GEN-END:variables
 }
