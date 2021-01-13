@@ -98,6 +98,7 @@ public class Solution implements Serializable {
     }
     public void setInstanceSolution(Instance InstanceSolution) {
         this.InstanceSolution = InstanceSolution;
+        InstanceSolution.setMaSolution(this);
     } 
   
 }

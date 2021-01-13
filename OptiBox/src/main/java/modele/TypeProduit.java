@@ -17,12 +17,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author agpou
  */
 @Entity
+@Table(
+        uniqueConstraints={
+            @UniqueConstraint(
+                columnNames={"ID_P","INSTANCE_PROD_ID"}
+            )
+        }
+)
 @Access(AccessType.FIELD)
 public class TypeProduit implements Serializable {
 
@@ -88,6 +97,19 @@ public class TypeProduit implements Serializable {
         if(Hproduit != 0) this.Hproduit = Hproduit;
         if(NBproduit != 0) this.NBproduit = NBproduit;
     }
+
+    public TypeProduit(String idP, int Lproduit, int Hproduit, int NBproduit, int GrpProduit) {
+        this();
+        this.idP = idP;
+        this.Lproduit = Lproduit;
+        this.Hproduit = Hproduit;
+        this.NBproduit = NBproduit;
+        this.GrpProduit = GrpProduit;
+    }
+    
+    
+    
+    
  
     
 
@@ -99,6 +121,7 @@ public class TypeProduit implements Serializable {
     }
     public void setInstance(Instance instanceProd) {
         this.instanceProd = instanceProd;
+        instanceProd.getSetProduits().add(this);
     }
     public String getId() {
         return idP;
@@ -129,12 +152,6 @@ public class TypeProduit implements Serializable {
     }
     public void setCouleur(Color couleur) {
         this.couleur = couleur;
-    }
-    public Instance getInstanceProd() {
-        return instanceProd;
-    }
-    public void setInstanceProd(Instance instanceProd) {
-        this.instanceProd = instanceProd;
     }
     public PileProduit getPileProd() {
         return pileProd;
