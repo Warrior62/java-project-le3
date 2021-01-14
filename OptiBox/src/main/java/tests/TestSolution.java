@@ -55,20 +55,20 @@ public class TestSolution {
 
         List<TypeProduit> listeProd = new ArrayList<>();
         TypeProduit p1 = new TypeProduit("1",50, 50,2);
-         TypeProduit p2 =new TypeProduit("2",40,60,14); 
-        TypeProduit p3 = new TypeProduit("3", 100, 80,6);
-          TypeProduit p4 =new TypeProduit("4",20,20,30); 
-     /*     TypeProduit p5 =new TypeProduit("5",120,20,5);
-          TypeProduit p6 =new TypeProduit("6",25,23,50); 
-         TypeProduit p7 =new TypeProduit("7",100,75,20); */
+         TypeProduit p2 =new TypeProduit("2",40,60,53); 
+        TypeProduit p3 = new TypeProduit("3", 100, 80,21);
+          TypeProduit p4 =new TypeProduit("4",20,20,5); 
+         TypeProduit p5 =new TypeProduit("5",120,20,19);
+        TypeProduit p6 =new TypeProduit("6",25,23,150); 
+         TypeProduit p7 =new TypeProduit("7",100,75,5); 
 
         listeProd.add(p1);
         listeProd.add(p2);
        listeProd.add(p3);
         listeProd.add(p4);
-      /*  listeProd.add(p5);
+       listeProd.add(p5);
         listeProd.add(p6);
-        listeProd.add(p7); */
+        listeProd.add(p7); 
         //Trier liste
         //on peut trier la liste comme ça :
         Collections.sort(listeProd, (o1, o2) -> o2.getLproduit() - o1.getLproduit());
@@ -125,8 +125,8 @@ public class TestSolution {
 
         for (TypeBox boxMaxInstance : this.boxTest) {
 
-            System.out.println(" ");
-            System.out.println("Box: Longueur " + boxMaxInstance.getLbox() + " Hauteur : " + boxMaxInstance.getHbox());
+       //     System.out.println(" ");
+      //      System.out.println("Box: Longueur " + boxMaxInstance.getLbox() + " Hauteur : " + boxMaxInstance.getHbox());
             //On utilise plusieurs Box 
             //On va tester la solution avec plusieurs box en boxMaxInstance
             // Celui qui coutera le moins cher au final sera conservé
@@ -151,8 +151,8 @@ public class TestSolution {
 
                 //Recupérer premier élément liste 
                 TypeProduit p = this.produitTest.get(0);
-                System.out.println(" ");
-                System.out.println("Produit: Hauteur : " + p.getHproduit() + " Longueur :  " + p.getLproduit());
+  //              System.out.println(" ");
+//                System.out.println("Produit: Hauteur : " + p.getHproduit() + " Longueur :  " + p.getLproduit());
 
                 //On remplit nos box
                 // On met un flag pour savoir si il est placé
@@ -303,7 +303,7 @@ public class TestSolution {
       
         // On récupère les produits triés selon la longueur !  
         this.produitTest = creerListeProduit();
-        System.out.println("1");
+   
         //On crée déjà une boîte
         ContenuBox cb1 = new ContenuBox();
         nbBox++;
@@ -315,8 +315,6 @@ public class TestSolution {
        
         if (cb1.getMaListeProduits().size() == 0) {
            
-        System.out.println("2");
-        
             PileProduit p1 = new PileProduit();
             p1.getPileProduits().add(p0);
             cb1.getMaListeProduits().add(p1);
@@ -335,12 +333,11 @@ public class TestSolution {
             
             for (TypeProduit p : this.produitTest) {
 
-                
-                System.out.println("3");
+               
                     
                     if ((cb1.getMaTypeBox().getLbox() - longueurRestante0) == p.getLproduit()) {
                         PileProduit p2 = new PileProduit();
-                        p1.getPileProduits().add(p);
+                        p2.getPileProduits().add(p);
                         cb1.getMaListeProduits().add(p2);
                    
                     place0 = 1;
@@ -398,8 +395,6 @@ public class TestSolution {
                 if (c.getMaTypeBox().getLbox() >= p.getLproduit() && c.getMaTypeBox().getHbox() >= p.getHproduit()) {
 
                     if (ProduitPlace == 0) {
-                        System.out.println("25");
-                   //     System.out.println("On regarde la pile du contenuBox sa taille est de "+c.getMaListeProduits().get(0).getPileProduits().size());
                         for (PileProduit pp : c.getMaListeProduits()) {
                             
                             int hauteurMaxInserer = p.getHproduit();
@@ -418,7 +413,6 @@ public class TestSolution {
                         }
 
                     }
-                 System.out.println("45");
                  
                     if (ProduitPlace == 0) {
 
@@ -428,7 +422,7 @@ public class TestSolution {
                         for (PileProduit ppCalc : c.getMaListeProduits()) {
                             
                             //System.out.println("Hauteur !!!! "+ ppCalc.getPileProduits().get(0).getLproduit());
-                            //longueurRestante += ppCalc.getPileProduits().get(0).getLproduit();
+                            longueurRestante += ppCalc.getPileProduits().get(0).getLproduit();
                            // System.out.println("Hauteur 0!!!! "+ ppCalc.getPileProduits().get(0).getLproduit());
                             
                         }
@@ -440,7 +434,7 @@ public class TestSolution {
                             c.getMaListeProduits().add((pp1));
                             ProduitPlace = 1;
                         } else {
-                             System.out.println("On ne peut pas créer de nouvelle pile dans la box avec pour base le produit");
+                         //    System.out.println("On ne peut pas créer de nouvelle pile dans la box avec pour base le produit");
                         }
                     }
 
@@ -563,7 +557,6 @@ public class TestSolution {
         Solution solutionOpti = new Solution();
         solutionOpti.setPrixFinal(Integer.MAX_VALUE);
 
-        System.out.println("1");
         this.boxTest = creerListeBox();
 
         Solution s = new Solution();
@@ -579,8 +572,7 @@ public class TestSolution {
         nbBox++;
         boxMaxInstance = this.boxTest.get(this.boxTest.size() - 1);
        cb1.setMaTypeBox(boxMaxInstance);
-     
-       System.out.println("1");
+
         TypeProduit p0 = this.produitTest.get(0);
        
         if (cb1.getMaListeProduits().size() == 0) {
@@ -588,8 +580,7 @@ public class TestSolution {
             PileProduit p1 = new PileProduit();
             p1.getPileProduits().add(p0);
             cb1.getMaListeProduits().add(p1);
-            
-            System.out.println("1");
+
             if (p0.getNBproduit() == 1) {
                         this.produitTest.remove(p0);
                     } else {
@@ -608,7 +599,7 @@ public class TestSolution {
                     
                     if ((cb1.getMaTypeBox().getLbox() - longueurRestante0) == p.getLproduit()) {
                         PileProduit p2 = new PileProduit();
-                        p1.getPileProduits().add(p);
+                        p2.getPileProduits().add(p);
                         cb1.getMaListeProduits().add(p2);
                    
                     place0 = 1;
@@ -700,7 +691,7 @@ public class TestSolution {
                             c.getMaListeProduits().add((pp1));
                             ProduitPlace = 1;
                         } else {
-                             System.out.println("On ne peut pas créer de nouvelle pile dans la box avec pour base le produit");
+                        //     System.out.println("On ne peut pas créer de nouvelle pile dans la box avec pour base le produit");
                         }
                     }
 
@@ -721,7 +712,7 @@ public class TestSolution {
                 { 
                 ContenuBox cb2 = new ContenuBox();
                 int nombreBoite = 0;
-               /* int boiteTrouve = 0;
+                int boiteTrouve = 0;
                 int n = 1;
                 while (boiteTrouve == 0) {
                     
@@ -743,7 +734,7 @@ public class TestSolution {
 
                     }
 
-                }*/
+                }
 
                 cb2.setMaTypeBox(box);
                 nbBox++;
@@ -837,13 +828,15 @@ public class TestSolution {
         Solution s = new Solution();
         Solution s1 = new Solution();
         Solution s2 = new Solution();
-       // s = te.testSolution1();
+        s = te.testSolution1();
         s1 = te.testSolution2();
         s2 = te.testSolution3();
         te.afficherResultat(s);
         System.out.println("SOLUCE 2 ");
         System.out.println(" ");
+        te.afficherResultat(s);
         te.afficherResultat(s1);
+        te.afficherResultat(s2);
         System.out.println("Prix Total Solution1 : " + s.getPrixFinal());
 
         System.out.println("Prix Total Solution2 : " + s1.getPrixFinal());
