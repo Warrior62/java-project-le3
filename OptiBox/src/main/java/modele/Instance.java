@@ -5,11 +5,11 @@
  */
 package modele;
 
+import java.awt.Color;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
@@ -44,14 +44,14 @@ public class Instance implements Serializable {
     @OneToMany(mappedBy="instanceProd",cascade = CascadeType.PERSIST)
     private List<TypeProduit> setProduits;
    
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(mappedBy="InstanceSolution",cascade = CascadeType.PERSIST)
     private Solution maSolution;
     
     
     
-    /*
-    * Contructeur par défaut de l'instance
-    */
+    /**
+     * Contructeur par défaut de l'instance
+     */
     public Instance() {
         this.nomInstance = "NOM INSTANCE";
         this.setBox = new ArrayList<>();
@@ -81,6 +81,10 @@ public class Instance implements Serializable {
         this.setProduits = setProduits;
     }
 
+    /**
+     * Méthode toString pour l'affichage d'une instance
+     * @return nomInstance
+     */
     @Override
     public String toString() {
         return nomInstance;
@@ -120,6 +124,41 @@ public class Instance implements Serializable {
     }
     public void setMaSolution(Solution maSolution) {
         this.maSolution = maSolution;
+    }
+    
+    /********************************************
+     ************ METHODE **************
+     *******************************************/
+    
+    /**
+     * Fonction qui permet d'affecter une couleur à chaque produit de l'instance
+     */
+    public void setUneCouleurAChaqueProduit(){
+        int oldGroup=-1; int actualGroup=-1;
+        Color couleur = null;
+        for(TypeProduit p : this.getSetProduits()){
+            actualGroup = p.getGrpProduit();
+            //si le groupe du produit n'est pas le même que celui d'avant
+            if(oldGroup == -1 || oldGroup != actualGroup){
+                couleur = RandomColor();
+            }
+            oldGroup = actualGroup;
+            p.setCouleur(couleur);
+        }
+    }
+    
+    /**
+     * Fonction prise de stack overflow pour avoir une couleur aléatoire
+     * https://stackoverflow.com/questions/4246351/creating-random-colour-in-java
+     * @return Color
+     */
+    public Color RandomColor(){
+       Random rand = new Random();
+       float r = rand.nextFloat();
+       float g = rand.nextFloat();
+       float b = rand.nextFloat();
+       
+       return new Color(r, g, b);
     }
     
 }

@@ -27,40 +27,49 @@ public class PileView extends javax.swing.JFrame {
     public PileView() {
         this.initComponents();
         this.initialisationFenetre();
-        drawSolution();
+        //drawSolution(); // FONCTION A SUPPRIMER QUAND ON GERE LA SOLUTION DIRECT
     }
     
-    private void drawSolution(){
-        TypeProduit p1 = new TypeProduit("P001_0",200,300,4);    
-        TypeProduit p2 = new TypeProduit("P001_1",200,300,4);    
-        TypeProduit p3 = new TypeProduit("P001_2",200,300,4);  
+    public PileView(Solution s){
+        this();
+        this.panelPile1.setSolutionADessiner(s);
+        this.panelPile1.repaint();
+    }
+    
+    
+    /*private void drawSolution(){
+        TypeProduit p1 = new TypeProduit("P001_0",200,300,4,1);    
+        TypeProduit p2 = new TypeProduit("P001_1",200,300,4,1);    
+        TypeProduit p3 = new TypeProduit("P001_2",200,300,4,1);  
         
-        TypeProduit p4 = new TypeProduit("P002_0",23,50,2);
+        TypeProduit p4 = new TypeProduit("P002_0",23,50,2,2);
         
-        TypeProduit p5 = new TypeProduit("P003_0",90,290,2);
+        TypeProduit p5 = new TypeProduit("P003_0",90,290,2,3);
         
-        TypeProduit p6 = new TypeProduit("P004_0",300,160,1);
+        TypeProduit p6 = new TypeProduit("P004_0",300,160,1,4);
         
-        TypeProduit p7 = new TypeProduit("P005_0",250,100,1);
+        TypeProduit p7 = new TypeProduit("P005_0",250,100,1,5);
         
-        TypeProduit p8 = new TypeProduit("P006_0",100,100,4);    
-        TypeProduit p9 = new TypeProduit("P006_1",100,100,4);    
-        TypeProduit p10 = new TypeProduit("P006_2",100,100,4);  
-        TypeProduit p11 = new TypeProduit("P006_3",100,100,4);
+        TypeProduit p8 = new TypeProduit("P006_0",100,100,4,6);    
+        TypeProduit p9 = new TypeProduit("P006_1",100,100,4,6);    
+        TypeProduit p10 = new TypeProduit("P006_2",100,100,4,6);  
+        TypeProduit p11 = new TypeProduit("P006_3",100,100,4,6);
         
-        TypeProduit p12 = new TypeProduit("P007_1",90,230,1);
+        TypeProduit p12 = new TypeProduit("P007_1",90,230,1,7);
         
-        TypeProduit p13 = new TypeProduit("P008_0",80,150,3);
-        TypeProduit p14 = new TypeProduit("P008_1",80,150,3);
-        TypeProduit p15 = new TypeProduit("P008_2",80,150,3);
+        TypeProduit p13 = new TypeProduit("P008_0",80,150,3,8);
+        TypeProduit p14 = new TypeProduit("P008_1",80,150,3,8);
+        TypeProduit p15 = new TypeProduit("P008_2",80,150,3,8);
         
-        TypeProduit p16 = new TypeProduit("P009_0",120,170,2);
-        TypeProduit p17 = new TypeProduit("P009_1",120,170,2);
+        TypeProduit p16 = new TypeProduit("P009_0",120,170,2,9);
+        TypeProduit p17 = new TypeProduit("P009_1",120,170,2,9);
         
-        TypeProduit p18 = new TypeProduit("P0010_0",160,160,1);
+        TypeProduit p18 = new TypeProduit("P0010_0",160,160,1,10);
         
-        TypeProduit p19 = new TypeProduit("P0011_0",330,220,2);
-        TypeProduit p20 = new TypeProduit("P0012_0",330,220,2);
+        TypeProduit p19 = new TypeProduit("P0011_0",330,220,2,11);
+        TypeProduit p20 = new TypeProduit("P0012_0",330,220,2,12);
+        
+        TypeProduit p21 = new TypeProduit("P0012_0",25,25,1,13);
 
         //création d'une TypeBox
         TypeBox b1 = new TypeBox("B001",40,20,8);
@@ -95,51 +104,24 @@ public class PileView extends javax.swing.JFrame {
         p18.setInstance(ins);
         p19.setInstance(ins);
         p20.setInstance(ins);
+        p21.setInstance(ins);
         
-        int oldGroup=-1; int actualGroup=-1;
-        Color couleur = null;
-        for(TypeProduit p : ins.getSetProduits()){
-            actualGroup = p.getGrpProduit();
-            System.out.println("old : "+ oldGroup);
-            System.out.println("actuel : "+ actualGroup);
-            //si le groupe du produit n'est pas le même que celui d'avant
-            if(oldGroup == -1 || oldGroup != actualGroup){
-                couleur = RandomColor();
-                System.out.println("iffffffffffffffffff");
-            }
-            oldGroup = actualGroup;
-            p.setCouleur(couleur);
-        }
+        ins.setUneCouleurAChaqueProduit(); // A ENLEVER QUAND ON PRENDRA LES INSTANCES DIRECT
         
         Solution sol_final = Algorithme.algorithme(ins);
-        this.panelPile1.s=sol_final;
+        this.panelPile1.setSolutionADessiner(sol_final);
         this.panelPile1.repaint();
-    }
-    
-     /**
-     * Fonction prise de stack overflow pour avoir une couleur aléatoire
-     * https://stackoverflow.com/questions/4246351/creating-random-colour-in-java
-     * @return Color
-     */
-    public Color RandomColor(){
-       Random rand = new Random();
-       float r = rand.nextFloat();
-       float g = rand.nextFloat();
-       float b = rand.nextFloat();
-       
-       return new Color(r, g, b);
-    }
+    }*/
     
      private void initialisationFenetre() {
          this.setVisible(true);
-        this.setTitle("Pile View");
+        this.setTitle("Affichage Résolution 1");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int width = (int) screenSize.getWidth();
         int height = (int) screenSize.getHeight();
         this.setLocation(0,0);
         this.setSize( width, height-35);
         this.setBackground(Color.BLUE);
-        this.getContentPane();
     }
 
      
@@ -155,17 +137,17 @@ public class PileView extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         panelPile1 = new vue.PanelPile();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         javax.swing.GroupLayout panelPile1Layout = new javax.swing.GroupLayout(panelPile1);
         panelPile1.setLayout(panelPile1Layout);
         panelPile1Layout.setHorizontalGroup(
             panelPile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 543, Short.MAX_VALUE)
+            .addGap(0, 665, Short.MAX_VALUE)
         );
         panelPile1Layout.setVerticalGroup(
             panelPile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGap(0, 439, Short.MAX_VALUE)
         );
 
         jScrollPane1.setViewportView(panelPile1);
@@ -178,7 +160,7 @@ public class PileView extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
         );
 
         pack();

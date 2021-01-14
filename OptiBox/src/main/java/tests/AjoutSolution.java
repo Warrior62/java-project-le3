@@ -100,7 +100,7 @@ public class AjoutSolution {
                 solu.setInstanceSolution(ins);
                 //ins.setMaSolution(solu);
            
-                //em.persist(ins);
+                em.persist(ins);
                 em.persist(solu);
                 
                 System.out.println("Ajout dans la bdd réussi !!");

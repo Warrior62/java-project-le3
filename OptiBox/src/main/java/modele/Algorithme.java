@@ -18,6 +18,14 @@ import javax.persistence.Persistence;
  * @author agpou
  */
 public class Algorithme {
+    /**
+     * @name Solution algorithme(Instance ins) 
+     * Fonction d'un algorithme version 1 qui prend en paramètre une instance 
+     * Dans cet algorithme, on tri les TypeBox et TypeProduit du plus grand au plus petit
+     * et on envoie ces listes dans la fonction de résolution
+     * @param ins : l'instance
+     * @return 
+     */
     public static Solution algorithme(Instance ins){
         //on crée une solution que l'on va return à la fin
         Solution solution = new Solution();
@@ -36,6 +44,15 @@ public class Algorithme {
         return solution;
     }
     
+    /**
+     * @name resolutionAlgo(List<TypeBox >listBox, List<TypeProduit> listProd,Solution solution)
+     * Fonction qui permet de générer une solution, on prend toujours la plus grande box
+     * puis on insère les produits du plus grand au plus petit (ils sont triés). Dès que la box est
+     * pleine on change de box mais elle fait toujours la même taille.
+     * @param listBox : liste des box de l'instance
+     * @param listProd : liste des produits de l'instance
+     * @param solution : solution de cette instance
+     */
     public static void resolutionAlgo(List<TypeBox >listBox, List<TypeProduit> listProd,Solution solution){
         int largeurUtilise=0, hauteurUtilise=0, nbAjout=0;
         double prixFinalSolu = 0;
@@ -137,6 +154,11 @@ public class Algorithme {
 
     }
     
+    /**
+     * @name ajoutSolutionBDD(Solution solution)
+     * Ajoute la solution générée par l'algorithme en BDD
+     * @param solution : solution de 'instance
+     */
     public static void ajoutSolutionBDD(Solution solution) {
         final EntityManagerFactory emf = Persistence.createEntityManagerFactory("OptiBoxPU");
         final EntityManager em = emf.createEntityManager();

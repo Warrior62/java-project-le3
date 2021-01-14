@@ -8,7 +8,6 @@ package modele;
 import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Deque;
 import java.util.List;
 import javax.persistence.Access;
@@ -41,12 +40,19 @@ public class PileProduit implements Serializable {
     private List<TypeProduit> listeProduits;
      
     
-
+    /**
+     * Contructeur par défaut de PileProduit
+     * Initialise la list de produits et ContenuBox
+     */
     public PileProduit() {
         this.listeProduits = new ArrayList<>();
         this.monContenuBox = new ContenuBox();
     }
 
+    /**
+     * Constructeur par données de PileProduit
+     * @param listeProduits 
+     */
     public PileProduit(List<TypeProduit> listeProduits) {
         this();
         this.listeProduits = listeProduits;
@@ -82,9 +88,9 @@ public class PileProduit implements Serializable {
     }
 
 
-
-    
-    
+    /********************************************
+     ************ GETTER ET SETTER **************
+     *******************************************/
     public Long getId() {
         return id;
     }

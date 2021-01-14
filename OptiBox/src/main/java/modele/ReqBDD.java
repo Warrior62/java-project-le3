@@ -119,6 +119,7 @@ public class ReqBDD {
                 ins.setId(id);
                 ins.setSetBox(mesBox);
                 ins.setSetProduits(mesProd);
+                ins.setUneCouleurAChaqueProduit();
                 System.out.println(ins.getId() +" "+ ins.getNomInstance());
                 maList.add(ins);
             }
@@ -196,69 +197,34 @@ public class ReqBDD {
     }
     
     /**
-     * @def public static ArrayList<String> findSmallestProduct(int idInstance)
-     * @brief sélectionne le(s) produit(s) ayant la surface la plus petite 
-     *          parmi tous les produits de l'instance idInstance
-     * @note renvoie une liste vide si pb à la compilation
-     * @param idInstance
-     * @return la liste de l'id du ou des produit(s) dont la surface est la plus petite
+     * @fn      public boolean isSolutionExist(Instance inst, Solution sol) throws SQLException
+     * @brief   vérifie si la solution de inst existe en db
+     * @param   inst
+     * @param   sol
+     * @note    se base sur le prix de la solution passée en paramètre
+     * @return  true si la solution de l'Instance inst existe en db, false sinon
      */
- /*   public static ArrayList<String> findSmallestProduct(int idInstance)
-    {
-        final EntityManagerFactory emf = Persistence.createEntityManagerFactory("OptiBoxPU");
-        final EntityManager em = emf.createEntityManager();
-        try
-        {
-            final EntityTransaction et = em.getTransaction(); 
-            try
-            {
-                et.begin();
-                final String strQuery = "SELECT tp FROM TypeProduit tp"
-                        + " WHERE tp.instance_prod.id = :idInstance";
-                Query queryTest = em.createQuery(strQuery);
-                queryTest.setParameter("idInstance", idInstance);
-                List<TypeProduit> smallestProduct = queryTest.getResultList();
-                
-                Map<String, Integer> multiplications = new HashMap<String, Integer>();
-                for(TypeProduit tp: smallestProduct)
-                    multiplications.put(tp.getId(), tp.getHproduit()*tp.getLproduit());
-                int min = Collections.min(multiplications.values());
-                List<String> listeIdMin = new ArrayList<String>();
-                Set mapSet = multiplications.entrySet();
-                Iterator mapIterator = mapSet.iterator();
-                String idMin = "erreur";
-                while(mapIterator.hasNext()){
-                    Map.Entry mapEntry = (Map.Entry) mapIterator.next();
-                    String keyValue = (String) mapEntry.getKey();
-                    Integer value = (Integer) mapEntry.getValue();
-                    if(value == min) listeIdMin.add(keyValue);
-                }
-                
-                et.commit();
-                
-                
-//                final String strQueryFinal = "select tp.idP from TypeProduit tp where (:produitRes)="
-//                        + "(select :minProduit from TypeProduit where tp.instance_prod.id = :idInstance)";
+    public boolean isSolutionExist(Instance inst) throws SQLException{
+        int id = -1;
+        String requete = "SELECT * FROM SOLUTION s WHERE s.INSTANCESOLUTION_ID = ?";
+        PreparedStatement pstmt = conn.prepareStatement(requete);
+        pstmt.setLong(1, inst.getId());
+        ResultSet res = pstmt.executeQuery();
 
-                return (ArrayList<String>) listeIdMin;
-            } 
-            catch (Exception ex) 
-            {
-                et.rollback();
-                System.out.println(ex);
-            }
+        while(res.next()){
+            id = res.getInt("ID");
         }
-        finally 
-        {
-            if(em != null && em.isOpen()){
-                em.close();
-            }
-            if(emf != null && emf.isOpen()){
-                emf.close();
-            }
-        } 
-        return new ArrayList<String>();
-    }*/
-    
+        res.close();
+        pstmt.close();
+        
+        if(id == -1){
+            System.out.println("Aucune solution n'a été trouvée pour cette instance");
+            return false;
+        }
+        else{
+            System.out.println("La solution est déjà en BDD");
+            return true;
+        }
+    }
 
 }
