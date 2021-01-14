@@ -270,7 +270,6 @@ public class ReqBDD {
      * @return  true si la solution de l'Instance inst existe en db, false sinon
      */
     public boolean isSolutionExist(Instance inst, Solution sol) throws SQLException{
-        ArrayList<Instance> maList = new ArrayList<>();
         String requete = "SELECT PRIX_FINAL FROM instance ins WHERE ins.NOM_INSTANCE LIKE ?";
         PreparedStatement pstmt = conn.prepareStatement(requete);
         pstmt.setString(1, inst.getNomInstance());
