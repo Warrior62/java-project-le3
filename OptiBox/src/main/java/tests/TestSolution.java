@@ -16,6 +16,7 @@ import java.util.Set;
 import javax.swing.ComboBoxEditor;
 import javax.swing.JOptionPane;
 import modele.ContenuBox;
+import modele.Instance;
 import modele.PileProduit;
 import modele.TypeBox;
 import modele.TypeProduit;
@@ -51,16 +52,17 @@ public class TestSolution {
         }
     }
 
-    public List<TypeProduit> creerListeProduit() {
+/*    public List<TypeProduit> creerListeProduit() {
 
         List<TypeProduit> listeProd = new ArrayList<>();
         TypeProduit p1 = new TypeProduit("1",50, 50,2);
-         TypeProduit p2 =new TypeProduit("2",40,60,53); 
+         TypeProduit p2 =new TypeProduit("2",40,60,153); 
         TypeProduit p3 = new TypeProduit("3", 100, 80,21);
           TypeProduit p4 =new TypeProduit("4",20,20,5); 
          TypeProduit p5 =new TypeProduit("5",120,20,19);
         TypeProduit p6 =new TypeProduit("6",25,23,150); 
-         TypeProduit p7 =new TypeProduit("7",100,75,5); 
+         TypeProduit p7 =new TypeProduit("7",100,75,5);
+         TypeProduit p8 =new TypeProduit("7",152,55,5);
 
         listeProd.add(p1);
         listeProd.add(p2);
@@ -69,20 +71,21 @@ public class TestSolution {
        listeProd.add(p5);
         listeProd.add(p6);
         listeProd.add(p7); 
+         listeProd.add(p8); 
         //Trier liste
         //on peut trier la liste comme ça :
         Collections.sort(listeProd, (o1, o2) -> o2.getLproduit() - o1.getLproduit());
         //source : https://discord.com/channels/@me/704627618087043145/797384532017283113
 
         return listeProd;
-    }
+    }*/
 
-    public List<TypeBox> creerListeBox() {
+    /*public List<TypeBox> creerListeBox() {
 
         List<TypeBox> listBox = new ArrayList<>();
-        TypeBox b1 = new TypeBox("1", 150, 150, 200);
-        TypeBox b2 = new TypeBox("2", 130, 130, 130);
-        TypeBox b3 = new TypeBox("2", 120, 120, 120);
+        TypeBox b1 = new TypeBox("1", 650, 650, 200);
+        TypeBox b2 = new TypeBox("2", 530, 530, 130);
+        TypeBox b3 = new TypeBox("2", 520, 520, 120);
 
         listBox.add(b3);
         listBox.add(b2);
@@ -91,7 +94,7 @@ public class TestSolution {
         Collections.sort(listBox, (o1, o2) -> o2.getLbox() * o2.getHbox() - o1.getLbox() * o1.getHbox());
 
         return listBox;
-    }
+    }*/
 
     public void afficherResultat(Solution s) {
         System.out.println(" ");
@@ -115,7 +118,7 @@ public class TestSolution {
         }
     }
 
-    public Solution testSolution1() throws SQLException, ClassNotFoundException {
+  /*  public Solution testSolution1() throws SQLException, ClassNotFoundException {
 
         Solution solutionOpti = new Solution();
         solutionOpti.setPrixFinal(Integer.MAX_VALUE);
@@ -125,8 +128,7 @@ public class TestSolution {
 
         for (TypeBox boxMaxInstance : this.boxTest) {
 
-       //     System.out.println(" ");
-      //      System.out.println("Box: Longueur " + boxMaxInstance.getLbox() + " Hauteur : " + boxMaxInstance.getHbox());
+
             //On utilise plusieurs Box 
             //On va tester la solution avec plusieurs box en boxMaxInstance
             // Celui qui coutera le moins cher au final sera conservé
@@ -275,26 +277,11 @@ public class TestSolution {
 
  
         return solutionOpti;
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    public Solution testSolution2() throws SQLException, ClassNotFoundException {
-
-        Solution solutionOpti = new Solution();
-        solutionOpti.setPrixFinal(Integer.MAX_VALUE);
-
+    } */
         
-        this.boxTest = creerListeBox();
+    public Solution testSolution2(Instance i) throws SQLException, ClassNotFoundException {
+        
+        this.boxTest = i.getSetBox();
 
         Solution s = new Solution();
         int prixFinal = 0;
@@ -302,7 +289,7 @@ public class TestSolution {
 
       
         // On récupère les produits triés selon la longueur !  
-        this.produitTest = creerListeProduit();
+        this.produitTest = i.getSetProduits();
    
         //On crée déjà une boîte
         ContenuBox cb1 = new ContenuBox();
@@ -543,21 +530,19 @@ public class TestSolution {
         System.out.println("Prix solution : " + s.getPrixFinal());
         
 
-        
-            solutionOpti = s;
-            
-        
-          
          
-        return solutionOpti;
+        return s;
     }
 
-    public Solution testSolution3() throws SQLException, ClassNotFoundException {
-
-        Solution solutionOpti = new Solution();
-        solutionOpti.setPrixFinal(Integer.MAX_VALUE);
-
-        this.boxTest = creerListeBox();
+    
+    
+    
+    
+    
+    
+    public Solution testSolution3(Instance i) throws SQLException, ClassNotFoundException {
+        
+        this.boxTest = i.getSetBox();//creerListeBox();
 
         Solution s = new Solution();
         int prixFinal = 0;
@@ -565,7 +550,7 @@ public class TestSolution {
 
       
         // On récupère les produits triés selon la longueur !  
-        this.produitTest = creerListeProduit();
+        this.produitTest = i.getSetProduits();
 
         //On crée déjà une boîte
         ContenuBox cb1 = new ContenuBox();
@@ -746,57 +731,55 @@ public class TestSolution {
                 int place = 0;
                 
                 
-            for (TypeProduit prod : this.produitTest) {
+                    for (TypeProduit prod : this.produitTest) {
 
-                for (PileProduit pp2 : cb1.getMaListeProduits()) {
-                    
-                    if ((cb1.getMaTypeBox().getLbox() - longueurRestante0) == p.getLproduit()) {
-                        PileProduit p2 = new PileProduit();
-                        pp2.getPileProduits().add(prod);
-                        cb1.getMaListeProduits().add(p2);
-                        
-                        place = 1;
-                    }
+                        for (PileProduit pp2 : cb1.getMaListeProduits()) {
 
-                    if (p.getLproduit() == prod.getLproduit() && p.getHproduit() + prod.getHproduit() <= cb1.getMaTypeBox().getHbox() && place == 0) {
-                        
-                        pp2.getPileProduits().add(prod);
-                        place = 1;
-                    }
-                    
-                    if(place == 1){
-                        
-                        nombreBoite++;
-                        if (p.getNBproduit() == 1) {
-                            poubelle.add(p);                         
-                        } else {
-                            p.setNBproduit(p.getNBproduit() - 1);
+                            if ((cb1.getMaTypeBox().getLbox() - longueurRestante0) == p.getLproduit()) {
+                                PileProduit p2 = new PileProduit();
+                                pp2.getPileProduits().add(prod);
+                                cb1.getMaListeProduits().add(p2);
+
+                                place = 1;
+                            }
+
+                            if (p.getLproduit() == prod.getLproduit() && p.getHproduit() + prod.getHproduit() <= cb1.getMaTypeBox().getHbox() && place == 0) {
+
+                                pp2.getPileProduits().add(prod);
+                                place = 1;
+                            }
+
+                            if (place == 1) {
+
+                                nombreBoite++;
+                                if (p.getNBproduit() == 1) {
+                                    poubelle.add(p);
+                                } else {
+                                    p.setNBproduit(p.getNBproduit() - 1);
+                                }
+                            }
                         }
                     }
+
+                    if (nombreBoite > nbBoxOpti) {
+                        opti = cb2;
+                        nbBoxOpti = nombreBoite;
+                    }
                 }
-            } 
-            
-            if(nombreBoite > nbBoxOpti){
-                opti=cb2;
-                nbBoxOpti=nombreBoite;
-            }
+
+                if (poubelle.size() > 0) {
+                    for (TypeProduit ppp : poubelle) {
+                        this.produitTest.remove(ppp);
+                    }
+                    poubelle.clear();
                 }
-            
-            if (poubelle.size()>0){
-            for (TypeProduit ppp : poubelle){
-                this.produitTest.remove(ppp);
-            }
-            poubelle.clear();
-            }
-                
-                
+
                 s.getListeContenuBox().add(opti);
                 prixFinal += boxMaxInstance.getPrixbox();
                 s.setPrixFinal(prixFinal);
 
-            } 
+            }
 
-      
             System.out.println("Nombre de box crées: " + nbBox);
 
             //Ici si la quantité égale 1 on supprime le produit sinon on baisse sa quantité de 1
@@ -812,36 +795,36 @@ public class TestSolution {
         System.out.println(" ");
         System.out.println("Nombre de box crées avec cette solution : " + nbBox);
         System.out.println("Prix solution : " + s.getPrixFinal());
-        
 
+        return s;
+    }
+
+    public Solution comparerSolution(Instance i) throws SQLException, ClassNotFoundException {
+
+        Solution s2 = new Solution();
+        Solution s3 = new Solution();
         
-            solutionOpti = s;
-            
+        s2= testSolution2(i);
+        s3= testSolution3(i);
         
-          
-         
-        return solutionOpti;
+        if (s2.getPrixFinal() < s3.getPrixFinal()) {
+            return s2;
+        } else {
+            return s3;
+        }
     }
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         TestSolution te = new TestSolution();
-        Solution s = new Solution();
-        Solution s1 = new Solution();
-        Solution s2 = new Solution();
-        s = te.testSolution1();
-        s1 = te.testSolution2();
-        s2 = te.testSolution3();
-        te.afficherResultat(s);
-        System.out.println("SOLUCE 2 ");
-        System.out.println(" ");
-        te.afficherResultat(s);
-        te.afficherResultat(s1);
-        te.afficherResultat(s2);
-        System.out.println("Prix Total Solution1 : " + s.getPrixFinal());
 
-        System.out.println("Prix Total Solution2 : " + s1.getPrixFinal());
+ 
+
+     /*   te.afficherResultat(s2);
+        te.afficherResultat(s3);
+
+        System.out.println("Prix Total Solution2 : " + s2.getPrixFinal());
         
-        System.out.println("Prix Total Solution3 : " + s2.getPrixFinal());
+        System.out.println("Prix Total Solution3 : " + s3.getPrixFinal());*/
         
     }
 }
