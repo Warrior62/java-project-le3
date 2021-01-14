@@ -185,6 +185,220 @@ public class Algorithme {
         }
     }
     
-    
+    public static Solution algorithme_v2(Instance i){
+        List<TypeBox> boxTest = i.getSetBox();
+        // On récupère les produits triés selon la longueur !  
+        List<TypeProduit> produitTest = i.getSetProduits();
+        
+        Solution s = new Solution();
+        s.setInstanceSolution(i);
+        int prixFinal = 0;
+        int nbBox = 0;
+
+        //On crée déjà une boîte
+        ContenuBox cb1 = new ContenuBox();
+        cb1.setNomSolution(s);
+        nbBox++;
+        TypeBox boxMaxInstance = boxTest.get(boxTest.size() - 1);
+        cb1.setMaTypeBox(boxMaxInstance);
+        TypeProduit p0 = produitTest.get(0);
+       
+        if (cb1.getMaListeProduits().isEmpty()) {    
+            PileProduit p1 = new PileProduit();
+            p1.setMonContenuBox(cb1);
+            p1.getPileProduits().add(p0);
+            p0.setPileProd(p1);
+            cb1.getMaListeProduits().add(p1);
+
+            /*if (p0.getNBproduit() == 1) produitTest.remove(p0);
+            else p0.setNBproduit(p0.getNBproduit() - 1);*/
+
+            //Remplissage au max premiere box 
+            int longueurRestante0 = p0.getLproduit();
+            List<TypeProduit> poubelle = new ArrayList<>();
+            int place0 = 0;
+            
+            for (TypeProduit p : produitTest) {   
+                if ((cb1.getMaTypeBox().getLbox() - longueurRestante0) == p.getLproduit()) {
+                    PileProduit p2 = new PileProduit();
+                    p2.getPileProduits().add(p);
+                    p.setPileProd(p2);
+                    cb1.getMaListeProduits().add(p2);
+                    place0 = 1;
+                }
+
+                if (place0 == 0) {
+                    for (PileProduit pp0 : cb1.getMaListeProduits()) {
+                        if (p0.getLproduit() == p.getLproduit() && p.getHproduit() + p0.getHproduit() <= cb1.getMaTypeBox().getHbox() && place0 == 0) {
+                            pp0.getPileProduits().add(p);
+                            p.setPileProd(pp0);
+                            place0 = 1;
+                        }
+                    }
+                }
+                if (place0 == 1) {
+                    //if (p.getNBproduit() == 1) {
+                       poubelle.add(p);
+                    //} else p.setNBproduit(p.getNBproduit() - 1);
+                }
+            }
+
+            if (poubelle.size() > 0) {
+                for (TypeProduit poub : poubelle) {
+                    produitTest.remove(poub);
+                }
+                poubelle.clear();
+            }
+        }
+
+        s.getListeContenuBox().add(cb1);
+        prixFinal += boxMaxInstance.getPrixbox();
+        s.setPrixFinal(prixFinal);
+     
+        while (produitTest.size() > 0) {
+            //Recupérer premier élément liste 
+            TypeProduit p = produitTest.get(0);
+            System.out.println(" ");
+            System.out.println("Produit : Hauteur : " + p.getHproduit() + " Longueur :  " + p.getLproduit());
+            int ProduitPlace = 0;
+
+            for (ContenuBox c : s.getListeContenuBox()) {
+                // ETAPE 1 : prendre la box 0  
+                System.out.println("passer la");
+                if (c.getMaTypeBox().getLbox() >= p.getLproduit() && c.getMaTypeBox().getHbox() >= p.getHproduit()) {
+                    if (ProduitPlace == 0) {
+                        //System.out.println("On regarde la pile du contenuBox sa taille est de "+c.getMaListeProduits().get(0).getPileProduits().size());
+                        for (PileProduit pp : c.getMaListeProduits()) {
+                            int hauteurMaxInserer = p.getHproduit();
+                            TypeProduit produitHauteur = new TypeProduit();
+
+                            for (TypeProduit prodPile : pp.getPileProduits()) {
+                                hauteurMaxInserer += prodPile.getHproduit();
+                                produitHauteur = prodPile;
+                            }
+                            if (produitHauteur.getLproduit() >= p.getLproduit() && hauteurMaxInserer <= c.getMaTypeBox().getHbox()) {
+                                pp.getPileProduits().add(p);
+                                p.setPileProd(pp);
+                                ProduitPlace = 1;
+                            }
+                        }
+                    }
+                 
+                    if (ProduitPlace == 0) {
+                        int longueurRestante = 0;
+                        for (PileProduit ppCalc : c.getMaListeProduits()) {
+                            longueurRestante += ppCalc.getPileProduits().get(0).getLproduit();
+                        }
+                        if ((c.getMaTypeBox().getLbox() - longueurRestante) >= p.getLproduit()) {
+                            PileProduit pp1 = new PileProduit();
+                            pp1.getPileProduits().add(p);
+                            p.setPileProd(pp1);
+                            c.getMaListeProduits().add((pp1));
+                            ProduitPlace = 1;
+                        }
+                    }
+
+                } else {
+                    System.out.println("Ajout Impossible, Un des produits ne peut pas rentrer dans la boîte");
+                    return null;
+                }
+            }
+
+            if (ProduitPlace == 0) {
+                ContenuBox opti = new ContenuBox();
+                int nbBoxOpti = -1;
+                List<TypeProduit> poubelle = new ArrayList<>();
+                
+                for ( TypeBox box : boxTest)
+                { 
+                    ContenuBox cb2 = new ContenuBox();
+                    int nombreBoite = 0;
+                    int boiteTrouve = 0;
+                    int n = 1;
+                    while (boiteTrouve == 0) {
+                        if (boxTest.size() < n) {
+                            boxMaxInstance = boxTest.get(0);
+                            boiteTrouve = 1;
+                        }
+                        if (boiteTrouve == 0) {
+                            TypeProduit pDernier = produitTest.get(produitTest.size()-1);
+                            if (boxMaxInstance.getLbox() - p.getLproduit() < pDernier.getLproduit()) {
+                                n++;
+                            } else boiteTrouve = 1;
+                            boxMaxInstance = boxTest.get(boxTest.size() - n);
+                        }
+                    }
+
+                    cb2.setMaTypeBox(box);
+                    nbBox++;
+                    PileProduit pp1 = new PileProduit();
+                    pp1.getPileProduits().add(p);
+                    p.setPileProd(pp1);
+                    cb2.getMaListeProduits().add(pp1);
+
+                    int longueurRestante0 = p.getLproduit();
+                    int place = 0;
+                
+                    for (TypeProduit prod : produitTest) {
+                        for (PileProduit pp2 : cb1.getMaListeProduits()) {
+                            if ((cb1.getMaTypeBox().getLbox() - longueurRestante0) == p.getLproduit()) {
+                                PileProduit p2 = new PileProduit();
+                                pp2.getPileProduits().add(prod);
+                                prod.setPileProd(pp2);
+                                cb1.getMaListeProduits().add(p2);
+                                place = 1;
+                            }
+
+                            if (p.getLproduit() == prod.getLproduit() && p.getHproduit() + prod.getHproduit() <= cb1.getMaTypeBox().getHbox() && place == 0) {
+                                pp2.getPileProduits().add(prod);
+                                prod.setPileProd(pp2);
+                                place = 1;
+                            }
+
+                            if (place == 1) {
+                                nombreBoite++;
+                                //if (p.getNBproduit() == 1) {
+                                    poubelle.add(p);
+                                //} 
+                                //else p.setNBproduit(p.getNBproduit() - 1);
+                            }
+                        }
+                    }
+
+                    if (nombreBoite > nbBoxOpti) {
+                        opti = cb2;
+                        nbBoxOpti = nombreBoite;
+                    }
+                }
+
+                if (poubelle.size() > 0) {
+                    for (TypeProduit ppp : poubelle) {
+                        produitTest.remove(ppp);
+                    }
+                    poubelle.clear();
+                }
+                //s.getListeContenuBox().add(opti);
+                opti.setNomSolution(s);
+                prixFinal += boxMaxInstance.getPrixbox();
+                s.setPrixFinal(prixFinal);
+            }
+
+            System.out.println("Nombre de box crées: " + nbBox);
+            //Ici si la quantité égale 1 on supprime le produit sinon on baisse sa quantité de 1
+            //if (p.getNBproduit() == 1) {
+                produitTest.remove(p);
+            /*} else {
+                int nombreProd = p.getNBproduit();
+                nombreProd--;
+                p.setNBproduit(nombreProd);
+            }*/
+        }
+
+        System.out.println(" ");
+        System.out.println("Nombre de box crées avec cette solution : " + nbBox);
+        System.out.println("Prix solution : " + s.getPrixFinal());
+
+        return s;
+    }
     
 }
