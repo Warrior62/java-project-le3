@@ -27,7 +27,7 @@ public class Test1 {
             try {
                 et.begin();
                 
-                TypeProduit p1 = new TypeProduit("P001",20,10,3);    
+                /*TypeProduit p1 = new TypeProduit("P001",20,10,3);    
                 TypeProduit p2 = new TypeProduit("P002",23,26,8);
                 TypeProduit p3 = new TypeProduit("P003",30,15,12);
                 
@@ -50,9 +50,15 @@ public class Test1 {
 
                 p3.setInstance(ins);
                 p2.setInstance(ins);
+                p1.setInstance(ins);*/
+                TypeProduit p1 = new TypeProduit("P002-1",23,26,8,2);
+                TypeProduit p2 = new TypeProduit("P002-2",23,26,8,2);
+                TypeBox b1 = new TypeBox("B001",40,20,8);
+                Instance ins = new Instance("I1000");
+                b1.setInstance(ins);
+                p2.setInstance(ins);
                 p1.setInstance(ins);
 
-                
                 em.persist(ins);
 
                 et.commit();

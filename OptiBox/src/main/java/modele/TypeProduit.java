@@ -17,12 +17,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  *
  * @author agpou
  */
 @Entity
+@Table( uniqueConstraints={ @UniqueConstraint( columnNames={"ID_P","INSTANCE_PROD_ID"} ) } )
 @Access(AccessType.FIELD)
 public class TypeProduit implements Serializable {
 
@@ -51,7 +54,6 @@ public class TypeProduit implements Serializable {
             nullable=false)
      private int GrpProduit;
     
-    //test afin de pouvoir utiliser le fichier readerInstance
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name="INSTANCE_PROD_ID")
     private Instance instanceProd;
@@ -59,8 +61,9 @@ public class TypeProduit implements Serializable {
     @ManyToOne(cascade = CascadeType.PERSIST)
     private PileProduit pileProd;
     
-     private Color couleur;
-    /**
+    private Color couleur;
+    
+     /**
      * Constructeur par défaut du type de produit
      * On définit la longuer, hauteur et quantité à 0
      */
@@ -88,8 +91,24 @@ public class TypeProduit implements Serializable {
         if(Hproduit != 0) this.Hproduit = Hproduit;
         if(NBproduit != 0) this.NBproduit = NBproduit;
     }
- 
-    
+
+    /**
+     * Constructeur par données du type de produit
+     * @param idP
+     * @param Lproduit : longueur du produit
+     * @param Hproduit : hauteur du produit
+     * @param NBproduit : quantité du produit
+     * @param GrpProduit : groupe du produit pour la couleur
+     */
+    public TypeProduit(String idP, int Lproduit, int Hproduit, int NBproduit, int GrpProduit) {
+        this();
+        this.idP = idP;
+        this.Lproduit = Lproduit;
+        this.Hproduit = Hproduit;
+        this.NBproduit = NBproduit;
+        this.GrpProduit = GrpProduit;
+    }
+
 
     /********************************************
      ************ GETTER ET SETTER **************
@@ -99,6 +118,7 @@ public class TypeProduit implements Serializable {
     }
     public void setInstance(Instance instanceProd) {
         this.instanceProd = instanceProd;
+        instanceProd.getSetProduits().add(this);
     }
     public String getId() {
         return idP;
@@ -129,12 +149,6 @@ public class TypeProduit implements Serializable {
     }
     public void setCouleur(Color couleur) {
         this.couleur = couleur;
-    }
-    public Instance getInstanceProd() {
-        return instanceProd;
-    }
-    public void setInstanceProd(Instance instanceProd) {
-        this.instanceProd = instanceProd;
     }
     public PileProduit getPileProd() {
         return pileProd;

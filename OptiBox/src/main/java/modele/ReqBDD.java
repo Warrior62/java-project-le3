@@ -106,10 +106,8 @@ public class ReqBDD {
             Statement stmt = conn.createStatement();
             ResultSet res = stmt.executeQuery(requete);
             
-            Set<TypeBox> mesBox = new HashSet();
-
-            List<TypeProduit> mesProd = new ArrayList();
-
+            List<TypeBox> mesBox = new ArrayList<>();
+            List<TypeProduit> mesProd = new ArrayList<>();
             
             while(res.next()){
                 long id = res.getLong("ID");
@@ -121,6 +119,7 @@ public class ReqBDD {
                 ins.setId(id);
                 ins.setSetBox(mesBox);
                 ins.setSetProduits(mesProd);
+                ins.setUneCouleurAChaqueProduit();
                 System.out.println(ins.getId() +" "+ ins.getNomInstance());
                 maList.add(ins);
             }
@@ -139,13 +138,13 @@ public class ReqBDD {
      *       renvoie une ArrayList de TypeBox vide
      * @return une List de TypeBox dont l'id est idInstance
      */
-    public Set<TypeBox> findBoxByInstanceId(long idI) throws SQLException {
+    public List<TypeBox> findBoxByInstanceId(long idI) throws SQLException {
         String requete = "SELECT * FROM TYPEBOX WHERE INSTANCE_BOX_ID = ? ORDER BY ID_B";
         PreparedStatement pstmt = conn.prepareStatement(requete);
         pstmt.setLong(1,idI);
 
         ResultSet res = pstmt.executeQuery();
-        Set<TypeBox> mesBox = new HashSet();
+        List<TypeBox> mesBox = new ArrayList<>();
         while(res.next()){
             int h = res.getInt("HAUTEUR_BOX");
             int l = res.getInt("LONGUEUR_BOX");
@@ -176,7 +175,7 @@ public class ReqBDD {
         pstmt.setLong(1,idI);
 
         ResultSet res = pstmt.executeQuery();
-        List<TypeProduit> mesProd = new ArrayList();
+        List<TypeProduit> mesProd = new ArrayList<>();
         while(res.next()){
             int h = res.getInt("HAUTEUR_PRODUIT");
             int l = res.getInt("LONGUEUR_PRODUIT");
@@ -198,69 +197,34 @@ public class ReqBDD {
     }
     
     /**
-     * @def public static ArrayList<String> findSmallestProduct(int idInstance)
-     * @brief sélectionne le(s) produit(s) ayant la surface la plus petite 
-     *          parmi tous les produits de l'instance idInstance
-     * @note renvoie une liste vide si pb à la compilation
-     * @param idInstance
-     * @return la liste de l'id du ou des produit(s) dont la surface est la plus petite
+     * @fn      public boolean isSolutionExist(Instance inst, Solution sol) throws SQLException
+     * @brief   vérifie si la solution de inst existe en db
+     * @param   inst
+     * @param   sol
+     * @note    se base sur le prix de la solution passée en paramètre
+     * @return  true si la solution de l'Instance inst existe en db, false sinon
      */
- /*   public static ArrayList<String> findSmallestProduct(int idInstance)
-    {
-        final EntityManagerFactory emf = Persistence.createEntityManagerFactory("OptiBoxPU");
-        final EntityManager em = emf.createEntityManager();
-        try
-        {
-            final EntityTransaction et = em.getTransaction(); 
-            try
-            {
-                et.begin();
-                final String strQuery = "SELECT tp FROM TypeProduit tp"
-                        + " WHERE tp.instance_prod.id = :idInstance";
-                Query queryTest = em.createQuery(strQuery);
-                queryTest.setParameter("idInstance", idInstance);
-                List<TypeProduit> smallestProduct = queryTest.getResultList();
-                
-                Map<String, Integer> multiplications = new HashMap<String, Integer>();
-                for(TypeProduit tp: smallestProduct)
-                    multiplications.put(tp.getId(), tp.getHproduit()*tp.getLproduit());
-                int min = Collections.min(multiplications.values());
-                List<String> listeIdMin = new ArrayList<String>();
-                Set mapSet = multiplications.entrySet();
-                Iterator mapIterator = mapSet.iterator();
-                String idMin = "erreur";
-                while(mapIterator.hasNext()){
-                    Map.Entry mapEntry = (Map.Entry) mapIterator.next();
-                    String keyValue = (String) mapEntry.getKey();
-                    Integer value = (Integer) mapEntry.getValue();
-                    if(value == min) listeIdMin.add(keyValue);
-                }
-                
-                et.commit();
-                
-                
-//                final String strQueryFinal = "select tp.idP from TypeProduit tp where (:produitRes)="
-//                        + "(select :minProduit from TypeProduit where tp.instance_prod.id = :idInstance)";
+    public boolean isSolutionExist(Instance inst) throws SQLException{
+        int id = -1;
+        String requete = "SELECT * FROM SOLUTION s WHERE s.INSTANCESOLUTION_ID = ?";
+        PreparedStatement pstmt = conn.prepareStatement(requete);
+        pstmt.setLong(1, inst.getId());
+        ResultSet res = pstmt.executeQuery();
 
-                return (ArrayList<String>) listeIdMin;
-            } 
-            catch (Exception ex) 
-            {
-                et.rollback();
-                System.out.println(ex);
-            }
+        while(res.next()){
+            id = res.getInt("ID");
         }
-        finally 
-        {
-            if(em != null && em.isOpen()){
-                em.close();
-            }
-            if(emf != null && emf.isOpen()){
-                emf.close();
-            }
-        } 
-        return new ArrayList<String>();
-    }*/
-    
+        res.close();
+        pstmt.close();
+        
+        if(id == -1){
+            System.out.println("Aucune solution n'a été trouvée pour cette instance");
+            return false;
+        }
+        else{
+            System.out.println("La solution est déjà en BDD");
+            return true;
+        }
+    }
 
 }

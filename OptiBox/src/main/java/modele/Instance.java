@@ -5,11 +5,11 @@
  */
 package modele;
 
+import java.awt.Color;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
@@ -39,22 +39,22 @@ public class Instance implements Serializable {
     private String nomInstance;
     
     @OneToMany(mappedBy="instanceBox",cascade = CascadeType.PERSIST)
-    private Collection<TypeBox> setBox;
+    private List<TypeBox> setBox;
 
     @OneToMany(mappedBy="instanceProd",cascade = CascadeType.PERSIST)
     private List<TypeProduit> setProduits;
    
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(mappedBy="InstanceSolution",cascade = CascadeType.PERSIST)
     private Solution maSolution;
     
     
     
-    /*
-    * Contructeur par défaut de l'instance
-    */
+    /**
+     * Contructeur par défaut de l'instance
+     */
     public Instance() {
         this.nomInstance = "NOM INSTANCE";
-        this.setBox = new HashSet<>();
+        this.setBox = new ArrayList<>();
         this.setProduits = new ArrayList<>();
         //this.maSolution = new Solution();
     }
@@ -74,13 +74,17 @@ public class Instance implements Serializable {
      * @param setBox : liste de TypeBox
      * @param setProduits : liste de TypeProduit
      */
-    public Instance(String nomInstance, Collection<TypeBox> setBox, List<TypeProduit> setProduits) {
+    public Instance(String nomInstance, List<TypeBox> setBox, List<TypeProduit> setProduits) {
         this();
         this.nomInstance = nomInstance;
         this.setBox = setBox;
         this.setProduits = setProduits;
     }
 
+    /**
+     * Méthode toString pour l'affichage d'une instance
+     * @return nomInstance
+     */
     @Override
     public String toString() {
         return nomInstance;
@@ -95,10 +99,12 @@ public class Instance implements Serializable {
     public void setNomInstance(String nomInstance) {
         this.nomInstance = nomInstance;
     }
-    public Collection<TypeBox> getSetBox() {
+
+    public List<TypeBox> getSetBox() {
         return setBox;
     }
-    public void setSetBox(Collection<TypeBox> setBox) {
+
+    public void setSetBox(List<TypeBox> setBox) {
         this.setBox = setBox;
     }
     public Long getId() {
@@ -118,6 +124,41 @@ public class Instance implements Serializable {
     }
     public void setMaSolution(Solution maSolution) {
         this.maSolution = maSolution;
+    }
+    
+    /********************************************
+     ************ METHODE **************
+     *******************************************/
+    
+    /**
+     * Fonction qui permet d'affecter une couleur à chaque produit de l'instance
+     */
+    public void setUneCouleurAChaqueProduit(){
+        int oldGroup=-1; int actualGroup=-1;
+        Color couleur = null;
+        for(TypeProduit p : this.getSetProduits()){
+            actualGroup = p.getGrpProduit();
+            //si le groupe du produit n'est pas le même que celui d'avant
+            if(oldGroup == -1 || oldGroup != actualGroup){
+                couleur = RandomColor();
+            }
+            oldGroup = actualGroup;
+            p.setCouleur(couleur);
+        }
+    }
+    
+    /**
+     * Fonction prise de stack overflow pour avoir une couleur aléatoire
+     * https://stackoverflow.com/questions/4246351/creating-random-colour-in-java
+     * @return Color
+     */
+    public Color RandomColor(){
+       Random rand = new Random();
+       float r = rand.nextFloat();
+       float g = rand.nextFloat();
+       float b = rand.nextFloat();
+       
+       return new Color(r, g, b);
     }
     
 }

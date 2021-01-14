@@ -7,13 +7,16 @@ package vue;
 
 import java.awt.Color;
 import static java.awt.image.ImageObserver.HEIGHT;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import modele.Algorithme;
 import modele.Instance;
 import modele.ReqBDD;
+import modele.Solution;
 
 /**
  *
@@ -69,6 +72,8 @@ public class GestionInstances extends javax.swing.JFrame {
         jListInstance = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
         jShowInstanceButton = new javax.swing.JButton();
+        resolution1 = new javax.swing.JButton();
+        resolution2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -92,6 +97,20 @@ public class GestionInstances extends javax.swing.JFrame {
             }
         });
 
+        resolution1.setText("Resolution 1");
+        resolution1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                resolution1MouseClicked(evt);
+            }
+        });
+
+        resolution2.setText("Resolution 2");
+        resolution2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                resolution2MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -100,7 +119,10 @@ public class GestionInstances extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(252, 252, 252)
-                .addComponent(jShowInstanceButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jShowInstanceButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(resolution1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(resolution2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(45, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -118,7 +140,12 @@ public class GestionInstances extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(84, 84, 84)
-                        .addComponent(jShowInstanceButton)))
+                        .addComponent(jShowInstanceButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(resolution1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(resolution2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(37, 37, 37))
         );
 
@@ -139,6 +166,73 @@ public class GestionInstances extends javax.swing.JFrame {
                 InstanceView view = new InstanceView(instance);
         }
     }//GEN-LAST:event_jShowInstanceButtonMouseClicked
+
+    //Bouton Resolution Algo 1
+    private void resolution1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resolution1MouseClicked
+        // TODO add your handling code here:
+        if (jListInstance.getSelectedIndex()==-1){
+            //System.out.println("RIEN DE CLIQUE");
+            JOptionPane.showMessageDialog(this,"Veuillez sélectionner une instance pour la résolution", "Erreur", HEIGHT);
+        }
+        else {
+                //On récupère l'instance sélectionnée
+                Object obj = this.jListInstance.getModel().getElementAt(jListInstance.getSelectedIndex());
+                Instance instance = (Instance) obj;
+                //On lance l'algo de résolution 1 
+                Solution solution = Algorithme.algorithme(instance);
+            try {
+                //on vérifie maintenant si elle existe en BDD
+                boolean verif = requeteBDD.isSolutionExist(instance);
+                //si c'est true la solution existe déjà et o affiche un message
+                if(verif){
+                    JOptionPane.showMessageDialog(this,"La solution existe déjà en BDD, cependant nous allons la recalculer", "Erreur", HEIGHT);
+                }
+                //sinon on l'ajoute en bdd
+                else{
+                    Algorithme.ajoutSolutionBDD(solution);
+                }
+                //on envoie la solution dans la page PileView pour l'affichage
+                PileView view2 = new PileView(solution);
+            } catch (SQLException ex) {
+                Logger.getLogger(GestionInstances.class.getName()).log(Level.SEVERE, null, ex);
+            }
+  
+        }
+        
+    }//GEN-LAST:event_resolution1MouseClicked
+
+    private void resolution2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resolution2MouseClicked
+        // TODO add your handling code here:
+        if (jListInstance.getSelectedIndex()==-1){
+            //System.out.println("RIEN DE CLIQUE");
+            JOptionPane.showMessageDialog(this,"Veuillez sélectionner une instance pour la résolution", "Erreur", HEIGHT);
+        }
+        else {
+                //On récupère l'instance sélectionnée
+                Object obj = this.jListInstance.getModel().getElementAt(jListInstance.getSelectedIndex());
+                Instance instance = (Instance) obj;
+                //On lance l'algo de résolution 1 
+                Solution solution = Algorithme.algorithme_v2(instance);
+                PileView view2 = new PileView(solution);
+            /*try {
+                //on vérifie maintenant si elle existe en BDD
+                boolean verif = requeteBDD.isSolutionExist(instance);
+                //si c'est true la solution existe déjà et o affiche un message
+                if(verif){
+                    JOptionPane.showMessageDialog(this,"La solution existe déjà en BDD, cependant nous allons la recalculer", "Erreur", HEIGHT);
+                }
+                //sinon on l'ajoute en bdd
+                else{
+                    Algorithme.ajoutSolutionBDD(solution);
+                }
+                //on envoie la solution dans la page PileView pour l'affichage
+                PileView view2 = new PileView(solution);
+            } catch (SQLException ex) {
+                Logger.getLogger(GestionInstances.class.getName()).log(Level.SEVERE, null, ex);
+            }*/
+  
+        }
+    }//GEN-LAST:event_resolution2MouseClicked
     
     
     /**
@@ -190,5 +284,7 @@ public class GestionInstances extends javax.swing.JFrame {
     private javax.swing.JList<String> jListInstance;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jShowInstanceButton;
+    private javax.swing.JButton resolution1;
+    private javax.swing.JButton resolution2;
     // End of variables declaration//GEN-END:variables
 }

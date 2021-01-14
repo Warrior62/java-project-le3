@@ -8,7 +8,11 @@ package vue;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.Random;
+import modele.Algorithme;
 import modele.Instance;
+import modele.Solution;
+import modele.TypeBox;
 import modele.TypeProduit;
 
 /**
@@ -23,19 +27,101 @@ public class PileView extends javax.swing.JFrame {
     public PileView() {
         this.initComponents();
         this.initialisationFenetre();
+        //drawSolution(); // FONCTION A SUPPRIMER QUAND ON GERE LA SOLUTION DIRECT
+    }
+    
+    public PileView(Solution s){
+        this();
+        this.panelPile1.setSolutionADessiner(s);
         this.panelPile1.repaint();
     }
     
+    
+    /*private void drawSolution(){
+        TypeProduit p1 = new TypeProduit("P001_0",200,300,4,1);    
+        TypeProduit p2 = new TypeProduit("P001_1",200,300,4,1);    
+        TypeProduit p3 = new TypeProduit("P001_2",200,300,4,1);  
+        
+        TypeProduit p4 = new TypeProduit("P002_0",23,50,2,2);
+        
+        TypeProduit p5 = new TypeProduit("P003_0",90,290,2,3);
+        
+        TypeProduit p6 = new TypeProduit("P004_0",300,160,1,4);
+        
+        TypeProduit p7 = new TypeProduit("P005_0",250,100,1,5);
+        
+        TypeProduit p8 = new TypeProduit("P006_0",100,100,4,6);    
+        TypeProduit p9 = new TypeProduit("P006_1",100,100,4,6);    
+        TypeProduit p10 = new TypeProduit("P006_2",100,100,4,6);  
+        TypeProduit p11 = new TypeProduit("P006_3",100,100,4,6);
+        
+        TypeProduit p12 = new TypeProduit("P007_1",90,230,1,7);
+        
+        TypeProduit p13 = new TypeProduit("P008_0",80,150,3,8);
+        TypeProduit p14 = new TypeProduit("P008_1",80,150,3,8);
+        TypeProduit p15 = new TypeProduit("P008_2",80,150,3,8);
+        
+        TypeProduit p16 = new TypeProduit("P009_0",120,170,2,9);
+        TypeProduit p17 = new TypeProduit("P009_1",120,170,2,9);
+        
+        TypeProduit p18 = new TypeProduit("P0010_0",160,160,1,10);
+        
+        TypeProduit p19 = new TypeProduit("P0011_0",330,220,2,11);
+        TypeProduit p20 = new TypeProduit("P0012_0",330,220,2,12);
+        
+        TypeProduit p21 = new TypeProduit("P0012_0",25,25,1,13);
+
+        //création d'une TypeBox
+        TypeBox b1 = new TypeBox("B001",40,20,8);
+        TypeBox b2 = new TypeBox("B002",300,200,8);
+        TypeBox b3 = new TypeBox("B003",400,300,10);
+
+
+        //on crée une instance dans laquelle on ajoute les TypeBox et TypeProduits
+        Instance ins = new Instance("I1000");
+        //liste de box dans instance
+        b1.setInstance(ins);
+        b2.setInstance(ins);
+        b3.setInstance(ins);
+        //liste de produits dans l'instance, liste qui n'est pas triée
+        p1.setInstance(ins);
+        p2.setInstance(ins);
+        p3.setInstance(ins);
+        p4.setInstance(ins);
+        p5.setInstance(ins);
+        p6.setInstance(ins);
+        p7.setInstance(ins);
+        p8.setInstance(ins);
+        p9.setInstance(ins);
+        p10.setInstance(ins);
+        p11.setInstance(ins);
+        p12.setInstance(ins);
+        p13.setInstance(ins);
+        p14.setInstance(ins);
+        p15.setInstance(ins);
+        p16.setInstance(ins);
+        p17.setInstance(ins);
+        p18.setInstance(ins);
+        p19.setInstance(ins);
+        p20.setInstance(ins);
+        p21.setInstance(ins);
+        
+        ins.setUneCouleurAChaqueProduit(); // A ENLEVER QUAND ON PRENDRA LES INSTANCES DIRECT
+        
+        Solution sol_final = Algorithme.algorithme(ins);
+        this.panelPile1.setSolutionADessiner(sol_final);
+        this.panelPile1.repaint();
+    }*/
+    
      private void initialisationFenetre() {
          this.setVisible(true);
-        this.setTitle("Pile View");
+        this.setTitle("Affichage Résolution 1");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int width = (int) screenSize.getWidth();
         int height = (int) screenSize.getHeight();
         this.setLocation(0,0);
         this.setSize( width, height-35);
         this.setBackground(Color.BLUE);
-        this.getContentPane();
     }
 
      
@@ -48,36 +134,33 @@ public class PileView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
         panelPile1 = new vue.PanelPile();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         javax.swing.GroupLayout panelPile1Layout = new javax.swing.GroupLayout(panelPile1);
         panelPile1.setLayout(panelPile1Layout);
         panelPile1Layout.setHorizontalGroup(
             panelPile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 470, Short.MAX_VALUE)
+            .addGap(0, 665, Short.MAX_VALUE)
         );
         panelPile1Layout.setVerticalGroup(
             panelPile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 282, Short.MAX_VALUE)
+            .addGap(0, 439, Short.MAX_VALUE)
         );
+
+        jScrollPane1.setViewportView(panelPile1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(panelPile1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(48, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(panelPile1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
         );
 
         pack();
@@ -119,6 +202,7 @@ public class PileView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane jScrollPane1;
     private vue.PanelPile panelPile1;
     // End of variables declaration//GEN-END:variables
 }

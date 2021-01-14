@@ -107,7 +107,8 @@ public class InstanceReader {
             //System.out.println("id_B : "+elem.getIdentifiant());
             TypeBox b1 = new TypeBox(elem.getIdentifiant(),elem.getLongueur(), elem.getHauteur(), elem.getPrix());
             b1.setInstance(ins);
-            ins.getSetBox().add(b1);
+            //on ajoute dans la liste dans la fonction setInstance de la box
+            //ins.getSetBox().add(b1);
         }
 
         // Dans la boucle qui suit, nous allons lire les donnees relatives a chaque produit.
@@ -127,11 +128,8 @@ public class InstanceReader {
             // TODO : Vous pouvez ajoutez chacun des produits a votre instance
             ////////////////////////////////////////////
             for(int nb=0;nb<elem.getQuantite();nb++){
-                TypeProduit p1 = new TypeProduit(elem.getIdentifiant(),elem.getLongueur(), elem.getHauteur(), elem.getQuantite());
-                //System.out.println(elem.getLongueur()+" - "+elem.getHauteur());
-                p1.setGrpProduit(cpt);
+                TypeProduit p1 = new TypeProduit(elem.getIdentifiant()+"__"+nb,elem.getLongueur(), elem.getHauteur(), elem.getQuantite(), cpt);
                 p1.setInstance(ins);
-                ins.getSetProduits().add(p1);
             }
             cpt++;
 
