@@ -5,11 +5,8 @@
  */
 package tests;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
-import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -20,14 +17,14 @@ import modele.*;
 /**
  *
  * @author agpou
- */    
+ */ 
+
 /**
 * même principe que AjoutBDD()
 * création d'une pile puis convertion en list pour pouvoir ajouter en bdd
 * Soit un cast en list
 * ou on parcout la pile et on met dans une liste
-*/
-    
+*/  
 public class AjoutSolution {
      public static void main(String[] args) {
         final EntityManagerFactory emf = Persistence.createEntityManagerFactory("OptiBoxPU");
