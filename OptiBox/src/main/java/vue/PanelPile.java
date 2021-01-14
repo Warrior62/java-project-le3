@@ -22,6 +22,7 @@ import modele.TypeProduit;
 public class PanelPile extends javax.swing.JPanel {
         private int echelle=2;
         private Solution s;
+        private long tempsTotal;
     
     /**
      * Creates new form PanelPile
@@ -43,7 +44,7 @@ public class PanelPile extends javax.swing.JPanel {
         
         //Affichage d'un titre avec la solution et le coût
         g.setFont(new Font("Calibri", Font.PLAIN, 40));
-        g.drawString("Solution de "+s.getInstanceSolution().getNomInstance()+"               coût: "+s.getPrixFinal()+"€",width/3,40);
+        g.drawString("Solution de "+s.getInstanceSolution().getNomInstance()+"               coût: "+s.getPrixFinal()+"€         Temps: "+tempsTotal+"ms",width/6,40);
         g.drawLine(5,50, width-5,50);
 
         for(ContenuBox cb : s.getListeContenuBox()){
@@ -94,9 +95,13 @@ public class PanelPile extends javax.swing.JPanel {
     public void setSolutionADessiner(Solution s){
         this.s=s;
     }
-    
-    
-    
+    public long getTempsTotal() {
+        return tempsTotal;
+    }
+    public void setTempsTotal(long tempsTotal) {
+        this.tempsTotal = tempsTotal;
+    }
+ 
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

@@ -178,9 +178,49 @@ public class GestionInstances extends javax.swing.JFrame {
                 //On récupère l'instance sélectionnée
                 Object obj = this.jListInstance.getModel().getElementAt(jListInstance.getSelectedIndex());
                 Instance instance = (Instance) obj;
+                System.out.println("eeeeeeeeeeee "+instance.getNomInstance());
                 //On lance l'algo de résolution 1 
+                //fonction qui permet de calculer le temps écoulé pendant la résolution
+                //https://www.codeflow.site/fr/article/java__how-do-calculate-elapsed-execute-time-in-java
+                long lStartTime = System.currentTimeMillis();
                 Solution solution = Algorithme.algorithme(instance);
             try {
+                //on vérifie maintenant si elle existe en BDD
+                boolean verif = requeteBDD.isSolutionExist(instance);
+                //si c'est true la solution existe déjà et o affiche un message
+                if(verif){
+                    JOptionPane.showMessageDialog(this,"La solution existe déjà en BDD, cependant nous allons la recalculer", "Erreur", HEIGHT);
+                }
+                //sinon on l'ajoute en bdd
+                else{
+                    Algorithme.ajoutSolutionBDD(solution);
+                }
+                long lEndTime = System.currentTimeMillis();
+                long tpsFinal = lEndTime - lStartTime;
+                //on envoie la solution dans la page PileView pour l'affichage
+                PileView view2 = new PileView(solution,tpsFinal);
+            } catch (SQLException ex) {
+                Logger.getLogger(GestionInstances.class.getName()).log(Level.SEVERE, null, ex);
+            }
+  
+        }
+        
+    }//GEN-LAST:event_resolution1MouseClicked
+
+    private void resolution2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resolution2MouseClicked
+        // TODO add your handling code here:
+        /*if (jListInstance.getSelectedIndex()==-1){
+            //System.out.println("RIEN DE CLIQUE");
+            JOptionPane.showMessageDialog(this,"Veuillez sélectionner une instance pour la résolution", "Erreur", HEIGHT);
+        }
+        else {
+                //On récupère l'instance sélectionnée
+                Object obj = this.jListInstance.getModel().getElementAt(jListInstance.getSelectedIndex());
+                Instance instance = (Instance) obj;
+                //On lance l'algo de résolution 1 
+                Solution solution = Algorithme.algorithme_v2(instance);
+                //PileView view2 = new PileView(solution);
+            /*try {
                 //on vérifie maintenant si elle existe en BDD
                 boolean verif = requeteBDD.isSolutionExist(instance);
                 //si c'est true la solution existe déjà et o affiche un message
@@ -197,41 +237,7 @@ public class GestionInstances extends javax.swing.JFrame {
                 Logger.getLogger(GestionInstances.class.getName()).log(Level.SEVERE, null, ex);
             }
   
-        }
-        
-    }//GEN-LAST:event_resolution1MouseClicked
-
-    private void resolution2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resolution2MouseClicked
-        // TODO add your handling code here:
-        if (jListInstance.getSelectedIndex()==-1){
-            //System.out.println("RIEN DE CLIQUE");
-            JOptionPane.showMessageDialog(this,"Veuillez sélectionner une instance pour la résolution", "Erreur", HEIGHT);
-        }
-        else {
-                //On récupère l'instance sélectionnée
-                Object obj = this.jListInstance.getModel().getElementAt(jListInstance.getSelectedIndex());
-                Instance instance = (Instance) obj;
-                //On lance l'algo de résolution 1 
-                Solution solution = Algorithme.algorithme_v2(instance);
-                PileView view2 = new PileView(solution);
-            /*try {
-                //on vérifie maintenant si elle existe en BDD
-                boolean verif = requeteBDD.isSolutionExist(instance);
-                //si c'est true la solution existe déjà et o affiche un message
-                if(verif){
-                    JOptionPane.showMessageDialog(this,"La solution existe déjà en BDD, cependant nous allons la recalculer", "Erreur", HEIGHT);
-                }
-                //sinon on l'ajoute en bdd
-                else{
-                    Algorithme.ajoutSolutionBDD(solution);
-                }
-                //on envoie la solution dans la page PileView pour l'affichage
-                PileView view2 = new PileView(solution);
-            } catch (SQLException ex) {
-                Logger.getLogger(GestionInstances.class.getName()).log(Level.SEVERE, null, ex);
-            }*/
-  
-        }
+        }*/
     }//GEN-LAST:event_resolution2MouseClicked
     
     

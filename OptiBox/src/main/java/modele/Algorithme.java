@@ -66,15 +66,11 @@ public class Algorithme {
         TypeBox maBox = listBox.get(0);
         contenu_box1.setMaTypeBox(maBox);
         //on ajoute le prix de la box dans le prix final
-        prixFinalSolu = maBox.getPrixbox();
-        //System.out.println("prix 1 :"+prixFinalSolu);
-        
+        prixFinalSolu = maBox.getPrixbox();        
         //Tant que le nbAjout est inférieur à la taille de la listeProduit
         int sizeP = listProd.size();
         System.out.println("nb produits : "+sizeP);
         while(nbAjout < sizeP && flag == false){
-            //System.out.println("nb ajout premiere boucle : "+nbAjout);
-            //System.out.println("hauteurUtile while 1 : "+hauteurUtilise);
             //on prend le produit x 
             produit = listProd.get(nbAjout);
             //si la largeur utilise + largeurProduit est inférieur à la largeur de la box
@@ -97,12 +93,7 @@ public class Algorithme {
                 else flag = true;
                 
                 //Tant que la hauteur de la pile ne dépasse pas la hauteur de la box
-                //System.out.println("maBox hauteur "+maBox.getHbox());
                 while(hauteurUtilise+produit.getHproduit() < maBox.getHbox() && flag == false){
-                    //System.out.println("nb ajout deuxieme boucle : "+nbAjout);
-                    //System.out.println("hauteurUtile while 2 : "+hauteurUtilise);
-                    //System.out.println("maBox hauteur "+maBox.getHbox());
-                    //System.out.println("Hauteur prod + utilise "+(hauteurUtilise+produit.getHproduit()));
                     //on ajoute le produit suivant de la liste
                     pileP.getPileProduits().add(produit);
                     produit.setPileProd(pileP);
@@ -117,7 +108,6 @@ public class Algorithme {
                     else flag = true;
                 }
                 //on fait le lien entre contenuBox et les Piles
-                //contenu_box1.getMaListeProduits().add(pileP);
                 pileP.setMonContenuBox(contenu_box1);
                 hauteurUtilise=0;
             }
@@ -131,7 +121,6 @@ public class Algorithme {
                 contenu_box1.setMaTypeBox(maBox);
                 //on ajoute le prix de la box dans le prix final
                 prixFinalSolu += maBox.getPrixbox();
-                //System.out.println("prix 2 :"+prixFinalSolu);
             }
         }
         //on set le prix final dans la solution
@@ -167,6 +156,8 @@ public class Algorithme {
             final EntityTransaction et = em.getTransaction();
             try {
                 et.begin();
+                String nomInstance = solution.getInstanceSolution().getNomInstance();
+                solution.setNomSolution("S_"+nomInstance);
                 em.persist(solution);
                 
                 System.out.println("Ajout de la solution dans la bdd réussi !!");

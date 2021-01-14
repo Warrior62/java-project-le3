@@ -44,7 +44,7 @@ public class Instance implements Serializable {
     @OneToMany(mappedBy="instanceProd",cascade = CascadeType.PERSIST)
     private List<TypeProduit> setProduits;
    
-    @OneToOne(mappedBy="InstanceSolution",cascade = CascadeType.PERSIST)
+    @OneToOne(mappedBy="InstanceSolution")
     private Solution maSolution;
     
     
