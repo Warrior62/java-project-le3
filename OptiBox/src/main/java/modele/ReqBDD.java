@@ -260,5 +260,34 @@ public class ReqBDD {
         return new ArrayList<String>();
     }*/
     
+    
+    /**
+     * @fn      public boolean isSolutionExist(Instance inst, Solution sol) throws SQLException
+     * @brief   vérifie si la solution de inst existe en db
+     * @param   inst
+     * @param   sol
+     * @note    se base sur le prix de la solution passée en paramètre
+     * @return  true si la solution de l'Instance inst existe en db, false sinon
+     */
+    public boolean isSolutionExist(Instance inst, Solution sol) throws SQLException{
+        ArrayList<Instance> maList = new ArrayList<>();
+        String requete = "SELECT PRIX_FINAL FROM instance ins WHERE ins.NOM_INSTANCE LIKE ?";
+        PreparedStatement pstmt = conn.prepareStatement(requete);
+        pstmt.setString(1, inst.getNomInstance());
+        ResultSet res = pstmt.executeQuery(requete);
+
+        while(res.next()){
+            int price = res.getInt("PRIX_FINAL");
+            if(price == sol.getPrixFinal()){
+                System.out.println("La solution passée en paramètre possède le même prix que l'une des solutions de l'instance passée en paramètre");
+                return true;
+            }    
+        }
+        
+        System.out.println("La solution passée en paramètre n'existe pas encore en db !");
+        res.close();
+        pstmt.close();
+        return false;
+    }
 
 }
