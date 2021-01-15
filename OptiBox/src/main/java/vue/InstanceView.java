@@ -32,48 +32,15 @@ public class InstanceView extends javax.swing.JFrame {
         int height = (int) screenSize.getHeight();
         this.setLocation(0,0);
         this.setSize( width, height-35);
-        this.setBackground(Color.BLUE);
-        this.getContentPane();
-        
+        this.setBackground(Color.BLUE);        
     }
-    /**
-     * Fonction prise de stack overflow pour avoir une couleur aléatoire
-     * https://stackoverflow.com/questions/4246351/creating-random-colour-in-java
-     * @return Color
-     */
-    public Color RandomColor(){
-       Random rand = new Random();
-       float r = rand.nextFloat();
-       float g = rand.nextFloat();
-       float b = rand.nextFloat();
-       
-       return new Color(r, g, b);
-    }
+    
 
     public InstanceView(Instance instance) {
         this();
         this.setTitle("Instance : "+instance.getNomInstance());
-        int oldGroup=-1; int actualGroup=-1;
-        Color couleur = null;
-        for(TypeProduit p : instance.getSetProduits()){
-            actualGroup = p.getGrpProduit();
-            System.out.println("old : "+ oldGroup);
-            System.out.println("actuel : "+ actualGroup);
-            //si le groupe du produit n'est pas le même que celui d'avant
-            if(oldGroup == -1 || oldGroup != actualGroup){
-                couleur = RandomColor();
-                System.out.println("iffffffffffffffffff");
-            }
-            oldGroup = actualGroup;
-            p.setCouleur(couleur);
-        }
         this.zoneGraph.setListB(instance.getSetBox());
-        
-        
-        for( TypeProduit p : instance.getSetProduits())
-        //System.out.println(""+ p.getLproduit());
-        
-        
+                
         this.zoneGraph.setListP(instance.getSetProduits());
         this.zoneGraph.repaint();
     }
@@ -88,6 +55,7 @@ public class InstanceView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
         zoneGraph = new vue.PanelView();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -96,28 +64,24 @@ public class InstanceView extends javax.swing.JFrame {
         zoneGraph.setLayout(zoneGraphLayout);
         zoneGraphLayout.setHorizontalGroup(
             zoneGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 436, Short.MAX_VALUE)
+            .addGap(0, 517, Short.MAX_VALUE)
         );
         zoneGraphLayout.setVerticalGroup(
             zoneGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 162, Short.MAX_VALUE)
+            .addGap(0, 300, Short.MAX_VALUE)
         );
+
+        jScrollPane1.setViewportView(zoneGraph);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addComponent(zoneGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(51, 51, 51))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addComponent(zoneGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(92, 92, 92))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
         pack();
@@ -159,6 +123,7 @@ public class InstanceView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane jScrollPane1;
     private vue.PanelView zoneGraph;
     // End of variables declaration//GEN-END:variables
 }

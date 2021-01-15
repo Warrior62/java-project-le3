@@ -8,7 +8,11 @@ package vue;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.Random;
+import modele.Algorithme;
 import modele.Instance;
+import modele.Solution;
+import modele.TypeBox;
 import modele.TypeProduit;
 
 /**
@@ -16,6 +20,7 @@ import modele.TypeProduit;
  * @author agpou
  */
 public class PileView extends javax.swing.JFrame {
+        private long tempsTotal;
 
     /**
      * Creates new form PileView
@@ -23,21 +28,37 @@ public class PileView extends javax.swing.JFrame {
     public PileView() {
         this.initComponents();
         this.initialisationFenetre();
-        //this.panelPile1.repaint();
+    }
+    
+    /*public PileView(Solution s){
+        this();
+        this.panelPile1.setSolutionADessiner(s);
+        this.panelPile1.repaint();
+    }*/
+    public PileView(Solution s, long temps){
+        this();
+        this.panelPile1.setSolutionADessiner(s);
+        this.tempsTotal = temps;
+        this.panelPile1.setTempsTotal(this.tempsTotal);
+        this.panelPile1.repaint();
     }
     
      private void initialisationFenetre() {
          this.setVisible(true);
-        this.setTitle("Pile View");
+        this.setTitle("Affichage Résolution 1");
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int width = (int) screenSize.getWidth();
         int height = (int) screenSize.getHeight();
         this.setLocation(0,0);
         this.setSize( width, height-35);
         this.setBackground(Color.BLUE);
-        this.getContentPane();
     }
 
+    public void setTempsTotal(long tempsTotal) {
+        this.tempsTotal = tempsTotal;
+    }
+
+     
      
     /**
      * This method is called from within the constructor to initialize the form.
@@ -48,17 +69,33 @@ public class PileView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jScrollPane1 = new javax.swing.JScrollPane();
+        panelPile1 = new vue.PanelPile();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        javax.swing.GroupLayout panelPile1Layout = new javax.swing.GroupLayout(panelPile1);
+        panelPile1.setLayout(panelPile1Layout);
+        panelPile1Layout.setHorizontalGroup(
+            panelPile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 665, Short.MAX_VALUE)
+        );
+        panelPile1Layout.setVerticalGroup(
+            panelPile1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 439, Short.MAX_VALUE)
+        );
+
+        jScrollPane1.setViewportView(panelPile1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 547, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 296, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
         );
 
         pack();
@@ -100,5 +137,7 @@ public class PileView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane jScrollPane1;
+    private vue.PanelPile panelPile1;
     // End of variables declaration//GEN-END:variables
 }

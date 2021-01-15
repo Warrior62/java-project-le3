@@ -25,13 +25,7 @@ import javax.persistence.UniqueConstraint;
  * @author agpou
  */
 @Entity
-@Table(
-        uniqueConstraints={
-            @UniqueConstraint(
-                columnNames={"ID_P","INSTANCE_PROD_ID"}
-            )
-        }
-)
+@Table( uniqueConstraints={ @UniqueConstraint( columnNames={"ID_P","INSTANCE_PROD_ID"} ) } )
 @Access(AccessType.FIELD)
 public class TypeProduit implements Serializable {
 
@@ -60,16 +54,16 @@ public class TypeProduit implements Serializable {
             nullable=false)
      private int GrpProduit;
     
-    //test afin de pouvoir utiliser le fichier readerInstance
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     @JoinColumn(name="INSTANCE_PROD_ID")
     private Instance instanceProd;
     
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private PileProduit pileProd;
     
-     private Color couleur;
-    /**
+    private Color couleur;
+    
+     /**
      * Constructeur par défaut du type de produit
      * On définit la longuer, hauteur et quantité à 0
      */
@@ -98,6 +92,14 @@ public class TypeProduit implements Serializable {
         if(NBproduit != 0) this.NBproduit = NBproduit;
     }
 
+    /**
+     * Constructeur par données du type de produit
+     * @param idP
+     * @param Lproduit : longueur du produit
+     * @param Hproduit : hauteur du produit
+     * @param NBproduit : quantité du produit
+     * @param GrpProduit : groupe du produit pour la couleur
+     */
     public TypeProduit(String idP, int Lproduit, int Hproduit, int NBproduit, int GrpProduit) {
         this();
         this.idP = idP;
@@ -106,12 +108,7 @@ public class TypeProduit implements Serializable {
         this.NBproduit = NBproduit;
         this.GrpProduit = GrpProduit;
     }
-    
-    
-    
-    
- 
-    
+
 
     /********************************************
      ************ GETTER ET SETTER **************

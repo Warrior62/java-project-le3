@@ -102,7 +102,7 @@ public class ReqBDD {
      */
     public List<Instance> findAllInstances() throws Exception {
         ArrayList<Instance> maList = new ArrayList<>();
-            String requete = "SELECT * FROM instance ins ORDER BY ins.NOM_INSTANCE";
+            String requete = "SELECT * FROM instance ins WHERE ins.NOM_INSTANCE NOT LIKE('NOM_INSTANCE') ORDER BY ins.NOM_INSTANCE";
             Statement stmt = conn.createStatement();
             ResultSet res = stmt.executeQuery(requete);
             
@@ -119,6 +119,7 @@ public class ReqBDD {
                 ins.setId(id);
                 ins.setSetBox(mesBox);
                 ins.setSetProduits(mesProd);
+                ins.setUneCouleurAChaqueProduit();
                 System.out.println(ins.getId() +" "+ ins.getNomInstance());
                 maList.add(ins);
             }
@@ -196,72 +197,6 @@ public class ReqBDD {
     }
     
     /**
-     * @def public static ArrayList<String> findSmallestProduct(int idInstance)
-     * @brief sélectionne le(s) produit(s) ayant la surface la plus petite 
-     *          parmi tous les produits de l'instance idInstance
-     * @note renvoie une liste vide si pb à la compilation
-     * @param idInstance
-     * @return la liste de l'id du ou des produit(s) dont la surface est la plus petite
-     */
- /*   public static ArrayList<String> findSmallestProduct(int idInstance)
-    {
-        final EntityManagerFactory emf = Persistence.createEntityManagerFactory("OptiBoxPU");
-        final EntityManager em = emf.createEntityManager();
-        try
-        {
-            final EntityTransaction et = em.getTransaction(); 
-            try
-            {
-                et.begin();
-                final String strQuery = "SELECT tp FROM TypeProduit tp"
-                        + " WHERE tp.instance_prod.id = :idInstance";
-                Query queryTest = em.createQuery(strQuery);
-                queryTest.setParameter("idInstance", idInstance);
-                List<TypeProduit> smallestProduct = queryTest.getResultList();
-                
-                Map<String, Integer> multiplications = new HashMap<String, Integer>();
-                for(TypeProduit tp: smallestProduct)
-                    multiplications.put(tp.getId(), tp.getHproduit()*tp.getLproduit());
-                int min = Collections.min(multiplications.values());
-                List<String> listeIdMin = new ArrayList<String>();
-                Set mapSet = multiplications.entrySet();
-                Iterator mapIterator = mapSet.iterator();
-                String idMin = "erreur";
-                while(mapIterator.hasNext()){
-                    Map.Entry mapEntry = (Map.Entry) mapIterator.next();
-                    String keyValue = (String) mapEntry.getKey();
-                    Integer value = (Integer) mapEntry.getValue();
-                    if(value == min) listeIdMin.add(keyValue);
-                }
-                
-                et.commit();
-                
-                
-//                final String strQueryFinal = "select tp.idP from TypeProduit tp where (:produitRes)="
-//                        + "(select :minProduit from TypeProduit where tp.instance_prod.id = :idInstance)";
-
-                return (ArrayList<String>) listeIdMin;
-            } 
-            catch (Exception ex) 
-            {
-                et.rollback();
-                System.out.println(ex);
-            }
-        }
-        finally 
-        {
-            if(em != null && em.isOpen()){
-                em.close();
-            }
-            if(emf != null && emf.isOpen()){
-                emf.close();
-            }
-        } 
-        return new ArrayList<String>();
-    }*/
-    
-    
-    /**
      * @fn      public boolean isSolutionExist(Instance inst, Solution sol) throws SQLException
      * @brief   vérifie si la solution de inst existe en db
      * @param   inst
@@ -269,24 +204,27 @@ public class ReqBDD {
      * @note    se base sur le prix de la solution passée en paramètre
      * @return  true si la solution de l'Instance inst existe en db, false sinon
      */
-    public boolean isSolutionExist(Instance inst, Solution sol) throws SQLException{
-        String requete = "SELECT PRIX_FINAL FROM instance ins WHERE ins.NOM_INSTANCE LIKE ?";
+    public boolean isSolutionExist(Instance inst) throws SQLException{
+        int id = -1;
+        String requete = "SELECT * FROM SOLUTION s WHERE s.INSTANCESOLUTION_ID = ?";
         PreparedStatement pstmt = conn.prepareStatement(requete);
-        pstmt.setString(1, inst.getNomInstance());
-        ResultSet res = pstmt.executeQuery(requete);
+        pstmt.setLong(1, inst.getId());
+        ResultSet res = pstmt.executeQuery();
 
         while(res.next()){
-            int price = res.getInt("PRIX_FINAL");
-            if(price == sol.getPrixFinal()){
-                System.out.println("La solution passée en paramètre possède le même prix que l'une des solutions de l'instance passée en paramètre");
-                return true;
-            }    
+            id = res.getInt("ID");
         }
-        
-        System.out.println("La solution passée en paramètre n'existe pas encore en db !");
         res.close();
         pstmt.close();
-        return false;
+        
+        if(id == -1){
+            System.out.println("Aucune solution n'a été trouvée pour cette instance");
+            return false;
+        }
+        else{
+            System.out.println("La solution est déjà en BDD");
+            return true;
+        }
     }
 
 }

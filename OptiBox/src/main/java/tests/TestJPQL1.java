@@ -26,7 +26,7 @@ public class TestJPQL1 {
      * Fonction qui permettra d'afficher toutes les instances dans une liste sur l'interface
      */
     static void DisplayInstance(){
-        final String strQuery = "SELECT ins.nom_instance FROM Instance ins";
+        final String strQuery = "SELECT ins.NOM_INSTANCE FROM Instance ins";
         Query query = em.createQuery(strQuery);
         List<String> MesInstances = query.getResultList();
 

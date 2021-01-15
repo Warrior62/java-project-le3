@@ -6,6 +6,7 @@
 package vue;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -84,6 +85,10 @@ public class PanelView extends javax.swing.JPanel {
                 x+=(p.getLproduit()/echelle)+10;
         }
         System.out.println("Affichage des produits réussi !!");
+        Dimension dim = new Dimension(this.getWidth(),y+maxHeight+10);
+        this.setPreferredSize(dim);
+        this.revalidate();
+
     }
 
     

@@ -10,12 +10,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Toolkit;
-import java.util.ArrayDeque;
-import java.util.Collection;
-import java.util.Deque;
-import java.util.HashSet;
-import java.util.Random;
-import modele.TypeBox;
+import modele.ContenuBox;
+import modele.PileProduit;
+import modele.Solution;
 import modele.TypeProduit;
 
 /**
@@ -23,11 +20,9 @@ import modele.TypeProduit;
  * @author agpou
  */
 public class PanelPile extends javax.swing.JPanel {
-        private int echelle=3;
-        public Collection<TypeProduit> listP = new HashSet<>();
-        public Collection<TypeBox> listB = new HashSet<>();
-        public Collection<TypeProduit> listBis= new HashSet<>();
-
+        private int echelle=2;
+        private Solution s;
+        private long tempsTotal;
     
     /**
      * Creates new form PanelPile
@@ -35,95 +30,82 @@ public class PanelPile extends javax.swing.JPanel {
     public PanelPile() {
         initComponents();
     }
-
-    public Color RandomColor(){
-       Random rand = new Random();
-       float r = rand.nextFloat();
-       float g = rand.nextFloat();
-       float b = rand.nextFloat();
-       
-       return new Color(r, g, b);
-    }
-    
     
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); //To change body of generated methods, choose Tools | Templates.
         int x = 50;
-        int y = 50;
+        int y = 70;
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int width = (int) screenSize.getWidth();
         int height = (int) screenSize.getHeight();
+ 
+        int maxW = 0,maxHeight =0, positionRef=0, y2=0, x2=0;
         
-        this.setSize(width-35, height-35);
-        int sizeScreen = this.getWidth();
+        //Affichage d'un titre avec la solution et le coût
+        g.setFont(new Font("Calibri", Font.PLAIN, 40));
+        g.drawString("Solution de "+s.getInstanceSolution().getNomInstance(),width/3+60,40);
+        
+        g.setFont(new Font("Calibri", Font.PLAIN, 22));
+        g.drawString("coût: "+s.getPrixFinal()+"€",1050, 40);
+        g.drawString("temps de résolution: "+tempsTotal+"ms",1220, 40);
+        g.drawLine(5,50, width-5,50);
 
-        System.out.println("size screen :"+sizeScreen);
-        
-        Deque<TypeProduit> pileProd = new ArrayDeque<TypeProduit>();
-        Deque<TypeProduit> pileProd2 = new ArrayDeque<TypeProduit>();
+        for(ContenuBox cb : s.getListeContenuBox()){
 
-        TypeProduit p1 = new TypeProduit("P001",100,100,1);    
-        TypeProduit p2 = new TypeProduit("P002",220,80,1);
-        TypeProduit p3 = new TypeProduit("P003",260,120,1);
-        pileProd.push(p3); pileProd.push(p2); pileProd.push(p1);
+            //System.out.println("ContenuBox");
+            g.setColor(Color.blue);
+            //si la box dépasse en largeur de l'écran du pc 
+            if(x+cb.getMaTypeBox().getLbox()/echelle > width-35){
+                y = positionRef + maxHeight+10;
+                x=50;
+                maxHeight=0;
+                //System.out.println("passer la ");
+            }
+            g.drawRect(x,y-1,cb.getMaTypeBox().getLbox()/echelle,(cb.getMaTypeBox().getHbox()/echelle+1));
+            if(maxHeight < cb.getMaTypeBox().getHbox()/echelle )  maxHeight = cb.getMaTypeBox().getHbox()/echelle;
 
-        TypeProduit p4 = new TypeProduit("P004",160,70,1);    
-        TypeProduit p5 = new TypeProduit("P005",220,50,1);
-        TypeProduit p6 = new TypeProduit("P006",300,90,1);
-        pileProd2.push(p6); pileProd2.push(p5); pileProd2.push(p4);
-        
-        
-        TypeBox b1 = new TypeBox("B001",600,320,8);
-        
-        g.setColor(Color.blue);
-        g.drawRect(x,y,b1.getLbox(),b1.getHbox());
-        y+=b1.getHbox();
-        int size1 = pileProd.size();
-
-        int maxW = 0;
-        for(int i=0; i<size1;i++){
-            TypeProduit p = pileProd.getLast();
-            if(p.getLproduit() > maxW) maxW = p.getLproduit();
-            System.out.println(p.getId());
-            g.setColor(RandomColor());
-            y-=p.getHproduit();
-            g.fillRect(x+1, y,p.getLproduit(), p.getHproduit());
-            pileProd.removeLast();
+            positionRef = y;
+            y = positionRef+cb.getMaTypeBox().getHbox()/echelle;
+            y2 = y;
+            x2=x;
+            for(PileProduit pileProd : cb.getMaListeProduits()){
+                //System.out.println("PileProduit");
+                for(TypeProduit p : pileProd.getPileProduits()){
+                    //System.out.println("TypeProduit");
+                    if(p.getLproduit()/echelle> maxW) maxW = p.getLproduit()/echelle;
+                    //System.out.println(p.getId());
+                    y-=p.getHproduit()/echelle;
+                    g.setColor(p.getCouleur());
+                    g.fillRect(x+1, y,p.getLproduit()/echelle, p.getHproduit()/echelle);
+                    g.setColor(Color.black);
+                    g.drawRect(x+1, y,p.getLproduit()/echelle, p.getHproduit()/echelle);
+                }
+                y= y2;
+                x+=maxW;
+                maxW =0;
+            }
+            x = x2+cb.getMaTypeBox().getLbox()/echelle+10;
+            y=positionRef;
         }
         
-        int size2 = pileProd2.size();
-        y= 50 +b1.getHbox();
-        x+=maxW;
-        for(int i=0; i<size2;i++){
-           // System.out.println("size pile : "+pileProd.size());
-            TypeProduit p = pileProd2.getLast();
-            System.out.println(p.getId());
-            g.setColor(RandomColor());
-            y-=p.getHproduit();
-            g.fillRect(x+1, y,p.getLproduit(), p.getHproduit());
-            pileProd2.removeLast();
-        }
-        
-        
-        
-        
 
-
-        
-        
-        
-        
-        
-        
-        
-        /*g.setFont(new Font("Calibri", Font.PLAIN, 35));
-        g.drawString("Les Box", sizeScreen/2, 25);
-        g.drawLine(5,35, sizeScreen-5, 35);*/
-        
-
-       
+        Dimension dim = new Dimension(this.getWidth(),y+maxHeight+15);
+        this.setPreferredSize(dim);
+        this.revalidate();
     }
+    
+    /**************** GETTER AND SETTER ******************/
+    public void setSolutionADessiner(Solution s){
+        this.s=s;
+    }
+    public long getTempsTotal() {
+        return tempsTotal;
+    }
+    public void setTempsTotal(long tempsTotal) {
+        this.tempsTotal = tempsTotal;
+    }
+ 
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

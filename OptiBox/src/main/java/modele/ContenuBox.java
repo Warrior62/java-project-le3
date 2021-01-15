@@ -17,7 +17,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 /**
  *
@@ -32,13 +31,13 @@ public class ContenuBox implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @OneToMany(mappedBy="monContenuBox",cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy="monContenuBox",cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private List<PileProduit> maPileDeProduits;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private TypeBox maTypeBox;
     
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private Solution nomSolution;
 
     /**
@@ -65,7 +64,9 @@ public class ContenuBox implements Serializable{
     }
 
     
-    
+    /********************************************
+     ************ GETTER ET SETTER **************
+     *******************************************/
     public Solution getNomSolution() {
         return nomSolution;
     }

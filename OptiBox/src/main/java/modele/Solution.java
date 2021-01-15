@@ -16,6 +16,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -37,28 +38,44 @@ public class Solution implements Serializable {
     
     @Column(name="PRIX_FINAL",
             nullable=false)
-    private Integer prixFinal;
+    private double prixFinal;
     
-    @OneToMany(mappedBy="nomSolution",cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy="nomSolution",cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private List<ContenuBox> listeContenuBox;
     
-    @OneToOne(mappedBy="maSolution",cascade = CascadeType.PERSIST)
+    @OneToOne()
+    @JoinColumn(name="INSTANCESOLUTION_ID")
     private Instance InstanceSolution;
 
-    
+    /**
+     * Constructeur par défaut d'une solution
+     * On définit le prix à 0 et on initialise la liste de ContenuBox
+     */
     public Solution() {
         this.nomSolution = "S000";
         this.prixFinal = 0;
         this.listeContenuBox = new ArrayList<>();
-       // this.InstanceSolution = new Instance();
+        this.InstanceSolution=null;
     }
     
+    /**
+     * Constructeur par données de solution
+     * @param nomSolution
+     * @param prixFinal 
+     */
     public Solution(String nomSolution, Integer prixFinal) {
         this();
         this.nomSolution = nomSolution;
         this.prixFinal = prixFinal;
     }
     
+    /**
+     * Constructeur par données de solution
+     * @param nomSolution
+     * @param prixFinal
+     * @param listeContenuBox
+     * @param InstanceSolution 
+     */
     public Solution(String nomSolution, Integer prixFinal, List<ContenuBox> listeContenuBox, Instance InstanceSolution) {
         this();
         this.nomSolution = nomSolution;
@@ -68,7 +85,9 @@ public class Solution implements Serializable {
     }
     
     
-
+    /********************************************
+     ************ GETTER ET SETTER **************
+     *******************************************/
     public String getNomSolution() {
         return nomSolution;
     }
@@ -87,10 +106,10 @@ public class Solution implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    public Integer getPrixFinal() {
+    public double getPrixFinal() {
         return prixFinal;
     }
-    public void setPrixFinal(Integer prixFinal) {
+    public void setPrixFinal(double prixFinal) {
         this.prixFinal = prixFinal;
     }
     public Instance getInstanceSolution() {

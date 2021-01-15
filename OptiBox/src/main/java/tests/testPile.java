@@ -19,7 +19,6 @@ import modele.TypeProduit;
 /*
 1) comment faire pour afficher le dernier element d'une pile??
 2) est ce que la pile doit etre en bdd??
-3) 
 */
 public class testPile {
     public static void main(String[] args) {

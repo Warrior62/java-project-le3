@@ -7,13 +7,16 @@ package vue;
 
 import java.awt.Color;
 import static java.awt.image.ImageObserver.HEIGHT;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import modele.Algorithme;
 import modele.Instance;
 import modele.ReqBDD;
+import modele.Solution;
 
 /**
  *
@@ -39,10 +42,11 @@ public class GestionInstances extends javax.swing.JFrame {
     
     private void initialisationFenetre() {
         this.setTitle("Gestion des instances");
-        this.setSize(1000,500);
+        this.setSize(600,500);
         this.setLocationRelativeTo(null);
-        this.getContentPane().setBackground(Color.WHITE);
         this.setVisible(true);
+        this.resolution1.setSize(20,20);
+        this.jShowInstanceButton.setSize(20,20);
     }
     
     
@@ -69,11 +73,12 @@ public class GestionInstances extends javax.swing.JFrame {
         jListInstance = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
         jShowInstanceButton = new javax.swing.JButton();
+        resolution1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jListInstance.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jListInstance.setFont(new java.awt.Font("Calibri Light", 0, 14)); // NOI18N
+        jListInstance.setFont(new java.awt.Font("Calibri Light", 0, 18)); // NOI18N
         jListInstance.setForeground(new java.awt.Color(51, 0, 51));
         jListInstance.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "No Instances" };
@@ -82,13 +87,22 @@ public class GestionInstances extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jListInstance);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setText("OptiBox");
 
+        jShowInstanceButton.setBackground(javax.swing.UIManager.getDefaults().getColor("ComboBox.selectionBackground"));
         jShowInstanceButton.setText("Affiche les Instances");
         jShowInstanceButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jShowInstanceButtonMouseClicked(evt);
+            }
+        });
+
+        resolution1.setBackground(javax.swing.UIManager.getDefaults().getColor("CheckBoxMenuItem.selectionBackground"));
+        resolution1.setText("Resolution 1");
+        resolution1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                resolution1MouseClicked(evt);
             }
         });
 
@@ -99,27 +113,30 @@ public class GestionInstances extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(252, 252, 252)
-                .addComponent(jShowInstanceButton)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addGap(115, 115, 115)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(resolution1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jShowInstanceButton, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(95, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGap(272, 272, 272))
+                .addGap(246, 246, 246))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)
-                        .addGap(19, 19, 19)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 378, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(84, 84, 84)
-                        .addComponent(jShowInstanceButton)))
+                .addGap(59, 59, 59)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 371, Short.MAX_VALUE)
                 .addGap(37, 37, 37))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(111, 111, 111)
+                .addComponent(jShowInstanceButton, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(57, 57, 57)
+                .addComponent(resolution1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -139,6 +156,46 @@ public class GestionInstances extends javax.swing.JFrame {
                 InstanceView view = new InstanceView(instance);
         }
     }//GEN-LAST:event_jShowInstanceButtonMouseClicked
+
+    //Bouton Resolution Algo 1
+    private void resolution1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resolution1MouseClicked
+        // TODO add your handling code here:
+        if (jListInstance.getSelectedIndex()==-1){
+            //System.out.println("RIEN DE CLIQUE");
+            JOptionPane.showMessageDialog(this,"Veuillez sélectionner une instance pour la résolution", "Erreur", HEIGHT);
+        }
+        else {
+                //On récupère l'instance sélectionnée
+                Object obj = this.jListInstance.getModel().getElementAt(jListInstance.getSelectedIndex());
+                Instance instance = (Instance) obj;
+                System.out.println("eeeeeeeeeeee "+instance.getNomInstance());
+                //On lance l'algo de résolution 1 
+                //fonction qui permet de calculer le temps écoulé pendant la résolution
+                //https://www.codeflow.site/fr/article/java__how-do-calculate-elapsed-execute-time-in-java
+                long lStartTime = System.currentTimeMillis();
+                Solution solution = Algorithme.algorithme(instance);
+            try {
+                //on vérifie maintenant si elle existe en BDD
+                boolean verif = requeteBDD.isSolutionExist(instance);
+                //si c'est true la solution existe déjà et o affiche un message
+                if(verif){
+                    JOptionPane.showMessageDialog(this,"La solution existe déjà en BDD, cependant nous allons la recalculer", "Erreur", HEIGHT);
+                }
+                //sinon on l'ajoute en bdd
+                else{
+                    Algorithme.ajoutSolutionBDD(solution);
+                }
+                long lEndTime = System.currentTimeMillis();
+                long tpsFinal = lEndTime - lStartTime;
+                //on envoie la solution dans la page PileView pour l'affichage
+                PileView view2 = new PileView(solution,tpsFinal);
+            } catch (SQLException ex) {
+                Logger.getLogger(GestionInstances.class.getName()).log(Level.SEVERE, null, ex);
+            }
+  
+        }
+        
+    }//GEN-LAST:event_resolution1MouseClicked
     
     
     /**
@@ -190,5 +247,6 @@ public class GestionInstances extends javax.swing.JFrame {
     private javax.swing.JList<String> jListInstance;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jShowInstanceButton;
+    private javax.swing.JButton resolution1;
     // End of variables declaration//GEN-END:variables
 }
