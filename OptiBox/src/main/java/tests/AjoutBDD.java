@@ -16,8 +16,11 @@ import modele.TypeBox;
 import modele.TypeProduit;
 
 /**
- *
  * @author agpou
+ */
+
+/**
+ * Fonction qui permet d'ajouter les instances du dossier instances dans la bdd
  */
 public class AjoutBDD {
     public static void main(String[] args) {
@@ -38,6 +41,7 @@ public class AjoutBDD {
                 System.out.println("Ajout des instances dans la bdd réussi !!");
                 et.commit();
             } catch (Exception ex) {
+                System.out.println("aaaaaaaaaa"+ex);
                 et.rollback();
             }
         } finally {

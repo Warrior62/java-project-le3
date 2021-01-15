@@ -50,11 +50,11 @@ public class TypeBox implements Serializable {
             nullable=false)
      private double Prixbox;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     @JoinColumn(name="INSTANCE_BOX_ID")
     private Instance instanceBox;
     
-    @OneToMany(mappedBy="maTypeBox",cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy="maTypeBox",cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private List<ContenuBox> listMesContenuBox;
     
     private Color couleur;

@@ -44,7 +44,11 @@ public class PanelPile extends javax.swing.JPanel {
         
         //Affichage d'un titre avec la solution et le coût
         g.setFont(new Font("Calibri", Font.PLAIN, 40));
-        g.drawString("Solution de "+s.getInstanceSolution().getNomInstance()+"               coût: "+s.getPrixFinal()+"€         Temps: "+tempsTotal+"ms",width/6,40);
+        g.drawString("Solution de "+s.getInstanceSolution().getNomInstance(),width/3+60,40);
+        
+        g.setFont(new Font("Calibri", Font.PLAIN, 22));
+        g.drawString("coût: "+s.getPrixFinal()+"€",1050, 40);
+        g.drawString("temps de résolution: "+tempsTotal+"ms",1220, 40);
         g.drawLine(5,50, width-5,50);
 
         for(ContenuBox cb : s.getListeContenuBox()){

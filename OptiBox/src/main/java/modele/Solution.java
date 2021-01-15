@@ -40,7 +40,7 @@ public class Solution implements Serializable {
             nullable=false)
     private double prixFinal;
     
-    @OneToMany(mappedBy="nomSolution",cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy="nomSolution",cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private List<ContenuBox> listeContenuBox;
     
     @OneToOne()
@@ -55,6 +55,7 @@ public class Solution implements Serializable {
         this.nomSolution = "S000";
         this.prixFinal = 0;
         this.listeContenuBox = new ArrayList<>();
+        this.InstanceSolution=null;
     }
     
     /**

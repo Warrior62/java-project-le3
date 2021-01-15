@@ -21,7 +21,7 @@ import modele.TypeProduit;
  */
 public class TestJPQL2 {
     
-    /*public static Solution algorithme(Instance ins){
+    public static Solution algorithme(Instance ins){
         //on crée une solution que l'on va return à la fin
         Solution solution = new Solution();
         //On fait le lien entre solution et instance
@@ -112,7 +112,7 @@ public class TestJPQL2 {
         for(ContenuBox cb : solution.getListeContenuBox()){
             System.out.println("nb pile : "+cb.getMaListeProduits().size());
         }
-    }*/
+    }
     
     public static void main(String[] args) {
         //création de TypeProduits

@@ -200,7 +200,8 @@ public class Algorithme {
             p1.getPileProduits().add(p0);
             p0.setPileProd(p1);
             cb1.getMaListeProduits().add(p1);
-
+            
+            produitTest.remove(p0);
             /*if (p0.getNBproduit() == 1) produitTest.remove(p0);
             else p0.setNBproduit(p0.getNBproduit() - 1);*/
 
@@ -304,7 +305,7 @@ public class Algorithme {
                 { 
                     ContenuBox cb2 = new ContenuBox();
                     int nombreBoite = 0;
-                    int boiteTrouve = 0;
+                    /*int boiteTrouve = 0;
                     int n = 1;
                     while (boiteTrouve == 0) {
                         if (boxTest.size() < n) {
@@ -318,7 +319,7 @@ public class Algorithme {
                             } else boiteTrouve = 1;
                             boxMaxInstance = boxTest.get(boxTest.size() - n);
                         }
-                    }
+                    }*/
 
                     cb2.setMaTypeBox(box);
                     nbBox++;

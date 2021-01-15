@@ -33,10 +33,10 @@ public class PileProduit implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private ContenuBox monContenuBox;
     
-    @OneToMany(mappedBy="pileProd",cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy="pileProd",cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private List<TypeProduit> listeProduits;
      
     

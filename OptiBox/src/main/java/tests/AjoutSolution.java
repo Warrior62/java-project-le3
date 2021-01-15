@@ -21,9 +21,7 @@ import modele.*;
 
 /**
 * même principe que AjoutBDD()
-* création d'une pile puis convertion en list pour pouvoir ajouter en bdd
-* Soit un cast en list
-* ou on parcout la pile et on met dans une liste
+* Test pour l'ajout en BDD d'une solution
 */  
 public class AjoutSolution {
      public static void main(String[] args) {
@@ -97,7 +95,7 @@ public class AjoutSolution {
                 solu.setInstanceSolution(ins);
                 //ins.setMaSolution(solu);
            
-                em.persist(ins);
+                //em.persist(ins);
                 em.persist(solu);
                 
                 System.out.println("Ajout dans la bdd réussi !!");

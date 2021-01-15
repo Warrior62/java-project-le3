@@ -38,10 +38,10 @@ public class Instance implements Serializable {
             nullable=false)
     private String nomInstance;
     
-    @OneToMany(mappedBy="instanceBox",cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy="instanceBox",cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private List<TypeBox> setBox;
 
-    @OneToMany(mappedBy="instanceProd",cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy="instanceProd",cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private List<TypeProduit> setProduits;
    
     @OneToOne(mappedBy="InstanceSolution")

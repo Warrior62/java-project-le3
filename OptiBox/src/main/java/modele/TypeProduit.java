@@ -54,11 +54,11 @@ public class TypeProduit implements Serializable {
             nullable=false)
      private int GrpProduit;
     
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     @JoinColumn(name="INSTANCE_PROD_ID")
     private Instance instanceProd;
     
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private PileProduit pileProd;
     
     private Color couleur;

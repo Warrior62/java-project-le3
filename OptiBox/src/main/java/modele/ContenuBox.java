@@ -31,13 +31,13 @@ public class ContenuBox implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @OneToMany(mappedBy="monContenuBox",cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy="monContenuBox",cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private List<PileProduit> maPileDeProduits;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private TypeBox maTypeBox;
     
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.REMOVE})
     private Solution nomSolution;
 
     /**

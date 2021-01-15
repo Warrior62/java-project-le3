@@ -102,7 +102,7 @@ public class ReqBDD {
      */
     public List<Instance> findAllInstances() throws Exception {
         ArrayList<Instance> maList = new ArrayList<>();
-            String requete = "SELECT * FROM instance ins ORDER BY ins.NOM_INSTANCE";
+            String requete = "SELECT * FROM instance ins WHERE ins.NOM_INSTANCE NOT LIKE('NOM_INSTANCE') ORDER BY ins.NOM_INSTANCE";
             Statement stmt = conn.createStatement();
             ResultSet res = stmt.executeQuery(requete);
             
